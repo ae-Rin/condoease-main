@@ -1,0 +1,42 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/condoease/node_modules
+
+# Build / Production
+/build
+/condoease/build
+/condoease/dist
+
+# Uploads (user files)
+**/uploads
+
+# Environment files
+.env
+.env.*
+/condoease/.env
+/condoease/.env.*
+
+# Lock files
+package-lock.json
+/condoease/package-lock.json
+yarn.lock
+
+# Testing
+/coverage
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor / System
+.DS_Store
+.idea
+.vscode
+.eslintcache
+
+# React/Vite cache
+/condoease/.vite
+/condoease/.cache

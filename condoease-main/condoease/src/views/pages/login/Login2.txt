@@ -1,0 +1,173 @@
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  CButton,
+  CContainer,
+  CForm,
+  CFormInput,
+  CRow,
+  CCol,
+  CInputGroup,
+  CInputGroupText,
+} from '@coreui/react'
+import { FaEye } from 'react-icons/fa'
+
+const Login2 = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const emailFromState = location.state?.email || ''
+
+  const [email, setEmail] = useState(emailFromState)
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false)
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.token) {
+        localStorage.setItem('authToken', data.token)
+        localStorage.setItem('authUser', JSON.stringify(data.user))
+
+        alert('Login successful!')
+        navigate('/base/cards', { state: { user: data.user } })
+      } else {
+        alert(data.error || 'Invalid email or password.')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      alert('Server error. Please try again later.')
+    }
+  }
+
+  return (
+    <div className="bg-body-tertiary min-vh-100 d-flex flex-column">
+      {/* Navbar */}
+      <div
+        style={{
+          background: '#1D2B57',
+          height: 64,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 40px',
+        }}
+      >
+        <img src="/src/assets/images/logo_white.png" alt="CondoEase Logo" style={{ height: 32 }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ color: 'white', fontSize: 16 }}>Don't have an account?</span>
+          <CButton
+            color="warning"
+            className="text-white fw-bold px-4"
+            style={{ borderRadius: 20 }}
+            onClick={() => navigate('/register')}
+          >
+            Sign up
+          </CButton>
+        </div>
+      </div>
+
+      {/* Login Form */}
+      <CContainer className="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+        <CRow className="justify-content-center w-100">
+          <CCol xs={12} md={7} lg={5} xl={4}>
+            <div className="text-center mb-4 mt-5">
+              <h2 className="fw-bold mb-2" style={{ fontSize: 32 }}>
+                Login
+              </h2>
+            </div>
+            <CForm onSubmit={handleLogin}>
+              <div className="mb-2 fw-semibold text-start">Email</div>
+              <CFormInput
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mb-3"
+                required
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: 8,
+                  fontSize: 16,
+                  padding: '14px 16px',
+                }}
+              />
+
+              <div className="mb-2 fw-semibold text-start">Password</div>
+              <CInputGroup className="mb-3">
+                <CFormInput
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{
+                    borderColor: '#A3C49A',
+                    borderRadius: 8,
+                    fontSize: 16,
+                    padding: '14px 16px',
+                  }}
+                />
+                <CInputGroupText
+                  style={{ background: 'transparent', cursor: 'pointer', borderColor: '#A3C49A' }}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  <FaEye color="#A3C49A" />
+                </CInputGroupText>
+              </CInputGroup>
+
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                  <input
+                    type="checkbox"
+                    id="keepLoggedIn"
+                    checked={keepLoggedIn}
+                    onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+                    style={{ marginRight: 8 }}
+                  />
+                  <label htmlFor="keepLoggedIn" style={{ fontSize: 15 }}>
+                    Keep me logged in for 30 days
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  className="btn p-0"
+                  style={{
+                    color: '#F7941D',
+                    fontWeight: 700,
+                    fontSize: 16,
+                    background: 'none',
+                    border: 'none',
+                  }}
+                  onClick={() => navigate('/forgot-password')}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+              <div className="d-grid mb-2">
+                <CButton
+                  color="warning"
+                  className="text-white fw-bold"
+                  style={{ borderRadius: 24, fontSize: 22, padding: '13px 0' }}
+                  type="submit"
+                >
+                  Login
+                </CButton>
+              </div>
+            </CForm>
+          </CCol>
+        </CRow>
+      </CContainer>
+    </div>
+  )
+}
+
+export default Login2
