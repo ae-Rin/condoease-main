@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -5,7 +6,7 @@ import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/reac
 
 const RegisterVerify = () => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('ripxandra@gmail(dot)com') // Example email
+  const [email, setEmail] = useState('sampleTenant@gmail.com') // Example email
   const [confirmationCode, setConfirmationCode] = useState('')
 
   const handleResendCode = () => {

@@ -20,6 +20,17 @@ const Navs = React.lazy(() => import('./views/Navs'))
 const Collapses = React.lazy(() => import('./views/Collapses'))
 const ListGroups = React.lazy(() => import('./views/ListGroups'))
 const Tables = React.lazy(() => import('./views/Tables'))
+const Tenants = React.lazy(() => import('./views/Tenants'))
+const TenantList = React.lazy(() => import('./views/TenantList'))
+const PropertyOwners = React.lazy(() => import('./views/PropertyOwners'))
+const PropertyOwnerList = React.lazy(() => import('./views/PropertyOwnerList'))
+const Properties = React.lazy(() => import('./views/Properties'))
+const PropertyList = React.lazy(() => import('./views/PropertyList'))
+const PropertyUnits = React.lazy(() => import('./views/PropertyUnits'))
+const PropertyUnitList = React.lazy(() => import('./views/PropertyUnitList'))
+const LeasesTenancy = React.lazy(() => import('./views/LeasesTenancy'))
+const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
+const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
 
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/page500/Page500'))
@@ -71,6 +82,17 @@ const WebApp = () => {
             <Route path="collapses" element={<Collapses />} />
             <Route path="listgroups" element={<ListGroups />} />
             <Route path="tables" element={<Tables />} />
+            <Route path="tenants" element={<Tenants />} />
+            <Route path="tenantlist" element={<TenantList />} />
+            <Route path="propertyowners" element={<PropertyOwners />} />
+            <Route path="propertyownerlist" element={<PropertyOwnerList />} />
+            <Route path="properties" element={<Properties />} />
+            <Route path="propertylist" element={<PropertyList />} />
+            <Route path="propertyunits" element={<PropertyUnits />} />
+            <Route path="propertyunitlist" element={<PropertyUnitList />} />
+            <Route path="leasestenancy" element={<LeasesTenancy />} />
+            <Route path="leasestenancylist" element={<LeasesTenancyList />} />
+            <Route path="leasestenancyterminated" element={<LeasesTenancyTerminated />} />
           </Route>
 
           {/* Catch-all */}
