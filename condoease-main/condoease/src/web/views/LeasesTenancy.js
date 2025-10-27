@@ -39,35 +39,31 @@ const LeasesTenancy = () => {
   const [properties, setProperties] = useState([])
   const [units, setUnits] = useState([])
   const [tenants, setTenants] = useState([])
-
+// not the frontend ig xDDDDDDDD LOL
   useEffect(() => {
-    // Fetch registered properties, units, and tenants from the backend API
-    const fetchData = async () => {
-      try {
-        const propertyRes = await fetch('http://localhost:5000/api/properties', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
-        const unitRes = await fetch('http://localhost:5000/api/property-units', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
-        const tenantRes = await fetch('http://localhost:5000/api/tenants', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('authToken')
+      const headers = { Authorization: `Bearer ${token}` }
 
-        const propertyData = await propertyRes.json()
-        const unitData = await unitRes.json()
-        const tenantData = await tenantRes.json()
+      const propertyRes = await fetch('https://condoease-backends.onrender.com/api/properties', { headers })
+      const unitRes = await fetch('https://condoease-backends.onrender.com/api/property-units', { headers })
+      const tenantRes = await fetch('https://condoease-backends.onrender.com/api/tenants', { headers })
 
-        setProperties(propertyData)
-        setUnits(unitData)
-        setTenants(tenantData)
-      } catch (err) {
-        console.error('Error fetching data:', err)
-      }
+      const propertyData = await propertyRes.json()
+      const unitData = await unitRes.json()
+      const tenantData = await tenantRes.json()
+
+      setProperties(propertyData)
+      setUnits(unitData)
+      setTenants(tenantData)
+    } catch (err) {
+      console.error('Error fetching data:', err)
     }
+  }
 
-    fetchData()
-  }, [])
+  fetchData()
+}, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
