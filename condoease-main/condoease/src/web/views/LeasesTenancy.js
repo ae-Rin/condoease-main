@@ -167,7 +167,7 @@ const LeasesTenancy = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.property_id} value={property.property_id}>
+                    <option key={property.id} value={property.id}>
                       {property.property_name}
                     </option>
                   ))}
