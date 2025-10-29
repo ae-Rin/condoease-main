@@ -1,13 +1,17 @@
-name: Deploy to condoease.me
+name: Deploy React App to condoease.me
 
 on:
   push:
     branches:
-      - main  # Deploy when pushing to main branch ehhhh
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./condoease  # 👈 tells Actions to run inside the React folder
 
     steps:
       - name: Checkout source repo
@@ -31,6 +35,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./condoease/build  
           external_repository: ae-Rin/condoease.me
           publish_branch: main
