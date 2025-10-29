@@ -11,7 +11,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./condoease  # 👈 tells Actions to run inside the React folder
+        working-directory: ./condoease-main/condoease 
 
     steps:
       - name: Checkout source repo
@@ -35,6 +35,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./condoease/build  
+          publish_dir: ./condoease-main/condoease/build  
           external_repository: ae-Rin/condoease.me
           publish_branch: main
