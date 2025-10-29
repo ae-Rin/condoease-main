@@ -9,6 +9,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./condoease-main/condoease
+
     steps:
       - name: Checkout source repo
         uses: actions/checkout@v4
@@ -19,15 +23,13 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: ./condoease-main/condoease
-        run: npm install
+        run: npm ci
 
       - name: Build project
-        working-directory: ./condoease-main/condoease
         run: npm run build
 
       - name: Add CNAME file
-        run: echo "condoease.me" > ./condoease-main/condoease/build/CNAME
+        run: echo "condoease.me" > ./build/CNAME
 
       - name: Deploy to GitHub Pages repo
         uses: peaceiris/actions-gh-pages@v4
