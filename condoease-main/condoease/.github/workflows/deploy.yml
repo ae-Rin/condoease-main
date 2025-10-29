@@ -1,4 +1,4 @@
-name: Deploy to condose.me
+name: Deploy to condoease.me
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Deploy to GitHub Pages repo
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           external_repository: ae-Rin/condoease.me
           publish_branch: main
