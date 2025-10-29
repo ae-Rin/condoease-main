@@ -6,7 +6,7 @@ import { CSpinner, useColorModes } from '@coreui/react'
 import '../scss/style.scss'
 import ProtectedRoute from '../shared/ProtectedRoute'
 import mobileRoutes from './mobileRoutes'
-import MobileLayout from './layout/mobileLayout'
+import MobileLayout from './layout/MobileLayout'
 
 const MobileApp = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
