@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useUser } from '../../../context/UserContext' // <-- useUser Context
+import { useUser } from '../../../context/UserContext'
 
 import {
   CButton,
@@ -11,30 +11,35 @@ import {
   CCol,
   CInputGroup,
   CInputGroupText,
+  CSpinner,
 } from '@coreui/react'
 import { FaEye } from 'react-icons/fa'
+import logoWhite from 'src/assets/images/logo_white.png'
 
 const Login2 = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const { setUser } = useUser() // <-- Context setter
-
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const emailFromState = location.state?.email || ''
   const [email, setEmail] = useState(emailFromState)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
+  const [loading, setLoading] = useState(false) // <-- Loading state
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setLoading(true) // Start loading
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
 
       const data = await response.json()
+      console.log('API URL:', API_URL)
 
       if (response.ok && data.token) {
         console.log('%c[Login2] Login successful!', 'color: green')
@@ -52,6 +57,8 @@ const Login2 = () => {
     } catch (error) {
       console.error('Login error:', error)
       alert('Server error. Please try again later.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -69,11 +76,7 @@ const Login2 = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/src/assets/images/logo_white.png"
-            alt="CondoEase Logo"
-            style={{ height: 64, marginRight: 12 }}
-          />
+          <img src={logoWhite} alt="CondoEase Logo" style={{ height: 64, marginRight: 12 }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
           <span style={{ color: 'white', fontSize: 20 }}>Don't have an account?</span>
@@ -177,8 +180,13 @@ const Login2 = () => {
                     backgroundColor: '#F28D35',
                   }}
                   type="submit"
+                  disabled={loading}
                 >
-                  Login
+                  {loading ? (
+                    <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                  ) : (
+                    'Login'
+                  )}
                 </CButton>
               </div>
             </CForm>
