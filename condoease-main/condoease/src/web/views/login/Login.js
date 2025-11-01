@@ -16,6 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { FaGoogle, FaFacebookF } from 'react-icons/fa'
+import logoWhite from 'src/assets/images/logo_white.png'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -24,7 +25,7 @@ const Login = () => {
   const [emailError, setEmailError] = useState('')
 
   const validateEmail = (email) => {
-    const regex = /^[a-zA-Z._%+-]+@[a-zA-Z]+\.(com|net|org|edu)$/ // restricts digits
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     return regex.test(email)
   }
 
@@ -52,11 +53,7 @@ const Login = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/src/assets/images/logo_white.png"
-            alt="CondoEase Logo"
-            style={{ height: 64, marginRight: 12 }}
-          />
+          <img src={logoWhite} alt="CondoEase Logo" style={{ height: 64, marginRight: 12 }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
           <span style={{ color: 'white', fontSize: 20 }}>Don't have an account?</span>
