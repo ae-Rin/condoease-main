@@ -21,6 +21,7 @@ const Login2 = () => {
   const navigate = useNavigate()
   const { setUser } = useUser() // <-- Context setter
   const API_URL = import.meta.env.VITE_APP_API_URL
+  console.log('Vite API URL:', API_URL)
   const emailFromState = location.state?.email || ''
   const [email, setEmail] = useState(emailFromState)
   const [password, setPassword] = useState('')

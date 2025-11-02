@@ -3,7 +3,7 @@ name: Deploy React App to condoease.me
 on:
   push:
     branches:
-      - main
+      - gh-pages
 
 jobs:
   build-and-deploy:
@@ -37,4 +37,4 @@ jobs:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
           external_repository: ae-Rin/condoease.me
           publish_dir: ./condoease-main/condoease/build
-          publish_branch: main
+          publish_branch: gh-pages
