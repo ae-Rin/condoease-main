@@ -48,7 +48,7 @@ const LeasesTenancy = () => {
         const propertyRes = await fetch(`${API_URL}/api/properties`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
         })
-        const unitRes = await fetch(`${API_URL}/api/property-units`, {
+        const unitRes = await fetch(`${API_URL}/api/property-units/vacant`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
         })
         const tenantRes = await fetch(`${API_URL}/api/tenants`, {
@@ -68,7 +68,7 @@ const LeasesTenancy = () => {
     }
 
     fetchData()
-  }, [])
+  }, [API_URL])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -200,7 +200,7 @@ const LeasesTenancy = () => {
                       .filter(
                         (unit) =>
                           Number(unit.property_id) === Number(formValues.property) &&
-                          unit.status === 'vacant',
+                          String(unit.status).toLowerCase() === 'vacant'
                       )
                       .map((unit) => (
                         <option key={unit.property_unit_id} value={unit.property_unit_id}>
