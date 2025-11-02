@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     define: {
       'import.meta.env.VITE_PLATFORM': JSON.stringify(env.VITE_PLATFORM),
+      'import.meta.env.VITE_APP_API_URL': JSON.stringify('https://condoease-backends.onrender.com'),
     },
     resolve: {
       alias: [
