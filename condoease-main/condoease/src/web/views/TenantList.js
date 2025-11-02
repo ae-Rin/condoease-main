@@ -14,30 +14,36 @@ import {
 } from '@coreui/react'
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
 
-const TenantList = () => {
+const TenantList = () => {  
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [tenants, setTenants] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Fetch tenants from the backend API
     const fetchTenants = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/tenants', {
+        const res = await fetch(`${API_URL}/api/tenants`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         })
+
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch tenants')
+        }
+
         const data = await res.json()
         setTenants(data)
       } catch (err) {
         console.error('Error fetching tenants:', err)
       } finally {
         setLoading(false)
-      }    
+      }
     }
 
     fetchTenants()
-  }, [])
+  }, [API_URL])
 
   const handleView = (tenantId) => {
     alert(`View details for tenant ID: ${tenantId}`)
@@ -71,7 +77,7 @@ const TenantList = () => {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              { loading ? (
+              {loading ? (
                 <CTableRow key="loading">
                   <CTableDataCell colSpan="8" className="text-center">
                     Loading tenants...
