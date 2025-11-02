@@ -99,7 +99,6 @@ const PropertyUnits = () => {
                   <option value="">Select Property/Building</option>
                   {/* Replace with dynamic property options */}
                   <option value="Building A">Building A</option>
-                  <option value="Building B">Building B</option>
                 </CFormSelect>
               </CCol>
               <CCol md={6}>

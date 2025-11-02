@@ -16,6 +16,7 @@ import {
 } from '@coreui/react'
 
 const LeasesTenancy = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [formValues, setFormValues] = useState({
     property: '',
     leaseUnits: false,
@@ -149,7 +150,7 @@ const LeasesTenancy = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Create New LeaseSSS</h4>
+      <h4 className="mb-4">Create New Lease</h4>
       <CCard>
         <CCardHeader>
           <strong>Lease Information</strong>
