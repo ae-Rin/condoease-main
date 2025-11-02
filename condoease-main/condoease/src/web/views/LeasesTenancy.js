@@ -102,14 +102,19 @@ const LeasesTenancy = () => {
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
-      if (key === 'bills') {
+      if (key === "bills") {
         Object.keys(formValues.bills).forEach((billKey) => {
           formData.append(`bills[${billKey}]`, formValues.bills[billKey])
         })
-      } else if (key === 'leaseDocuments') {
-        formValues.leaseDocuments.forEach((file) => formData.append('leaseDocuments', file))
+      } else if (key === "leaseDocuments") {
+        formValues.leaseDocuments.forEach((file) =>
+          formData.append("leaseDocuments", file)
+        )
       } else {
-        formData.append(key, formValues[key])
+        if (key === "property") formData.append("property_id", formValues[key])
+        else if (key === "unit") formData.append("property_unit_id", formValues[key])
+        else if (key === "tenant") formData.append("tenant_id", formValues[key])
+        else formData.append(key, formValues[key])
       }
     })
 
