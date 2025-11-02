@@ -56,11 +56,11 @@ const Tenants = () => {
     occupationPlace: '',
     emergencyContactName: '',
     emergencyContactNumber: '',
-    unitNumber: '',
-    moveInDate: '',
-    leaseTerm: '',
-    monthlyRent: '',
   })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const API_URL = import.meta.env.VITE_APP_API_URL
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -72,23 +72,10 @@ const Tenants = () => {
     setFormValues((prev) => ({ ...prev, idDocument: file }))
   }
 
-  const fetchTenants = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/api/tenants', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      })
-      if (!res.ok) throw new Error(await res.text())
-      const data = await res.json()
-      setTenantsList(data)
-    } catch (error) {
-      console.error('Failed to fetch tenants:', error)
-    }
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
+    setErrorMessage(null)
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
@@ -96,7 +83,7 @@ const Tenants = () => {
     })
 
     try {
-      const res = await fetch('http://localhost:5000/api/tenants', {
+      const res = await fetch(`${API_URL}/api/tenants`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -104,7 +91,11 @@ const Tenants = () => {
         },
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      const result = await res.json()
+
+      if (!res.ok) {
+        throw new Error(result.detail || 'Unknown error')
+      }
 
       alert('Tenant registered successfully!')
       setFormValues({
@@ -123,15 +114,12 @@ const Tenants = () => {
         occupationPlace: '',
         emergencyContactName: '',
         emergencyContactNumber: '',
-        unitNumber: '',
-        moveInDate: '',
-        leaseTerm: '',
-        monthlyRent: '',
       })
-      await fetchTenants()
     } catch (err) {
-      console.error(err)
-      alert('Error registering tenant.')
+      console.error('Error submitting tenant:', err)
+      setErrorMessage(err.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -143,6 +131,11 @@ const Tenants = () => {
           <strong>Tenant Information</strong>
         </CCardHeader>
         <CCardBody>
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <CForm onSubmit={handleSubmit}>
             {/* Personal Info */}
             <CRow className="mb-3">
@@ -326,60 +319,13 @@ const Tenants = () => {
               </CCol>
             </CRow>
 
-            {/* Unit Assignment */}
-            <hr className="my-4" />
-            <h5 className="mb-3">Unit Assignment</h5>
-            <CRow className="mb-3">
-              <CCol md={6}>
-                <CFormInput
-                  type="text"
-                  name="unitNumber"
-                  placeholder="Unit Number"
-                  value={formValues.unitNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormInput
-                  type="date"
-                  name="moveInDate"
-                  placeholder="Move-in Date"
-                  value={formValues.moveInDate}
-                  onChange={handleInputChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CCol md={6}>
-                <CFormInput
-                  type="text"
-                  name="leaseTerm"
-                  placeholder="Lease Term (e.g. 12 months)"
-                  value={formValues.leaseTerm}
-                  onChange={handleInputChange}
-                  required
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormInput
-                  type="number"
-                  name="monthlyRent"
-                  placeholder="Monthly Rent (₱)"
-                  value={formValues.monthlyRent}
-                  onChange={handleInputChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-
             <div className="d-flex justify-content-end">
               <CButton
                 type="submit"
                 style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                disabled={isSubmitting}
               >
-                Register Tenant
+                {isSubmitting ? 'Submitting...' : 'Register Tenant'}
               </CButton>
             </div>
           </CForm>

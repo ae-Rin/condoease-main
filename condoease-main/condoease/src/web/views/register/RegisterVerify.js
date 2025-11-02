@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import logoWhite from 'src/assets/images/logo_white.png'
 import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/react'
 
 const RegisterVerify = () => {
@@ -54,7 +54,7 @@ const RegisterVerify = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src="/src/assets/images/logo_white.png"
+            src={logoWhite}
             alt="CondoEase Logo"
             style={{ height: 64, marginRight: 12 }}
           />

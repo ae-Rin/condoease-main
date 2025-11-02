@@ -13,44 +13,37 @@ import {
   CButton,
 } from '@coreui/react'
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
-import PropertyUnits from './PropertyUnits'
 
 const PropertyUnitList = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [units, setUnits] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-  const fetchUnits = async () => {
-    try {
-      const token = localStorage.getItem('authToken')
-      if (!token) {
-        console.error('No token found. User may not be logged in.')
-        return
-      }
+    const fetchUnits = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/property-units`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
 
-      const response = await fetch('http://localhost:5000/api/property-units', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+        if (!res.ok){
+          const errorData = await response.json()
+          throw new Error(errorData.error || 'Failed to fetch property units')
+        }
 
-      const data = await response.json()
-      if (Array.isArray(data)) {
+        const data = await res.json()
         setUnits(data)
-      } else {
-        console.error('API did not return an array:', data)
-        setUnits([])
+      } catch (err) {
+        console.error('Error fetching property units:', err)
+      } finally {
+        setLoading(false)
       }
-    } catch (err) {
-      console.error('Fetch error:', err)
-      setUnits([])
-    } finally {
-      setLoading(false)
     }
-  }
 
-  fetchUnits()
-}, [])
+    fetchUnits()
+  }, [API_URL])
 
   const handleView = (unitId) => {
     alert(`View details for unit ID: ${unitId}`)
@@ -84,13 +77,14 @@ const PropertyUnitList = () => {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              { loading ? (
+              {loading ? (
                 <CTableRow key="loading">
                   <CTableDataCell colSpan="8" className="text-center">
                     Loading property units...
                   </CTableDataCell>
                 </CTableRow>
-              ) : units.length === 0 ? ( <CTableRow key="no-data">
+              ) : units.length === 0 ? (
+                <CTableRow key="no-data">
                   <CTableDataCell colSpan="6" className="text-center">
                     No property units found.
                   </CTableDataCell>
@@ -121,7 +115,11 @@ const PropertyUnitList = () => {
                         >
                           <FaEdit />
                         </CButton>
-                        <CButton color="danger" size="sm" onClick={() => handleDelete(unit.property_unit_id)}>
+                        <CButton
+                          color="danger"
+                          size="sm"
+                          onClick={() => handleDelete(unit.property_unit_id)}
+                        >
                           <FaTrash />
                         </CButton>
                       </CTableDataCell>

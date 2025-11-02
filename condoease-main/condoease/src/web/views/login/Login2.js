@@ -21,7 +21,6 @@ const Login2 = () => {
   const navigate = useNavigate()
   const { setUser } = useUser() // <-- Context setter
   const API_URL = import.meta.env.VITE_APP_API_URL
-  console.log('Vite API URL:', API_URL)
   const emailFromState = location.state?.email || ''
   const [email, setEmail] = useState(emailFromState)
   const [password, setPassword] = useState('')
@@ -97,7 +96,7 @@ const Login2 = () => {
           <CCol xs={12} md={7} lg={5} xl={4}>
             <div className="text-center mb-4 mt-5">
               <h2 className="fw-bold mb-2 text-start" style={{ fontSize: 32 }}>
-                LoginSSS
+                Login
               </h2>
             </div>
             <CForm onSubmit={handleLogin}>

@@ -25,13 +25,14 @@ const PropertyUnitList = React.lazy(() => import('./views/PropertyUnitList'))
 const LeasesTenancy = React.lazy(() => import('./views/LeasesTenancy'))
 const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
 const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
+const MaintenanceRequest = React.lazy(() => import('./views/MaintenanceRequest'))
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/page500/Page500'))
 
 const webRoutes = [
   { path: '/', name: 'Default', element: <Navigate to="/login" replace />, isProtected: false },
   { path: '/login', name: 'Login Page', element: <Login />, isProtected: false },
-  { path: '/loginstep2', name: 'Login Step 2', element: <Login2 />, isProtected: false }, 
+  { path: '/loginstep2', name: 'Login Step 2', element: <Login2 />, isProtected: false },
   { path: '/register', name: 'Register Page', element: <Register />, isProtected: false },
   {
     path: '/registerstep2',
@@ -43,7 +44,7 @@ const webRoutes = [
     path: '/registerverify',
     name: 'Register Verify',
     element: <RegisterVerify />,
-    isProtected: false,
+    isProtected: true,
   },
   { path: '/cards', name: 'Cards', element: <Cards />, isProtected: true },
   { path: '/carousel', name: 'Carousel', element: <Carousel />, isProtected: true },
@@ -59,16 +60,17 @@ const webRoutes = [
   { path: '/propertylist', name: 'Property List', element: <PropertyList />, isProtected: true },
   { path: '/propertyunits', name: 'Property Units', element: <PropertyUnits />, isProtected: true },
   { path: '/propertyunitlist', name: 'Property Unit List', element: <PropertyUnitList />, isProtected: true },
-  { path: '/leasestenancy', name: 'Lease Tenancy', element: <LeasesTenancy/>, isProtected: true },
+  { path: '/leasestenancy', name: 'Lease Tenancy', element: <LeasesTenancy />, isProtected: true },
   { path: '/leasestenancylist', name: 'List of Leases', element: <LeasesTenancyList />, isProtected: true },
   { path: '/leasestenancyterminated', name: 'Terminated Leases', element: <LeasesTenancyTerminated />, isProtected: true },
-  { path: '/404', name: 'Page 404', element: <Page404 />, isProtected: false },
-  { path: '/500', name: 'Page 500', element: <Page500 />, isProtected: false },
+  { path: '/maintenance-request/:requestId', name: 'Maintenance Request', element: <MaintenanceRequest />, isProtected: true },
+  { path: '/404', name: 'Page 404', element: <Page404 />, isProtected: true },
+  { path: '/500', name: 'Page 500', element: <Page500 />, isProtected: true },
   {
     path: '*',
     name: 'Not Found',
     element: <Navigate to="/404" replace />,
-    isProtected: false,
+    isProtected: true,
   },
 ]
 

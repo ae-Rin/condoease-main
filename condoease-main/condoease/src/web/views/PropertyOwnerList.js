@@ -15,37 +15,34 @@ import {
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
 
 const PropertyOwnerList = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [owners, setOwners] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-  const fetchOwners = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/api/property-owners', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      })
-      if (!res.ok) {
-        const error = await res.json()
-        console.error('Fetch error:', error)
-        return
-      }
-      const data = await res.json()
-      if (Array.isArray(data)) {
-        setOwners(data)
-      } else {
-        console.error('Unexpected response format:', data)
-      }
-    } catch (err) {
-      console.error('Error fetching property owners:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+    const fetchOwners = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/property-owners`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch property owners')
+        }
 
-  fetchOwners()
-}, [])
+        const data = await res.json()
+        setOwners(data)
+      } catch (err) {
+        console.error('Error fetching property owners:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOwners()
+  }, [API_URL])
 
   const handleView = (ownerId) => {
     alert(`View details for owner ID: ${ownerId}`)

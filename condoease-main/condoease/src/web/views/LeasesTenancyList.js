@@ -15,28 +15,35 @@ import {
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
 
 const LeasesTenancyList = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [leases, setLeases] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchLeases = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/leases', {
+        const res = await fetch(`${API_URL}/api/leases`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         })
+
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch leases')
+        }
+
         const data = await res.json()
         setLeases(data)
-        setLoading(false)
       } catch (err) {
-        console.error('Error fetching leases:', err)
+        console.error('Error fetching list of lease:', err)
+      } finally {
         setLoading(false)
       }
     }
 
     fetchLeases()
-  }, [])
+  }, [API_URL])
 
   const handleView = (leaseId) => {
     alert(`View details for lease ID: ${leaseId}`)

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   CRow,
@@ -6,73 +7,65 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CFormInput,
-  CFormTextarea,
   CButton,
-  CInputGroup,
-  CInputGroupText,
-  CFormSelect,
-  CListGroup,
-  CListGroupItem,
+  CTable,
+  CTableHead,
+  CTableBody,
+  CTableRow,
+  CTableHeaderCell,
+  CTableDataCell,
 } from '@coreui/react'
 import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const Collapses = () => {
   const navigate = useNavigate()
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedRequest, setSelectedRequest] = useState(null)
-  const [typeFilter, setTypeFilter] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState('')
-  const [appliedTypeFilter, setAppliedTypeFilter] = useState('')
-  const [appliedCategoryFilter, setAppliedCategoryFilter] = useState('')
-  const [sortedAsc, setSortedAsc] = useState(true)
+  const API_URL = import.meta.env.VITE_APP_API_URL
+  const [maintenanceRequests, setMaintenanceRequests] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    ongoing: 0,
+    completed: 0,
+  })
 
-  const maintenanceRequests = [
-    {
-      id: 1,
-      tenantName: 'John Doe',
-      type: 'Repairs & Fixes',
-      category: 'HVAC Repairs',
-      description: 'Air conditioning not working properly',
-      time: '09:30 AM',
-    },
-    {
-      id: 2,
-      tenantName: 'Jane Smith',
-      type: 'Cleaning',
-      category: 'Window Cleaning',
-      description: 'Windows need thorough cleaning',
-      time: '10:45 AM',
-    },
-    {
-      id: 3,
-      tenantName: 'Michael Lee',
-      type: 'Electrical',
-      category: 'Lighting Issue',
-      description: 'Lobby lights are flickering',
-      time: '02:15 PM',
-    },
-  ]
+  useEffect(() => {
+    const fetchMaintenanceRequests = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/maintenance-requests`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
 
-  const filteredRequests = maintenanceRequests
-    .filter(
-      (request) =>
-        request.type.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (appliedTypeFilter ? request.type === appliedTypeFilter : true) &&
-        (appliedCategoryFilter ? request.category === appliedCategoryFilter : true),
-    )
-    .sort((a, b) => {
-      return sortedAsc ? a.type.localeCompare(b.type) : b.type.localeCompare(a.type)
-    })
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch maintenance requests')
+        }
 
-  const uniqueTypes = [...new Set(maintenanceRequests.map((req) => req.type))]
-  const uniqueCategories = [...new Set(maintenanceRequests.map((req) => req.category))]
+        const data = await res.json()
+        setMaintenanceRequests(data.requests)
 
-  const handleSortClick = () => {
-    setAppliedTypeFilter(typeFilter)
-    setAppliedCategoryFilter(categoryFilter)
-    setSortedAsc(!sortedAsc)
+        // Calculate stats
+        const total = data.requests.length
+        const pending = data.requests.filter((req) => req.status === 'pending').length
+        const ongoing = data.requests.filter((req) => req.status === 'ongoing').length
+        const completed = data.requests.filter((req) => req.status === 'completed').length
+
+        setStats({ total, pending, ongoing, completed })
+      } catch (err) {
+        console.error('Error fetching maintenance requests:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMaintenanceRequests()
+  }, [API_URL])
+
+  const handleViewRequest = (requestId) => {
+    navigate(`/maintenance-request/${requestId}`)
   }
 
   return (
@@ -89,122 +82,94 @@ const Collapses = () => {
         / <span style={{ color: '#F28D35' }}>MAINTENANCE TRACKING</span>
       </div>
 
-      <CRow>
-        <CCol md={4}>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <CIcon icon={cilSearch} />
-            </CInputGroupText>
-            <CFormInput
-              placeholder="Search Request"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </CInputGroup>
-
-          <div className="d-flex gap-2 mb-2">
-            <CFormSelect value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-              <option value="" disabled hidden>
-                Select Type
-              </option>
-              {uniqueTypes.map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))}
-            </CFormSelect>
-
-            <CFormSelect value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-              <option value="" disabled hidden>
-                Select Category
-              </option>
-              {uniqueCategories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
-            </CFormSelect>
-          </div>
-
-          <CButton
-            style={{ backgroundColor: '#F28D35', fontWeight: 'bold' }}
-            className="text-white w-100 mb-3"
-            onClick={handleSortClick}
-          >
-            Apply Filter & Sort
-          </CButton>
-
-          <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
-            {filteredRequests.map((request) => (
-              <CCard
-                key={request.id}
-                className={`mb-3 ${selectedRequest?.id === request.id ? 'border-warning' : 'border-success'}`}
-                onClick={() => setSelectedRequest(request)}
-                style={{ cursor: 'pointer' }}
-              >
-                <CCardBody>
-                  <h6>
-                    {request.type} - {request.category}
-                  </h6>
-                  <p className="text-body-secondary small">{request.time}</p>
-                </CCardBody>
-              </CCard>
-            ))}
-          </div>
+      {/* Stats Cards */}
+      <CRow className="mb-4">
+        <CCol md={3}>
+          <CCard className="border-primary">
+            <CCardBody>
+              <h6>Total Requests</h6>
+              <h4>{stats.total}</h4>
+            </CCardBody>
+          </CCard>
         </CCol>
-
-        <CCol md={8}>
-          {selectedRequest ? (
-            <CCard className="mb-4 border-warning">
-              <CCardHeader>
-                <strong>{selectedRequest.tenantName}</strong>
-                <div className="text-body-secondary small">
-                  {selectedRequest.type} - {selectedRequest.category}
-                </div>
-              </CCardHeader>
-              <CCardBody>
-                <p>
-                  <strong>Description:</strong> {selectedRequest.description}
-                </p>
-                <p>
-                  <strong>Images & Videos:</strong>
-                </p>
-                <div className="d-flex gap-2 mb-3">
-                  {[1, 2, 3].map((_, i) => (
-                    <div
-                      key={i}
-                      className="border p-3"
-                      style={{ width: '100px', height: '80px' }}
-                    ></div>
-                  ))}
-                </div>
-
-                <CFormSelect className="mb-3">
-                  <option>Approve</option>
-                  <option>In Progress</option>
-                  <option>Rejected</option>
-                </CFormSelect>
-
-                <CFormTextarea rows="3" placeholder="Add a comment..." className="mb-3" />
-
-                <div className="d-flex justify-content-end">
-                  <CButton color="secondary" className="me-2" style={{ fontWeight: 'bold' }}>
-                    Cancel
-                  </CButton>
-                  <CButton
-                    style={{ backgroundColor: '#F28D35', fontWeight: 'bold' }}
-                    className="text-white"
-                  >
-                    Send Decision
-                  </CButton>
-                </div>
-              </CCardBody>
-            </CCard>
-          ) : (
-            <p className="text-muted">Select a maintenance request to view details.</p>
-          )}
+        <CCol md={3}>
+          <CCard className="border-warning">
+            <CCardBody>
+              <h6>Pending Requests</h6>
+              <h4>{stats.pending}</h4>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <CCol md={3}>
+          <CCard className="border-info">
+            <CCardBody>
+              <h6>Ongoing Requests</h6>
+              <h4>{stats.ongoing}</h4>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <CCol md={3}>
+          <CCard className="border-success">
+            <CCardBody>
+              <h6>Completed Requests</h6>
+              <h4>{stats.completed}</h4>
+            </CCardBody>
+          </CCard>
         </CCol>
       </CRow>
+
+      {/* Maintenance Requests Table */}
+      <CTable striped hover responsive>
+        <CTableHead>
+          <CTableRow>
+            <CTableHeaderCell>Request ID</CTableHeaderCell>
+            <CTableHeaderCell>Tenant Fullname</CTableHeaderCell>
+            <CTableHeaderCell>Maintenance Type</CTableHeaderCell>
+            <CTableHeaderCell>Category</CTableHeaderCell>
+            <CTableHeaderCell>Status</CTableHeaderCell>
+            <CTableHeaderCell>Date Created</CTableHeaderCell>
+            <CTableHeaderCell>Action</CTableHeaderCell>
+          </CTableRow>
+        </CTableHead>
+        <CTableBody>
+          {loading ? (
+            <CTableRow>
+              <CTableDataCell colSpan="7" className="text-center">
+                Loading maintenance requests...
+              </CTableDataCell>
+            </CTableRow>
+          ) : maintenanceRequests.length === 0 ? (
+            <CTableRow>
+              <CTableDataCell colSpan="7" cclassName="text-center">
+                No maintenance requests found.
+              </CTableDataCell>
+            </CTableRow>
+          ) : (
+            maintenanceRequests.map((request) => (
+              <CTableRow key={request.maintenance_request_id}>
+                <CTableDataCell>{request.maintenance_request_id}</CTableDataCell>
+                <CTableDataCell>
+                  {request.first_name} {request.last_name}
+                </CTableDataCell>
+                <CTableDataCell>{request.maintenance_type}</CTableDataCell>
+                <CTableDataCell>{request.category}</CTableDataCell>
+                <CTableDataCell>{request.status}</CTableDataCell>
+                <CTableDataCell>{new Date(request.created_at).toLocaleDateString()}</CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="info"
+                    size="sm"
+                    className="me-2"
+                    onClick={() => handleViewRequest(request.maintenance_request_id)}
+                  >
+                    View
+                  </CButton>
+                </CTableDataCell>
+              </CTableRow>
+            ))
+          )}
+        </CTableBody>
+      </CTable>
     </div>
   )
 }

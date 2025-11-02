@@ -39,31 +39,35 @@ const LeasesTenancy = () => {
   const [properties, setProperties] = useState([])
   const [units, setUnits] = useState([])
   const [tenants, setTenants] = useState([])
-// not the frontend ig xDDDDDDDD LOL
+
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem('authToken')
-      const headers = { Authorization: `Bearer ${token}` }
+    // Fetch registered properties, units, and tenants from the backend API
+    const fetchData = async () => {
+      try {
+        const propertyRes = await fetch(`${API_URL}/api/properties`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        })
+        const unitRes = await fetch(`${API_URL}/api/property-units`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        })
+        const tenantRes = await fetch(`${API_URL}/api/tenants`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        })
 
-      const propertyRes = await fetch('https://condoease-backends.onrender.com/api/properties', { headers })
-      const unitRes = await fetch('https://condoease-backends.onrender.com/api/property-units', { headers })
-      const tenantRes = await fetch('https://condoease-backends.onrender.com/api/tenants', { headers })
+        const propertyData = await propertyRes.json()
+        const unitData = await unitRes.json()
+        const tenantData = await tenantRes.json()
 
-      const propertyData = await propertyRes.json()
-      const unitData = await unitRes.json()
-      const tenantData = await tenantRes.json()
-
-      setProperties(propertyData)
-      setUnits(unitData)
-      setTenants(tenantData)
-    } catch (err) {
-      console.error('Error fetching data:', err)
+        setProperties(propertyData)
+        setUnits(unitData)
+        setTenants(tenantData)
+      } catch (err) {
+        console.error('Error fetching data:', err)
+      }
     }
-  }
 
-  fetchData()
-}, [])
+    fetchData()
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -109,7 +113,7 @@ const LeasesTenancy = () => {
     })
 
     try {
-      const res = await fetch('http://localhost:5000/api/leases', {
+      const res = await fetch(`${API_URL}/api/leases`, {
         method: 'POST',
         body: formData,
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
@@ -145,7 +149,7 @@ const LeasesTenancy = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Create New Lease</h4>
+      <h4 className="mb-4">Create New LeaseSSS</h4>
       <CCard>
         <CCardHeader>
           <strong>Lease Information</strong>
@@ -163,7 +167,7 @@ const LeasesTenancy = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
+                    <option key={property.property_id} value={property.property_id}>
                       {property.property_name}
                     </option>
                   ))}

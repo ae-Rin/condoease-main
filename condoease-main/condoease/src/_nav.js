@@ -117,7 +117,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Maintenance Information',
+    name: 'Maintenance Tracking',
     to: '/collapses',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

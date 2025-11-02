@@ -40,3 +40,6 @@ yarn-error.log*
 # React/Vite cache
 /condoease/.vite
 /condoease/.cache
+
+# Exclude .txt files
+*.txt

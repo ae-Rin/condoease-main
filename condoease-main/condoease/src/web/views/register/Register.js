@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/react'
 import { FaGoogle, FaFacebookF } from 'react-icons/fa'
+import logoWhite from 'src/assets/images/logo_white.png'
 
 const Register = () => {
   const [email, setEmail] = useState('')
@@ -26,11 +27,7 @@ const Register = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/src/assets/images/logo_white.png"
-            alt="CondoEase Logo"
-            style={{ height: 64, marginRight: 12 }}
-          />
+          <img src={logoWhite} alt="CondoEase Logo" style={{ height: 64, marginRight: 12 }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
           <span style={{ color: 'white', fontSize: 20 }}>Already have an account?</span>

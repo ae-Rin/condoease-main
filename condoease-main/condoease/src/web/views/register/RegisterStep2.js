@@ -12,15 +12,17 @@ import {
   CInputGroupText,
 } from '@coreui/react'
 import { FaEye } from 'react-icons/fa'
+import logoWhite from 'src/assets/images/logo_white.png'
 
 const RegisterStep2 = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const location = useLocation()
-  // Get email from navigation state, fallback to empty string if not present
+  const navigate = useNavigate()
+
   const emailFromState = location.state?.email || ''
-  const [email] = useState(emailFromState)
+  const [email, setEmail] = useState(emailFromState)
   const [showPassword, setShowPassword] = useState(false)
   const [showRePassword, setShowRePassword] = useState(false)
-  const navigate = useNavigate()
 
   const [formValues, setFormValues] = useState({
     firstName: '',
@@ -28,6 +30,7 @@ const RegisterStep2 = () => {
     email: '',
     password: '',
     rePassword: '',
+    role: 'tenant', // default
   })
 
   const handleInputChange = (e) => {
@@ -53,7 +56,7 @@ const RegisterStep2 = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/registerstep2', {
+      const res = await fetch(`${API_URL}/api/registerstep2`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -61,17 +64,18 @@ const RegisterStep2 = () => {
           lastName: formValues.lastName,
           email: email,
           password: formValues.password,
+          role: formValues.role,
         }),
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.ok && data.success) {
         alert('Registration successful!')
         navigate('/login')
       } else {
-        alert(data.error || 'Registration failed')
+        alert(data.error || 'Registration failed.')
       }
     } catch (err) {
-      alert('Server error')
+      alert('Server error. Please try again later.')
     }
   }
 
@@ -89,11 +93,7 @@ const RegisterStep2 = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/src/assets/images/logo_white.png"
-            alt="CondoEase Logo"
-            style={{ height: 64, marginRight: 12 }}
-          />
+          <img src={logoWhite} alt="CondoEase Logo" style={{ height: 64, marginRight: 12 }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
           <span style={{ color: 'white', fontSize: 20 }}>Already have an account?</span>
@@ -190,17 +190,18 @@ const RegisterStep2 = () => {
               </CRow>
               <div className="mb-2 fw-semibold text-start">Email</div>
               <CFormInput
+                type="email"
                 placeholder="email@gmail.com"
-                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mb-3"
+                required
                 style={{
                   borderColor: '#A3C49A',
                   borderRadius: 10,
                   fontSize: 16,
                   padding: '16px 16px',
                 }}
-                value={email}
-                readOnly
               />
               <div className="mb-2 fw-semibold text-start">Enter Password</div>
               <CInputGroup className="mb-3">

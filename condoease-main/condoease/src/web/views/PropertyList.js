@@ -15,17 +15,24 @@ import {
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
 
 const PropertyList = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/properties', {
+        const res = await fetch(`${API_URL}/api/properties`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         })
+
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch properties')
+        }
+
         const data = await res.json()
         setProperties(data)
       } catch (err) {
@@ -36,7 +43,7 @@ const PropertyList = () => {
     }
 
     fetchProperties()
-  }, [])
+  }, [API_URL])
 
   const handleView = (propertyId) => {
     alert(`View details for property ID: ${propertyId}`)
