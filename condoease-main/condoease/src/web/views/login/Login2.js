@@ -97,7 +97,7 @@ const Login2 = () => {
           <CCol xs={12} md={7} lg={5} xl={4}>
             <div className="text-center mb-4 mt-5">
               <h2 className="fw-bold mb-2 text-start" style={{ fontSize: 32 }}>
-                Login
+                LoginSSS
               </h2>
             </div>
             <CForm onSubmit={handleLogin}>
