@@ -117,6 +117,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Announcements ',
+    to: '/announcements',
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Maintenance Tracking',
     to: '/collapses',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
