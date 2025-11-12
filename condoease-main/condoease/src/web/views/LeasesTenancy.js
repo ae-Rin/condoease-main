@@ -240,61 +240,65 @@ const LeasesTenancy = () => {
                 />
               </CCol>
             </CRow>
-
+            
             {/* Tenant Selection */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <CFormSelect
-                  name="tenant"
-                  value={formValues.tenant}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select Tenant</option>
-                  {tenants.map((tenant) => (
-                    <option key={tenant.tenant_id} value={tenant.tenant_id}>
-                      {tenant.first_name} {tenant.last_name}
-                    </option>
-                  ))}
-                </CFormSelect>
+              <CFormSelect
+                name="tenant"
+                value={formValues.tenant}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select Tenant</option>
+                {tenants.map((tenant) => (
+                <option key={tenant.tenant_id} value={tenant.tenant_id}>
+                  {tenant.first_name} {tenant.last_name}
+                </option>
+                ))}
+              </CFormSelect>
               </CCol>
               <CCol md={6}>
-                <CFormInput
-                  type="email"
-                  name="tenantEmail"
-                  placeholder="Tenant Email"
-                  value={formValues.tenantEmail}
-                  onChange={handleInputChange}
-                  required
-                />
+              <CFormInput
+                type="email"
+                name="tenantEmail"
+                placeholder="Tenant Email"
+                value={formValues.tenantEmail}
+                onChange={handleInputChange}
+                required
+              />
               </CCol>
             </CRow>
 
             {/* Lease Dates */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <CFormInput
-                  type="date"
-                  name="startDate"
-                  placeholder="Start Date of Lease"
-                  value={formValues.startDate}
-                  onChange={handleInputChange}
-                  required
-                />
+              <CFormLabel htmlFor="startDate">Start Date of Lease</CFormLabel>
+              <CFormInput
+                id="startDate"
+                type="date"
+                name="startDate"
+                placeholder="Start Date of Lease"
+                value={formValues.startDate}
+                onChange={handleInputChange}
+                required
+              />
               </CCol>
               <CCol md={6}>
-                <CFormInput
-                  type="date"
-                  name="endDate"
-                  placeholder="End Date of Lease"
-                  value={formValues.endDate}
-                  onChange={handleInputChange}
-                  required
-                />
+              <CFormLabel htmlFor="endDate">End Date of Lease</CFormLabel>
+              <CFormInput
+                id="endDate"
+                type="date"
+                name="endDate"
+                placeholder="End Date of Lease"
+                value={formValues.endDate}
+                onChange={handleInputChange}
+                required
+              />
               </CCol>
             </CRow>
 
-            {/* Lease Documents */}
+                  {/* Lease Documents */}
             <CRow className="mb-3">
               <CCol md={12}>
                 <CFormInput
