@@ -28,6 +28,7 @@ const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
 const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
 const MaintenanceRequest = React.lazy(() => import('./views/MaintenanceRequest'))
 const ManageAllUsers = React.lazy(() => import('./views/ManageAllUsers'))
+const ApplicationLogs = React.lazy(() => import('./views/ApplicationLogs'))
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/page500/Page500'))
 
@@ -67,6 +68,7 @@ const webRoutes = [
   { path: '/leasestenancyterminated', name: 'Terminated Leases', element: <LeasesTenancyTerminated />, isProtected: true },
   { path: '/maintenance-request/:requestId', name: 'Maintenance Request', element: <MaintenanceRequest />, isProtected: true },
   { path: '/allusers', name: 'Manage All Users', element: <ManageAllUsers />, isProtected: true },
+  { path: '/applicationlogs', name: 'Application Logs', element: <ApplicationLogs />, isProtected: true },
   { path: '/404', name: 'Page 404', element: <Page404 />, isProtected: true },
   { path: '/500', name: 'Page 500', element: <Page500 />, isProtected: true },
   {
