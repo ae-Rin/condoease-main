@@ -27,6 +27,7 @@ const LeasesTenancy = React.lazy(() => import('./views/LeasesTenancy'))
 const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
 const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
 const MaintenanceRequest = React.lazy(() => import('./views/MaintenanceRequest'))
+const ManageAllUsers = React.lazy(() => import('./views/ManageAllUsers'))
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/page500/Page500'))
 
@@ -51,7 +52,7 @@ const webRoutes = [
   { path: '/carousel', name: 'Carousel', element: <Carousel />, isProtected: true },
   { path: '/navs', name: 'Navs', element: <Navs />, isProtected: true },
   { path: '/collapses', name: 'Collapses', element: <Collapses />, isProtected: true },
-  { path: '/listgroups', name: 'List Groups', element: <ListGroups />, isProtected: true },
+  { path: '/announcements', name: 'Announcements', element: <Announcements />, isProtected: true },
   { path: '/tables', name: 'Tables', element: <Tables />, isProtected: true },
   { path: '/tenants', name: 'Tenants', element: <Tenants />, isProtected: true },
   { path: '/tenantlist', name: 'Tenant List', element: <TenantList />, isProtected: true },
@@ -65,6 +66,7 @@ const webRoutes = [
   { path: '/leasestenancylist', name: 'List of Leases', element: <LeasesTenancyList />, isProtected: true },
   { path: '/leasestenancyterminated', name: 'Terminated Leases', element: <LeasesTenancyTerminated />, isProtected: true },
   { path: '/maintenance-request/:requestId', name: 'Maintenance Request', element: <MaintenanceRequest />, isProtected: true },
+  { path: '/allusers', name: 'Manage All Users', element: <ManageAllUsers />, isProtected: true },
   { path: '/404', name: 'Page 404', element: <Page404 />, isProtected: true },
   { path: '/500', name: 'Page 500', element: <Page500 />, isProtected: true },
   {

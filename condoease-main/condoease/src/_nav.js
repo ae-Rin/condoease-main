@@ -12,7 +12,7 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'User Info',
+    name: 'Condominium Information',
   },
   {
     component: CNavGroup,
@@ -125,6 +125,12 @@ const _nav = [
     component: CNavItem,
     name: 'Maintenance Tracking',
     to: '/collapses',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Manage All Users',
+    to: '/allusers',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
 ]
