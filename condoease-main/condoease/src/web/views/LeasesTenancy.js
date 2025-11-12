@@ -13,6 +13,7 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CFormLabel,
 } from '@coreui/react'
 
 const LeasesTenancy = () => {
@@ -273,7 +274,7 @@ const LeasesTenancy = () => {
             {/* Lease Dates */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <CFormLabel htmlFor="startDate">Start Date of Lease</CFormLabel>
+                <CFormLabel>Start of Lease Date</CFormLabel>
                 <CFormInput
                   type="date"
                   name="startDate"
