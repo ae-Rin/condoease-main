@@ -11,6 +11,7 @@ import {
   cilBuilding,
   cilHouse,
   cilFile,
+  cilClipboard,
 } from '@coreui/icons'
 import { CNavItem, CNavTitle, CNavGroup } from '@coreui/react'
 
@@ -113,15 +114,9 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Account Settings',
-    to: '/accountsettings',
-    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
     name: 'Application Logs',
     to: '/applicationlogs',
-    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
   },
 ]
 
