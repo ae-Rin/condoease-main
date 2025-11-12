@@ -111,7 +111,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Tenants Transactions',
+    name: 'Payment Transactions',
     to: '/listgroups',
     icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
   },
