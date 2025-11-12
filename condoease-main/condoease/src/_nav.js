@@ -12,6 +12,7 @@ import {
   cilHouse,
   cilFile,
   cilClipboard,
+  cilWrench,
 } from '@coreui/icons'
 import { CNavItem, CNavTitle, CNavGroup } from '@coreui/react'
 
@@ -100,7 +101,7 @@ const _nav = [
     component: CNavItem,
     name: 'Maintenance Tracking',
     to: '/collapses',
-    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilWrench} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
