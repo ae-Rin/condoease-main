@@ -49,7 +49,7 @@ const ListGroups = () => {
 
   return (
     <div className="container" style={{ padding: '20px' }}>
-      <h4 className="mb-3">Tenant Transactions</h4>
+      <h4 className="mb-3">Payment Transactions</h4>
       <div className="mb-3">
         <span
           className="text-body-secondary"
@@ -58,7 +58,7 @@ const ListGroups = () => {
         >
           DASHBOARD
         </span>{' '}
-        / <span style={{ color: '#F28D35' }}>TENANT TRANSACTIONS</span>
+        / <span style={{ color: '#F28D35' }}>PAYMENT TRANSACTIONS</span>
       </div>
 
       <CTable striped hover responsive>
