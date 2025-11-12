@@ -273,6 +273,7 @@ const LeasesTenancy = () => {
             {/* Lease Dates */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <CFormLabel htmlFor="startDate">Start Date of Lease</CFormLabel>
                 <CFormInput
                   type="date"
                   name="startDate"
