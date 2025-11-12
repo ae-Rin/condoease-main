@@ -1,6 +1,17 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cilHome, cilCreditCard, cilSettings, cilPuzzle, cilBullhorn } from '@coreui/icons'
+import {
+  cilHome,
+  cilCreditCard,
+  cilSettings,
+  cilPuzzle,
+  cilBullhorn,
+  cilUser,
+  cilGroup,
+  cilBuilding,
+  cilHouse,
+  cilFile,
+} from '@coreui/icons'
 import { CNavItem, CNavTitle, CNavGroup } from '@coreui/react'
 
 const _nav = [
@@ -17,103 +28,62 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Tenants',
-    to: '/tenants',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Register A Tenant',
-        to: '/tenants',
-      },
-      {
-        component: CNavItem,
-        name: 'Tenant List',
-        to: '/tenantlist',
-      },
+      { component: CNavItem, name: 'Register A Tenant', to: '/tenants' },
+      { component: CNavItem, name: 'Tenant List', to: '/tenantlist' },
     ],
   },
   {
     component: CNavGroup,
     name: 'Property Owners',
-    to: '/propertyowners',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Register A Property Owner',
-        to: '/propertyowners',
-      },
-      {
-        component: CNavItem,
-        name: 'Property Owner List',
-        to: '/propertyownerlist',
-      },
+      { component: CNavItem, name: 'Register A Property Owner', to: '/propertyowners' },
+      { component: CNavItem, name: 'Property Owner List', to: '/propertyownerlist' },
     ],
   },
   {
     component: CNavGroup,
     name: 'Properties',
-    to: '/properties',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Register A Property',
-        to: '/properties',
-      },
-      {
-        component: CNavItem,
-        name: 'Property List',
-        to: '/propertylist',
-      },
+      { component: CNavItem, name: 'Register A Property', to: '/properties' },
+      { component: CNavItem, name: 'Property List', to: '/propertylist' },
     ],
   },
   {
     component: CNavGroup,
     name: 'Property Units',
-    to: '/propertyunits',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHouse} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Register A Property Unit',
-        to: '/propertyunits',
-      },
-      {
-        component: CNavItem,
-        name: 'Property Unit List',
-        to: '/propertyunitlist',
-      },
+      { component: CNavItem, name: 'Register A Property Unit', to: '/propertyunits' },
+      { component: CNavItem, name: 'Property Unit List', to: '/propertyunitlist' },
     ],
   },
   {
     component: CNavGroup,
     name: 'Leases / Tenancy',
-    to: '/leasestenancy',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Create A Lease',
-        to: '/leasestenancy',
-      },
-      {
-        component: CNavItem,
-        name: 'List of Leases',
-        to: '/leasestenancylist',
-      },
-      {
-        component: CNavItem,
-        name: 'Terminated Leases',
-        to: '/leasestenancyterminated',
-      },
+      { component: CNavItem, name: 'Create A Lease', to: '/leasestenancy' },
+      { component: CNavItem, name: 'List of Leases', to: '/leasestenancylist' },
+      { component: CNavItem, name: 'Terminated Leases', to: '/leasestenancyterminated' },
     ],
   },
   {
+    component: CNavTitle,
+    name: 'Communication',
+  },
+  {
     component: CNavItem,
-    name: 'Announcements ',
+    name: 'Announcements',
     to: '/announcements',
     icon: <CIcon icon={cilBullhorn} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Financial Management',
   },
   {
     component: CNavItem,
@@ -122,15 +92,35 @@ const _nav = [
     icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
   },
   {
+    component: CNavTitle,
+    name: 'Maintenance Management',
+  },
+  {
     component: CNavItem,
     name: 'Maintenance Tracking',
     to: '/collapses',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {
+    component: CNavTitle,
+    name: 'User & System Management',
+  },
+  {
     component: CNavItem,
     name: 'Manage All Users',
     to: '/allusers',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Account Settings',
+    to: '/accountsettings',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Application Logs',
+    to: '/applicationlogs',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
 ]
