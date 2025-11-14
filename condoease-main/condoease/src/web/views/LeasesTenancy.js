@@ -46,25 +46,30 @@ const LeasesTenancy = () => {
     // Fetch registered properties, units, and tenants from the backend API
     const fetchData = async () => {
       try {
-        const propertyRes = await fetch(`${API_URL}/api/properties`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
-        const unitRes = await fetch(`${API_URL}/api/property-units/vacant`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
-        const tenantRes = await fetch(`${API_URL}/api/tenants`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-        })
+        const [propertyRes, unitRes, tenantRes] = await Promise.all([
+          fetch(`${API_URL}/api/properties`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+          }),
+          fetch(`${API_URL}/api/property-units/vacant`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+          }),
+          fetch(`${API_URL}/api/tenants`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+          })
+        ])
 
         const propertyData = await propertyRes.json()
         const unitData = await unitRes.json()
         const tenantData = await tenantRes.json()
+        setProperties(Array.isArray(propertyData) ? propertyData : [])
+        setUnits(Array.isArray(unitData) ? unitData : [])
+        setTenants(Array.isArray(tenantData) ? tenantData : [])
 
-        setProperties(propertyData)
-        setUnits(unitData)
-        setTenants(tenantData)
       } catch (err) {
-        console.error('Error fetching data:', err)
+        console.error("Error fetching data:", err)
+        setProperties([])
+        setUnits([])
+        setTenants([])
       }
     }
 
@@ -202,17 +207,19 @@ const LeasesTenancy = () => {
                     required
                   >
                     <option value="">Select Unit</option>
-                    {units
-                      .filter(
-                        (unit) =>
-                          Number(unit.property_id) === Number(formValues.property) &&
-                          String(unit.status).toLowerCase() === 'vacant'
-                      )
-                      .map((unit) => (
-                        <option key={unit.property_unit_id} value={unit.property_unit_id}>
-                          {unit.unit_number} - {unit.unit_type}
-                        </option>
-                      ))}
+
+                    {Array.isArray(units) &&
+                      units
+                        .filter(
+                          (unit) =>
+                            Number(unit.property_id) === Number(formValues.property) &&
+                            String(unit.status).toLowerCase() === "vacant"
+                        )
+                        .map((unit) => (
+                          <option key={unit.property_unit_id} value={unit.property_unit_id}>
+                            {unit.unit_number} - {unit.unit_type}
+                          </option>
+                        ))}
                   </CFormSelect>
                 </CCol>
               </CRow>
