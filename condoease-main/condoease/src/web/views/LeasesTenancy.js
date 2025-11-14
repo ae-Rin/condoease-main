@@ -13,11 +13,11 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CFormLabel,
 } from '@coreui/react'
 
 const LeasesTenancy = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
-
   const [formValues, setFormValues] = useState({
     property: '',
     leaseUnits: false,
@@ -42,31 +42,31 @@ const LeasesTenancy = () => {
   const [units, setUnits] = useState([])
   const [tenants, setTenants] = useState([])
 
-  // Fetch properties, units, tenants
   useEffect(() => {
+    // Fetch registered properties, units, and tenants from the backend API
     const fetchData = async () => {
       try {
         const [propertyRes, unitRes, tenantRes] = await Promise.all([
           fetch(`${API_URL}/api/properties`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
           }),
           fetch(`${API_URL}/api/property-units/vacant`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
           }),
           fetch(`${API_URL}/api/tenants`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-          }),
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+          })
         ])
 
         const propertyData = await propertyRes.json()
         const unitData = await unitRes.json()
         const tenantData = await tenantRes.json()
-
         setProperties(Array.isArray(propertyData) ? propertyData : [])
         setUnits(Array.isArray(unitData) ? unitData : [])
         setTenants(Array.isArray(tenantData) ? tenantData : [])
+
       } catch (err) {
-        console.error('Error fetching data:', err)
+        console.error("Error fetching data:", err)
         setProperties([])
         setUnits([])
         setTenants([])
@@ -76,35 +76,17 @@ const LeasesTenancy = () => {
     fetchData()
   }, [API_URL])
 
-  // Compute filtered units dynamically
-  const filteredUnits =
-    formValues.leaseUnits && formValues.property
-      ? units.filter(
-          (u) =>
-            u.property_id === formValues.property &&
-            u.status.toLowerCase() === 'vacant'
-        )
-      : []
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target
+  //   setFormValues((prev) => ({ ...prev, [name]: value }))
+  // }
 
-  useEffect(() => {
-    if (formValues.leaseUnits && formValues.property) {
-      const filtered = units.filter(
-        (u) =>
-          String(u.property_id).trim() === String(formValues.property).trim() &&
-          u.status.toLowerCase() === 'vacant'
-      )
-      console.log('Selected property:', formValues.property)
-      console.log('Filtered Units:', filtered)
-    }
-  }, [units, formValues.property, formValues.leaseUnits])
-
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues((prev) => ({
       ...prev,
-      [name]: name === 'property' ? Number(value) : value,
-      ...(name === 'property' && { unit: '' }), // reset unit if property changes
+      [name]: value,
+      ...(name === "property" && { unit: "" }) // reset unit if property changes
     }))
   }
 
@@ -113,7 +95,7 @@ const LeasesTenancy = () => {
     setFormValues((prev) => ({
       ...prev,
       [name]: checked,
-      ...(name === 'leaseUnits' && { unit: '' }), // Reset unit selection if Lease Units unchecked
+      ...(name === 'leaseUnits' && { unit: '' }), // Reset unit selection if "Lease Units" is unchecked
     }))
   }
 
@@ -130,24 +112,23 @@ const LeasesTenancy = () => {
     setFormValues((prev) => ({ ...prev, leaseDocuments: files }))
   }
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const formData = new FormData()
 
+    const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
-      if (key === 'bills') {
+      if (key === "bills") {
         Object.keys(formValues.bills).forEach((billKey) => {
           formData.append(`bills[${billKey}]`, formValues.bills[billKey])
         })
-      } else if (key === 'leaseDocuments') {
+      } else if (key === "leaseDocuments") {
         formValues.leaseDocuments.forEach((file) =>
-          formData.append('leaseDocuments', file)
+          formData.append("leaseDocuments", file)
         )
       } else {
-        if (key === 'property') formData.append('property_id', formValues[key])
-        else if (key === 'unit') formData.append('property_unit_id', formValues[key])
-        else if (key === 'tenant') formData.append('tenant_id', formValues[key])
+        if (key === "property") formData.append("property_id", formValues[key])
+        else if (key === "unit") formData.append("property_unit_id", formValues[key])
+        else if (key === "tenant") formData.append("tenant_id", formValues[key])
         else formData.append(key, formValues[key])
       }
     })
@@ -207,10 +188,7 @@ const LeasesTenancy = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option
-                      key={property.property_id}
-                      value={property.property_id}
-                    >
+                    <option key={property.property_id} value={property.property_id}>
                       {property.property_name}
                     </option>
                   ))}
@@ -238,15 +216,59 @@ const LeasesTenancy = () => {
                     required
                   >
                     <option value="">Select Unit</option>
-                    {filteredUnits.map((unit) => (
-                      <option key={unit.id} value={unit.id}>
-                        {unit.unit_number} - {unit.unit_type}
-                      </option>
-                    ))}
+                    {units
+                      .filter(
+                        (unit) =>
+                          String(unit.property_id) === String(formValues.property) &&
+                          unit.status.toLowerCase() === 'vacant'
+                      )
+                      .map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.unit_number} - {unit.unit_type}
+                        </option>
+                      ))}
                   </CFormSelect>
+                  {console.log(
+                    'Filtered Units:',
+                    units.filter(
+                      (u) =>
+                        String(u.property_id) === String(formValues.property) &&
+                        u.status.toLowerCase() === 'vacant'
+                    )
+                  )}
                 </CCol>
               </CRow>
             )}
+            {/* {formValues.leaseUnits && (
+              <CRow className="mb-3">
+                <CCol md={12}>
+                  <CFormSelect
+                    name="unit"
+                    value={formValues.unit}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Unit</option>
+
+                    {Array.isArray(units) &&
+                    units
+                      .filter(
+                        (unit) =>
+                          Number(unit.property_id) === Number(formValues.property) &&
+                          String(unit.status).toLowerCase() === "vacant"
+                      )
+                      .map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.unit_number} - {unit.unit_type}
+                        </option>
+                      ))}
+                      {console.log('Filtered Units:', units.filter(u => Number(u.property_id) === Number(formValues.property) && u.status.toLowerCase() === 'vacant'))}
+                      {console.log('Selected Property ID:', formValues.property)}
+                      {console.log('All Units:', units)}
+                  </CFormSelect>
+                </CCol>
+              </CRow>
+            )} */}
 
             {/* Rent and Deposit */}
             <CRow className="mb-3">
@@ -308,6 +330,7 @@ const LeasesTenancy = () => {
                 <CFormInput
                   type="date"
                   name="startDate"
+                  placeholder="Start Date of Lease"
                   value={formValues.startDate}
                   onChange={handleInputChange}
                   required
@@ -318,6 +341,7 @@ const LeasesTenancy = () => {
                 <CFormInput
                   type="date"
                   name="endDate"
+                  placeholder="End Date of Lease"
                   value={formValues.endDate}
                   onChange={handleInputChange}
                   required
@@ -337,7 +361,9 @@ const LeasesTenancy = () => {
                   accept=".jpg,.png,.pdf"
                   required
                 />
-                <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
+                <small className="text-muted">
+                  Accepted formats: jpg, png, pdf.
+                </small>
               </CCol>
             </CRow>
 
@@ -359,37 +385,122 @@ const LeasesTenancy = () => {
             <CRow className="mb-3">
               <CCol md={12}>
                 <strong>Bills</strong>
-                {['gas', 'electricity', 'internet', 'tax'].map((bill) => (
-                  <CRow className="align-items-center mb-2" key={bill}>
-                    <CCol md={6}>
-                      <CFormCheck
-                        type="checkbox"
-                        name={bill}
-                        label={bill.charAt(0).toUpperCase() + bill.slice(1)}
-                        checked={formValues.bills[bill]}
-                        onChange={handleBillsChange}
-                      />
-                    </CCol>
-                    <CCol md={6}>
-                      <CFormInput
-                        type="number"
-                        name={`${bill}Amount`}
-                        placeholder="Amount (₱)"
-                        value={formValues.bills[`${bill}Amount`] || ''}
-                        onChange={(e) => {
-                          const value = e.target.value
-                          if (value >= 0) {
-                            setFormValues((prev) => ({
-                              ...prev,
-                              bills: { ...prev.bills, [`${bill}Amount`]: value },
-                            }))
-                          }
-                        }}
-                        min="0"
-                      />
-                    </CCol>
-                  </CRow>
-                ))}
+                <CRow className="align-items-center mb-2">
+                  <CCol md={6}>
+                    <CFormCheck
+                      type="checkbox"
+                      name="gas"
+                      label="Gas"
+                      checked={formValues.bills.gas}
+                      onChange={handleBillsChange}
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="gasAmount"
+                      placeholder="Amount (₱)"
+                      value={formValues.bills.gasAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            bills: { ...prev.bills, gasAmount: value },
+                          }))
+                        }
+                      }}
+                      min="0"
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="align-items-center mb-2">
+                  <CCol md={6}>
+                    <CFormCheck
+                      type="checkbox"
+                      name="electricity"
+                      label="Electricity"
+                      checked={formValues.bills.electricity}
+                      onChange={handleBillsChange}
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="electricityAmount"
+                      placeholder="Amount (₱)"
+                      value={formValues.bills.electricityAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            bills: { ...prev.bills, electricityAmount: value },
+                          }))
+                        }
+                      }}
+                      min="0"
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="align-items-center mb-2">
+                  <CCol md={6}>
+                    <CFormCheck
+                      type="checkbox"
+                      name="internet"
+                      label="Internet"
+                      checked={formValues.bills.internet}
+                      onChange={handleBillsChange}
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="internetAmount"
+                      placeholder="Amount (₱)"
+                      value={formValues.bills.internetAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            bills: { ...prev.bills, internetAmount: value },
+                          }))
+                        }
+                      }}
+                      min="0"
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="align-items-center mb-2">
+                  <CCol md={6}>
+                    <CFormCheck
+                      type="checkbox"
+                      name="tax"
+                      label="Tax"
+                      checked={formValues.bills.tax}
+                      onChange={handleBillsChange}
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="taxAmount"
+                      placeholder="Amount (₱)"
+                      value={formValues.bills.taxAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            bills: { ...prev.bills, taxAmount: value },
+                          }))
+                        }
+                      }}
+                      min="0"
+                    />
+                  </CCol>
+                </CRow>
               </CCol>
             </CRow>
 
