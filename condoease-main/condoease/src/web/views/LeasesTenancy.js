@@ -183,7 +183,7 @@ const LeasesTenancy = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.property_id} value={property.property_id}>
+                    <option key={property.id} value={property.id}>
                       {property.property_name}
                     </option>
                   ))}
@@ -227,9 +227,11 @@ const LeasesTenancy = () => {
                     'Filtered Units:',
                     units.filter(
                       (u) =>
-                        String(u.property_id) === String(formValues.property) &&
+                        String(unit.property_id) === String(formValues.property) &&
                         u.status.toLowerCase() === 'vacant'
-                    )
+                    ),
+                    console.log("Selected property:", formValues.property),
+                    console.log("Units:", units)
                   )}
                 </CCol>
               </CRow>
