@@ -285,6 +285,7 @@ const LeasesTenancy = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>End of Lease Date</strong>
                 <CFormInput
                   type="date"
                   name="endDate"
