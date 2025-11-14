@@ -273,7 +273,7 @@ const LeasesTenancy = () => {
 
             {/* Lease Dates */}
             <CRow className="mb-3">
-              <CCol md={6}>
+              <CCol md={12}>
                 <strong>Start of Lease Date</strong>
                 <CFormInput
                   type="date"
@@ -284,7 +284,7 @@ const LeasesTenancy = () => {
                   required
                 />
               </CCol>
-              <CCol md={6}>
+              <CCol md={12}>
                 <CFormInput
                   type="date"
                   name="endDate"
