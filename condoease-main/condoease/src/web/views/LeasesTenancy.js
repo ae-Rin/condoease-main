@@ -216,6 +216,39 @@ const LeasesTenancy = () => {
                     required
                   >
                     <option value="">Select Unit</option>
+                    {units
+                      .filter(
+                        (unit) =>
+                          String(unit.property_id) === String(formValues.property) &&
+                          unit.status.toLowerCase() === 'vacant'
+                      )
+                      .map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.unit_number} - {unit.unit_type}
+                        </option>
+                      ))}
+                  </CFormSelect>
+                  {console.log(
+                    'Filtered Units:',
+                    units.filter(
+                      (u) =>
+                        String(u.property_id) === String(formValues.property) &&
+                        u.status.toLowerCase() === 'vacant'
+                    )
+                  )}
+                </CCol>
+              </CRow>
+            )}
+            {/* {formValues.leaseUnits && (
+              <CRow className="mb-3">
+                <CCol md={12}>
+                  <CFormSelect
+                    name="unit"
+                    value={formValues.unit}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Unit</option>
 
                     {Array.isArray(units) &&
                     units
@@ -230,10 +263,12 @@ const LeasesTenancy = () => {
                         </option>
                       ))}
                       {console.log('Filtered Units:', units.filter(u => Number(u.property_id) === Number(formValues.property) && u.status.toLowerCase() === 'vacant'))}
+                      {console.log('Selected Property ID:', formValues.property)}
+                      {console.log('All Units:', units)}
                   </CFormSelect>
                 </CCol>
               </CRow>
-            )}
+            )} */}
 
             {/* Rent and Deposit */}
             <CRow className="mb-3">
