@@ -300,7 +300,7 @@ const LeasesTenancy = () => {
             {/* Lease Documents */}
             <CRow className="mb-3">
               <CCol md={12}>
-                <CFormLabel>Lease Documents</CFormLabel>
+                <strong>Upload Lease Documents</strong>
                 <CFormInput
                   type="file"
                   name="leaseDocuments"
@@ -310,7 +310,7 @@ const LeasesTenancy = () => {
                   required
                 />
                 <small className="text-muted">
-                  Upload lease documents. Accepted formats: jpg, png, pdf.
+                  Accepted formats: jpg, png, pdf.
                 </small>
               </CCol>
             </CRow>
