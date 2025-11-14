@@ -118,7 +118,7 @@ const LeasesTenancy = () => {
         ...prev,
         unit: selectedUnitId,
         rentPrice: selectedUnit.rent_price,
-        depositPrice: selectedUnit.deposit_price,
+        // depositPrice: selectedUnit.deposit_price, CONFIRM IF DEPO PRICE IS SAME AS RENT PRICE
       }))
     }
   }
@@ -246,6 +246,7 @@ const LeasesTenancy = () => {
             {/* Rent and Deposit */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Rent Price (₱)</strong>
                 <CFormInput
                   type="number"
                   name="rentPrice"
@@ -258,6 +259,7 @@ const LeasesTenancy = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Deposit Price (₱)</strong>
                 <CFormInput
                   type="number"
                   name="depositPrice"
