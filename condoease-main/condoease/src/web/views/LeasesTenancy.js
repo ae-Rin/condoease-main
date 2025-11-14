@@ -76,9 +76,18 @@ const LeasesTenancy = () => {
     fetchData()
   }, [API_URL])
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target
+  //   setFormValues((prev) => ({ ...prev, [name]: value }))
+  // }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormValues((prev) => ({ ...prev, [name]: value }))
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "property" && { unit: "" }) // reset unit if property changes
+    }))
   }
 
   const handleCheckboxChange = (e) => {
@@ -209,17 +218,18 @@ const LeasesTenancy = () => {
                     <option value="">Select Unit</option>
 
                     {Array.isArray(units) &&
-                      units
-                        .filter(
-                          (unit) =>
-                            Number(unit.property_id) === Number(formValues.property) &&
-                            String(unit.status).toLowerCase() === "vacant"
-                        )
-                        .map((unit) => (
-                          <option key={unit.property_unit_id} value={unit.property_unit_id}>
-                            {unit.unit_number} - {unit.unit_type}
-                          </option>
-                        ))}
+                    units
+                      .filter(
+                        (unit) =>
+                          Number(unit.property_id) === Number(formValues.property) &&
+                          String(unit.status).toLowerCase() === "vacant"
+                      )
+                      .map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.unit_number} - {unit.unit_type}
+                        </option>
+                      ))}
+                      {console.log('Filtered Units:', units.filter(u => Number(u.property_id) === Number(formValues.property) && u.status.toLowerCase() === 'vacant'))}
                   </CFormSelect>
                 </CCol>
               </CRow>
