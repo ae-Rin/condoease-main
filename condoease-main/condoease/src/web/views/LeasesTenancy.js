@@ -223,14 +223,6 @@ const LeasesTenancy = () => {
                         </option>
                       ))}
                   </CFormSelect>
-                  {console.log(
-                    'Filtered Units:',
-                    units.filter(
-                      (u) =>
-                        String(u.property_id) === String(formValues.property) &&
-                        u.status.toLowerCase() === 'vacant'
-                    )
-                  )}
                 </CCol>
               </CRow>
             )}
