@@ -57,14 +57,12 @@ const LeasesTenancy = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
           })
         ])
-
         const propertyData = await propertyRes.json()
         const unitData = await unitRes.json()
         const tenantData = await tenantRes.json()
         setProperties(Array.isArray(propertyData) ? propertyData : [])
         setUnits(Array.isArray(unitData) ? unitData : [])
         setTenants(Array.isArray(tenantData) ? tenantData : [])
-
       } catch (err) {
         console.error("Error fetching data:", err)
         setProperties([])
@@ -108,11 +106,9 @@ const LeasesTenancy = () => {
   }
 
   const handleUnitChange = (e) => {
-    const selectedUnitId = e.target.value;
+    const selectedUnitId = e.target.value
     setFormValues((prev) => ({ ...prev, unit: selectedUnitId }))
-
     const selectedUnit = units.find((u) => String(u.id) === String(selectedUnitId))
-
     if (selectedUnit) {
       setFormValues((prev) => ({
         ...prev,
@@ -121,6 +117,18 @@ const LeasesTenancy = () => {
         // depositPrice: selectedUnit.deposit_price, CONFIRM IF DEPO PRICE IS SAME AS RENT PRICE
       }))
     }
+  }
+
+  const handleTenantChange = (e) => {
+    const tenantId = e.target.value
+    const selectedTenant = tenants.find(
+      (t) => String(t.id) === String(tenantId)
+    )
+    setFormValues((prev) => ({
+      ...prev,
+      tenant: tenantId,
+      tenantEmail: selectedTenant ? selectedTenant.email : ""
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -277,25 +285,21 @@ const LeasesTenancy = () => {
                 <CFormSelect
                   name="tenant"
                   value={formValues.tenant}
-                  onChange={handleInputChange}
-                  required
+                  onChange={handleTenantChange}
                 >
-                  <option value="">Select Tenant</option>
-                  {tenants.map((tenant) => (
-                    <option key={tenant.tenant_id} value={tenant.tenant_id}>
-                      {tenant.first_name} {tenant.last_name}
+                  <option value="">Select tenant</option>
+                  {tenants.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.first_name} {t.last_name}
                     </option>
                   ))}
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
                 <CFormInput
-                  type="email"
                   name="tenantEmail"
-                  placeholder="Tenant Email"
                   value={formValues.tenantEmail}
-                  onChange={handleInputChange}
-                  required
+                  readOnly
                 />
               </CCol>
             </CRow>
