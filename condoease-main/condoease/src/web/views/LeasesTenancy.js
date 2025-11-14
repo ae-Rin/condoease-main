@@ -300,6 +300,7 @@ const LeasesTenancy = () => {
             {/* Lease Documents */}
             <CRow className="mb-3">
               <CCol md={12}>
+                <CFormLabel>Lease Documents</CFormLabel>
                 <CFormInput
                   type="file"
                   name="leaseDocuments"
