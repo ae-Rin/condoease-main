@@ -107,6 +107,22 @@ const LeasesTenancy = () => {
     setFormValues((prev) => ({ ...prev, leaseDocuments: files }))
   }
 
+  const handleUnitChange = (e) => {
+    const selectedUnitId = e.target.value;
+    setFormValues((prev) => ({ ...prev, unit: selectedUnitId }))
+
+    const selectedUnit = units.find((u) => String(u.id) === String(selectedUnitId))
+
+    if (selectedUnit) {
+      setFormValues((prev) => ({
+        ...prev,
+        unit: selectedUnitId,
+        rentPrice: selectedUnit.rent_price,
+        depositPrice: selectedUnit.deposit_price,
+      }))
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -207,7 +223,7 @@ const LeasesTenancy = () => {
                   <CFormSelect
                     name="unit"
                     value={formValues.unit}
-                    onChange={handleInputChange}
+                    onChange={handleUnitChange}
                     required
                   >
                     <option value="">Select Unit</option>
@@ -235,6 +251,8 @@ const LeasesTenancy = () => {
                   name="rentPrice"
                   placeholder="Rent Price (₱)"
                   value={formValues.rentPrice}
+                  // readOnly
+                  // value={formValues.rentPrice}
                   onChange={handleInputChange}
                   required
                 />
@@ -309,7 +327,7 @@ const LeasesTenancy = () => {
             {/* Lease Documents */}
             <CRow className="mb-3">
               <CCol md={12}>
-                <strong>Upload Lease Documents</strong>
+                <strong>Upload Lease Document</strong>
                 <CFormInput
                   type="file"
                   name="leaseDocuments"
