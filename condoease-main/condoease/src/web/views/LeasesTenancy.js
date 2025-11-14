@@ -122,7 +122,7 @@ const LeasesTenancy = () => {
   const handleTenantChange = (e) => {
     const tenantId = e.target.value
     const selectedTenant = tenants.find(
-      (t) => String(t.id) === String(tenantId)
+      (t) => String(t.tenant_id) === String(tenantId)
     )
     setFormValues((prev) => ({
       ...prev,
