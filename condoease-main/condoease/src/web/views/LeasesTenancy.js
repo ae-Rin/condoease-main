@@ -227,11 +227,9 @@ const LeasesTenancy = () => {
                     'Filtered Units:',
                     units.filter(
                       (u) =>
-                        String(unit.property_id) === String(formValues.property) &&
+                        String(u.property_id) === String(formValues.property) &&
                         u.status.toLowerCase() === 'vacant'
-                    ),
-                    console.log("Selected property:", formValues.property),
-                    console.log("Units:", units)
+                    )
                   )}
                 </CCol>
               </CRow>
