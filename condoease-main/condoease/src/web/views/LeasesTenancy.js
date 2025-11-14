@@ -273,31 +273,27 @@ const LeasesTenancy = () => {
 
             {/* Lease Dates */}
             <CRow className="mb-3">
-              <CCol md={10}>
-              <strong>Start of Lease Date</strong>
-                <CCol md={5}>
-                  <CFormInput
-                    type="date"
-                    name="startDate"
-                    placeholder="Start Date of Lease"
-                    value={formValues.startDate}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
+              <CCol md={12}>
+                <strong>Start of Lease Date</strong>
+                <CFormInput
+                  type="date"
+                  name="startDate"
+                  placeholder="Start Date of Lease"
+                  value={formValues.startDate}
+                  onChange={handleInputChange}
+                  required
+                />
               </CCol>
-              <CCol md={10}>
-              <strong>End of Lease Date</strong>
-                <CCol md={5}>
-                  <CFormInput
-                    type="date"
-                    name="endDate"
-                    placeholder="End Date of Lease"
-                    value={formValues.endDate}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
+              <CCol md={6}>
+                <strong>End of Lease Date</strong>
+                <CFormInput
+                  type="date"
+                  name="endDate"
+                  placeholder="End Date of Lease"
+                  value={formValues.endDate}
+                  onChange={handleInputChange}
+                  required
+                />
               </CCol>
             </CRow>
 
