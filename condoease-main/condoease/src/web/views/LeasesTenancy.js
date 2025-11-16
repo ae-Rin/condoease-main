@@ -136,7 +136,7 @@ const LeasesTenancy = () => {
     const tenantId = e.target.value
 
     const selectedTenant = tenants.find(
-      (t) => String(t.id) === String(tenantId)
+      (t) => String(t.tenant_id) === String(tenantId)
     )
 
     setFormValues((prev) => ({
@@ -304,7 +304,7 @@ const LeasesTenancy = () => {
                 >
                   <option value="">Select tenant</option>
                   {tenants.map((t) => (
-                    <option key={t.id} value={t.id}>
+                    <option key={t.tenant_id} value={t.tenant_id}>
                       {t.first_name} {t.last_name}
                     </option>
                   ))}
