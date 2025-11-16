@@ -31,9 +31,8 @@ const features = [
   'Swimming Pool',
   'Pets Allowed',
 ]
-const [propertyOwners, setPropertyOwners] = useState([])
-
 const Properties = () => {
+  const [propertyOwners, setPropertyOwners] = useState([])
   const [activeTab, setActiveTab] = useState(0)
   const [formValues, setFormValues] = useState({
     propertyName: '',
