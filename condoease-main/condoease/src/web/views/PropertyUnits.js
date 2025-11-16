@@ -81,7 +81,7 @@ const PropertyUnits = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Add New Property Unit</h4>
+      <h4 className="mb-4">Register New Property Unit</h4>
       <CCard>
         <CCardHeader>
           <strong>Unit Information</strong>
