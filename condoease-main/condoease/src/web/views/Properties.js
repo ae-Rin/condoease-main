@@ -237,8 +237,8 @@ const Properties = () => {
                     />
                   </CCol>
                 </CRow>
-                <CRow className="mb-3">
-                  <CCol md={4}>
+                {/* <CRow className="mb-3">
+                  <CCol md={6}>
                     <CFormInput
                       type="text"
                       name="registeredOwner"
@@ -248,7 +248,19 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  <CCol md={4}>
+                </CRow> */}
+                <CRow className="mb-3">
+                  <CCol md={6}>
+                    <CFormInput
+                      type="text"
+                      name="registeredOwner"
+                      placeholder="Registered Property Owner"
+                      value={formValues.registeredOwner}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </CCol>
+                  <CCol md={6}>
                     <CFormInput
                       type="number"
                       name="areaMeasurement"
@@ -258,7 +270,7 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  <CCol md={4}>
+                  <CCol md={6}>
                     <CFormInput
                       type="number"
                       name="commissionPercentage"
