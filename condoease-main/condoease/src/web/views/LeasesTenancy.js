@@ -119,17 +119,31 @@ const LeasesTenancy = () => {
     }
   }
 
+  // const handleTenantChange = (e) => {
+  //   const tenantId = e.target.value
+  //   setFormValues((prev) => ({ ...prev, tenant: tenantId }))
+  //   const selectedTenant = tenants.find((t) => String(t.tenant_id) === String(tenantId)
+  //   )
+  //   if (selectedTenant){
+  //     setFormValues((prev) => ({
+  //       ...prev,
+  //       tenantEmail: selectedTenant.email
+  //     }))
+  //   }
+  // }
+
   const handleTenantChange = (e) => {
     const tenantId = e.target.value
-    setFormValues((prev) => ({ ...prev, tenant: tenantId }))
-    const selectedTenant = tenants.find((t) => String(t.tenant_id) === String(tenantId)
+
+    const selectedTenant = tenants.find(
+      (t) => String(t.id) === String(tenantId)
     )
-    if (selectedTenant){
-      setFormValues((prev) => ({
-        ...prev,
-        tenantEmail: selectedTenant.email
-      }))
-    }
+
+    setFormValues((prev) => ({
+      ...prev,
+      tenant: tenantId,
+      tenantEmail: selectedTenant ? selectedTenant.email : ""
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -298,7 +312,7 @@ const LeasesTenancy = () => {
               </CCol>
               <CCol md={6}>
                 <CFormInput
-                  type="email"
+                  // type="email"
                   name="tenantEmail"
                   placeholder="Tenant Email"
                   value={formValues.tenantEmail}
