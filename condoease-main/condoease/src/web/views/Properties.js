@@ -164,7 +164,7 @@ const Properties = () => {
         <CCardHeader>
           <CNav variant="tabs" className="d-flex justify-content-between w-100">
             <CNavItem className="flex-fill text-center">
-              <CNavLink className="w-100" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+              <CNavLink className="w-100 fw-bold" active={activeTab === 0} onClick={() => setActiveTab(0)}>
                 BASIC DETAILS
               </CNavLink>
             </CNavItem>
