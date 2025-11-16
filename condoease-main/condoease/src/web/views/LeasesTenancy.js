@@ -312,7 +312,7 @@ const LeasesTenancy = () => {
               </CCol>
               <CCol md={6}>
                 <CFormInput
-                  // type="email"
+                  type="email"
                   name="tenantEmail"
                   placeholder="Tenant Email"
                   value={formValues.tenantEmail}
