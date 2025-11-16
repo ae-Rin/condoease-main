@@ -270,16 +270,6 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  <CCol md={6}>
-                    <CFormInput
-                      type="number"
-                      name="commissionPercentage"
-                      placeholder="Agency Commission (%)"
-                      value={formValues.commissionPercentage}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol>
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={6}>
@@ -292,6 +282,18 @@ const Properties = () => {
                       required
                     />
                   </CCol>
+                  <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="commissionPercentage"
+                      placeholder="Agency Commission (%)"
+                      value={formValues.commissionPercentage}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
                   <CCol md={6}>
                     <CFormTextarea
                       name="description"
