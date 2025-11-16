@@ -294,7 +294,7 @@ const Properties = () => {
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                  <CCol md={6}>
+                  <CCol md={12}>
                     <CFormTextarea
                       name="description"
                       placeholder="Property Description"
