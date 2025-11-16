@@ -264,7 +264,7 @@ const Tenants = () => {
             </CRow>
 
             {/* Occupation */}
-            <hr className="my-4" />
+            {/* <hr className="my-4" /> */}
             <h5 className="mb-3">Place of Work / School</h5>
             <CRow className="mb-3">
               <CCol md={6}>
