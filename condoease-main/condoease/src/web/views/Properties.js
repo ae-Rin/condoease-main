@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CContainer,
   CRow,
@@ -32,7 +32,8 @@ const features = [
   'Pets Allowed',
 ]
 const Properties = () => {
-  const [propertyOwners, setPropertyOwners] = useState([])
+  const API_URL = import.meta.env.VITE_APP_API_URL
+  const [registeredOwners, setRegisteredOwners] = useState([])
   const [activeTab, setActiveTab] = useState(0)
   const [formValues, setFormValues] = useState({
     propertyName: '',
@@ -57,6 +58,24 @@ const Properties = () => {
     selectedFeatures: [],
     propertyImages: [],
   })
+
+  useEffect(() => {
+    const fetchRegisteredOwners = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/property-owners`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
+        if (!res.ok) throw new Error('Failed to fetch registered owners')
+        const data = await res.json()
+        setRegisteredOwners(data)
+      } catch (err) {
+        console.error("Error fetching data:", err)
+      }
+    }
+
+    fetchRegisteredOwners()
+  }, [API_URL])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -245,11 +264,10 @@ const Properties = () => {
                       onChange={handleInputChange}
                       required
                     >
-                      <option value="">
-                        Select Registered Property Owner</option>
-                        {propertyOwners.map((registeredOwner) => (
-                          <option key={registeredOwner.id} value={registeredOwner.id}>
-                            {registeredOwner.name}
+                      <option value="">Select Registered Property Owner</option>
+                        {registeredOwners.map((registeredOwner) => (
+                          <option key={registeredOwner.owner_id} value={registeredOwner.owner_id}>
+                            {registeredOwner.first_name} {registeredOwner.last_name}
                           </option>
                         ))}
                     </CFormSelect>
