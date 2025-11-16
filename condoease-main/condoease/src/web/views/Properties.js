@@ -154,6 +154,11 @@ const Properties = () => {
     }
   }
 
+  const getTabStyles = (index) => ({
+    backgroundColor: activeTab === index ? '#1D2B57' : 'transparent',
+    color: activeTab === index ? '#fff' : '#000',
+  })
+
   return (
     <CContainer className="mt-5">
       <h4 className="mb-4">Register New Property</h4>
@@ -164,22 +169,42 @@ const Properties = () => {
         <CCardHeader>
           <CNav variant="tabs" className="d-flex justify-content-between w-100">
             <CNavItem className="flex-fill text-center">
-              <CNavLink className="w-100 fw-bold" active={activeTab === 0} onClick={() => setActiveTab(0)}>
+              <CNavLink
+                className="w-100 fw-bold"
+                active={activeTab === 0}
+                onClick={() => setActiveTab(0)}
+                style={getTabStyles(0)}
+              >
                 BASIC DETAILS
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
-              <CNavLink className="w-100" active={activeTab === 1} onClick={() => setActiveTab(1)}>
+              <CNavLink
+                className="w-100 fw-bold"
+                active={activeTab === 1}
+                onClick={() => setActiveTab(1)}
+                style={getTabStyles(1)}
+              >
                 LOCATION
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
-              <CNavLink className="w-100" active={activeTab === 2} onClick={() => setActiveTab(2)}>
+              <CNavLink
+                className="w-100 fw-bold"
+                active={activeTab === 2}
+                onClick={() => setActiveTab(2)}
+                style={getTabStyles(2)}
+              >
                 FEATURES & AMENITIES
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
-              <CNavLink className="w-100" active={activeTab === 3} onClick={() => setActiveTab(3)}>
+              <CNavLink
+                className="w-100 fw-bold"
+                active={activeTab === 3}
+                onClick={() => setActiveTab(3)}
+                style={getTabStyles(3)}
+              >
                 PROPERTY IMAGES
               </CNavLink>
             </CNavItem>
