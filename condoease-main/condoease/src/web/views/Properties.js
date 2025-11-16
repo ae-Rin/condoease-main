@@ -237,22 +237,7 @@ const Properties = () => {
                     />
                   </CCol>
                 </CRow>
-                <CRow className="mb-3">
-                  {/* <CCol md={6}>
-                    <CFormSelect
-                      name="propertyType"
-                      value={formValues.propertyType}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Select Property Type</option>
-                      {propertyTypes.map((type, idx) => (
-                        <option key={idx} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </CFormSelect>
-                  </CCol> */}
+                {/* <CRow className="mb-3">
                   <CCol md={6}>
                     <CFormInput
                       type="text"
@@ -263,8 +248,18 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                </CRow>
+                </CRow> */}
                 <CRow className="mb-3">
+                  <CCol md={6}>
+                    <CFormInput
+                      type="text"
+                      name="registeredOwner"
+                      placeholder="Registered Property Owner"
+                      value={formValues.registeredOwner}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </CCol>
                   <CCol md={6}>
                     <CFormInput
                       type="number"
