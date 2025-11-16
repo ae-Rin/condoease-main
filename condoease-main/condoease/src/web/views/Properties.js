@@ -37,7 +37,7 @@ const Properties = () => {
   const [formValues, setFormValues] = useState({
     propertyName: '',
     rentPrice: '',
-    propertyType: '',
+    // propertyType: '',
     registeredOwner: '',
     areaMeasurement: '',
     commissionPercentage: '',
@@ -128,7 +128,7 @@ const Properties = () => {
       setFormValues({
         propertyName: '',
         rentPrice: '',
-        propertyType: '',
+        // propertyType: '',
         registeredOwner: '',
         areaMeasurement: '',
         commissionPercentage: '',
@@ -158,29 +158,29 @@ const Properties = () => {
     <CContainer className="mt-5">
       <h4 className="mb-4">Register New Property</h4>
       <span className="text-body-secondary">
-        Fill all required details in all tabs to successfully register a new property.
+        FILL ALL REQUIRED DETAILS IN ALL TABS TO SUCCESSFULLY REGISTER A NEW PROPERTY.
       </span>
       <CCard>
         <CCardHeader>
           <CNav variant="tabs" className="d-flex justify-content-between w-100">
             <CNavItem className="flex-fill text-center">
               <CNavLink className="w-100" active={activeTab === 0} onClick={() => setActiveTab(0)}>
-                Basic Details
+                BASIC DETAILS
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
               <CNavLink className="w-100" active={activeTab === 1} onClick={() => setActiveTab(1)}>
-                Location
+                LOCATION
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
               <CNavLink className="w-100" active={activeTab === 2} onClick={() => setActiveTab(2)}>
-                Features & Amenities
+                FEATURES & AMENITIES
               </CNavLink>
             </CNavItem>
             <CNavItem className="flex-fill text-center">
               <CNavLink className="w-100" active={activeTab === 3} onClick={() => setActiveTab(3)}>
-                Property Images
+                PROPERTY IMAGES
               </CNavLink>
             </CNavItem>
           </CNav>
@@ -213,7 +213,7 @@ const Properties = () => {
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                  <CCol md={6}>
+                  {/* <CCol md={6}>
                     <CFormSelect
                       name="propertyType"
                       value={formValues.propertyType}
@@ -227,7 +227,7 @@ const Properties = () => {
                         </option>
                       ))}
                     </CFormSelect>
-                  </CCol>
+                  </CCol> */}
                   <CCol md={6}>
                     <CFormInput
                       type="text"
