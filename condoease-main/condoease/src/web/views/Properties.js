@@ -19,7 +19,7 @@ import {
   CTabPane,
 } from '@coreui/react'
 
-const propertyTypes = ['Apartment', 'Condo', 'House', 'Townhouse', 'Studio']
+// const propertyTypes = ['Apartment', 'Condo', 'House', 'Townhouse', 'Studio']
 const features = [
   'Air Conditioned',
   'Car Parking',
@@ -31,6 +31,7 @@ const features = [
   'Swimming Pool',
   'Pets Allowed',
 ]
+const [propertyOwners, setPropertyOwners] = useState([])
 
 const Properties = () => {
   const [activeTab, setActiveTab] = useState(0)
@@ -237,28 +238,30 @@ const Properties = () => {
                     />
                   </CCol>
                 </CRow>
-                {/* <CRow className="mb-3">
-                  <CCol md={6}>
-                    <CFormInput
-                      type="text"
-                      name="registeredOwner"
-                      placeholder="Registered Property Owner"
-                      value={formValues.registeredOwner}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol>
-                </CRow> */}
                 <CRow className="mb-3">
                   <CCol md={6}>
-                    <CFormInput
+                    <CFormSelect
+                      name="registeredOwner"
+                      value={formValues.registeredOwner}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">
+                        Select Registered Property Owner</option>
+                        {propertyOwners.map((registeredOwner) => (
+                          <option key={registeredOwner.id} value={registeredOwner.id}>
+                            {registeredOwner.name}
+                          </option>
+                        ))}
+                    </CFormSelect>
+                    {/* <CFormInput
                       type="text"
                       name="registeredOwner"
                       placeholder="Registered Property Owner"
                       value={formValues.registeredOwner}
                       onChange={handleInputChange}
                       required
-                    />
+                    /> */}
                   </CCol>
                   <CCol md={6}>
                     <CFormInput
