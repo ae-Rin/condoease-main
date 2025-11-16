@@ -119,26 +119,11 @@ const LeasesTenancy = () => {
     }
   }
 
-  // const handleTenantChange = (e) => {
-  //   const tenantId = e.target.value
-  //   setFormValues((prev) => ({ ...prev, tenant: tenantId }))
-  //   const selectedTenant = tenants.find((t) => String(t.tenant_id) === String(tenantId)
-  //   )
-  //   if (selectedTenant){
-  //     setFormValues((prev) => ({
-  //       ...prev,
-  //       tenantEmail: selectedTenant.email
-  //     }))
-  //   }
-  // }
-
   const handleTenantChange = (e) => {
     const tenantId = e.target.value
-
     const selectedTenant = tenants.find(
       (t) => String(t.tenant_id) === String(tenantId)
     )
-
     setFormValues((prev) => ({
       ...prev,
       tenant: tenantId,
