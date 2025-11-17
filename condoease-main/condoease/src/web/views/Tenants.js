@@ -125,10 +125,10 @@ const Tenants = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Register New Tenant</h4>
+      <h4 className="mb-4">REGISTER NEW TENANT</h4>
       <CCard>
         <CCardHeader className="text-body-secondary">
-          <strong>Tenant Information</strong>
+          <strong>TENANT INFORMATION</strong>
         </CCardHeader>
         <CCardBody>
           {errorMessage && (
@@ -275,7 +275,7 @@ const Tenants = () => {
 
             {/* Occupation */}
             {/* <hr className="my-4" /> */}
-            <h5 className="mb-3">Place of Work / School</h5>
+            <h5 className="mb-3">PLACE OF WORK / SCHOOL</h5>
             <CRow className="mb-3">
               <CCol md={6}>
                 <strong>OCCUPATION STATUS</strong>
@@ -307,10 +307,10 @@ const Tenants = () => {
 
             {/* Emergency */}
             {/* <hr className="my-4" /> */}
-            <h5 className="mb-3">Emergency Contact</h5>
+            <h5 className="mb-3">EMERGENCY CONTACT</h5>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>EMERGENCY CONTACT NAME</strong>
+                <strong>CONTACT NAME</strong>
                 <CFormInput
                   type="text"
                   name="emergencyContactName"
@@ -321,7 +321,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>EMERGENCY CONTACT NUMBER</strong>
+                <strong>CONTACT NUMBER</strong>
                 <CFormInput
                   type="text"
                   name="emergencyContactNumber"
