@@ -269,7 +269,11 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={12}>
+                <strong>UPLOAD ID DOCUMENT</strong>
                 <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
+                <small className="text-muted">
+                  Accepted formats: jpg, png, pdf.
+                </small>
               </CCol>
             </CRow>
 
@@ -278,7 +282,7 @@ const Tenants = () => {
             <h5 className="mb-3">PLACE OF WORK / SCHOOL</h5>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>OCCUPATION STATUS</strong>
+                {/* <strong>OCCUPATION STATUS</strong> */}
                 <CFormSelect
                   name="occupationStatus"
                   value={formValues.occupationStatus}
@@ -293,7 +297,7 @@ const Tenants = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
-                <strong>COMPANY / SCHOOL NAME</strong>
+                {/* <strong>COMPANY / SCHOOL NAME</strong> */}
                 <CFormInput
                   type="text"
                   name="occupationPlace"
@@ -310,7 +314,7 @@ const Tenants = () => {
             <h5 className="mb-3">EMERGENCY CONTACT</h5>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>CONTACT NAME</strong>
+                {/* <strong>CONTACT NAME</strong> */}
                 <CFormInput
                   type="text"
                   name="emergencyContactName"
@@ -321,7 +325,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>CONTACT NUMBER</strong>
+                {/* <strong>CONTACT NUMBER</strong> */}
                 <CFormInput
                   type="text"
                   name="emergencyContactNumber"
