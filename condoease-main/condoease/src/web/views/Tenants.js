@@ -140,6 +140,7 @@ const Tenants = () => {
             {/* Personal Info */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>LAST NAME</strong>
                 <CFormInput
                   type="text"
                   name="lastName"
@@ -150,6 +151,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>FIRST NAME</strong>
                 <CFormInput
                   type="text"
                   name="firstName"
@@ -162,6 +164,7 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>EMAIL</strong>
                 <CFormInput
                   type="email"
                   name="email"
@@ -172,6 +175,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>CONTACT NUMBER</strong>
                 <CFormInput
                   type="text"
                   name="contactNumber"
@@ -186,6 +190,7 @@ const Tenants = () => {
             {/* Address Section */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>STREET</strong>
                 <CFormInput
                   type="text"
                   name="street"
@@ -196,6 +201,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>BARANGAY</strong>
                 <CFormInput
                   type="text"
                   name="barangay"
@@ -208,6 +214,7 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>CITY</strong>
                 <CFormInput
                   type="text"
                   name="city"
@@ -218,6 +225,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>PROVINCE</strong>
                 <CFormInput
                   type="text"
                   name="province"
@@ -232,6 +240,7 @@ const Tenants = () => {
             {/* ID Section */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>ID TYPE</strong>
                 <CFormSelect
                   name="idType"
                   value={formValues.idType}
@@ -247,6 +256,7 @@ const Tenants = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
+                <strong>ID NUMBER</strong>
                 <CFormInput
                   type="text"
                   name="idNumber"
@@ -268,6 +278,7 @@ const Tenants = () => {
             <h5 className="mb-3">Place of Work / School</h5>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>OCCUPATION STATUS</strong>
                 <CFormSelect
                   name="occupationStatus"
                   value={formValues.occupationStatus}
@@ -282,6 +293,7 @@ const Tenants = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
+                <strong>COMPANY / SCHOOL NAME</strong>
                 <CFormInput
                   type="text"
                   name="occupationPlace"
@@ -298,6 +310,7 @@ const Tenants = () => {
             <h5 className="mb-3">Emergency Contact</h5>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>EMERGENCY CONTACT NAME</strong>
                 <CFormInput
                   type="text"
                   name="emergencyContactName"
@@ -308,6 +321,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>EMERGENCY CONTACT NUMBER</strong>
                 <CFormInput
                   type="text"
                   name="emergencyContactNumber"
