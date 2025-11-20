@@ -52,8 +52,8 @@ const Properties = () => {
     },
     propertyNotes: '',
     units: 0,
-    bedrooms: 0,
-    bathrooms: 0,
+    // bedrooms: 0,
+    // bathrooms: 0,
     selectedFeatures: [],
     propertyImages: [],
   })
@@ -161,8 +161,8 @@ const Properties = () => {
         },
         propertyNotes: '',
         units: 0,
-        bedrooms: 0,
-        bathrooms: 0,
+        // bedrooms: 0,
+        // bathrooms: 0,
         selectedFeatures: [],
         propertyImages: [],
       })
@@ -327,6 +327,7 @@ const Properties = () => {
               <CTabPane visible={activeTab === 1}>
                 <CRow className="mb-3">
                   <CCol md={12}>
+                    <strong>Search Location</strong>
                     <CFormInput
                       type="text"
                       name="locationSearch"
@@ -339,6 +340,7 @@ const Properties = () => {
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={6}>
+                    <strong>Street</strong>
                     <CFormInput
                       type="text"
                       name="street"
@@ -349,6 +351,7 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <strong>Barangay</strong>
                     <CFormInput
                       type="text"
                       name="barangay"
@@ -361,6 +364,7 @@ const Properties = () => {
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={6}>
+                    <strong>City</strong>
                     <CFormInput
                       type="text"
                       name="city"
@@ -371,6 +375,7 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <strong>Province</strong>
                     <CFormInput
                       type="text"
                       name="province"
@@ -387,6 +392,7 @@ const Properties = () => {
               <CTabPane visible={activeTab === 2}>
                 <CRow className="mb-3">
                   <CCol md={12}>
+                    <strong>Property Description / Notes</strong>
                     <CFormTextarea
                       name="propertyNotes"
                       placeholder="Property Notes"
@@ -398,7 +404,8 @@ const Properties = () => {
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                  <CCol md={4}>
+                  <CCol md={12}>
+                    <strong>Number of Units/Rooms</strong>
                     <CFormInput
                       type="number"
                       name="units"
@@ -408,7 +415,8 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  <CCol md={4}>
+                  {/* <CCol md={4}>
+                    <strong>Number of Bedrooms</strong>
                     <CFormInput
                       type="number"
                       name="bedrooms"
@@ -417,8 +425,9 @@ const Properties = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </CCol>
-                  <CCol md={4}>
+                  </CCol> */}
+                  {/* <CCol md={4}>
+                    <strong>Number of Bathrooms</strong>
                     <CFormInput
                       type="number"
                       name="bathrooms"
@@ -427,9 +436,10 @@ const Properties = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </CCol>
+                  </CCol> */}
                 </CRow>
                 <CRow className="mb-3">
+                  <strong className="mb-2">Check All Features & Amenities in this Property</strong>
                   {features.map((feature, idx) => (
                     <CCol md={4} key={idx}>
                       <div className="form-check">
@@ -451,69 +461,69 @@ const Properties = () => {
 
               {/* Property Images */}
               <CTabPane visible={activeTab === 3}>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <CFormInput
-                      type="file"
-                      name="propertyImages"
-                      multiple
-                      onChange={handleImageUpload}
-                      accept=".jpg,.png,.gif"
-                      required
-                    />
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <CFormInput
-                      type="file"
-                      name="propertyImages"
-                      multiple
-                      onChange={handleImageUpload}
-                      accept=".jpg,.png,.gif"
-                      required
-                    />
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <CFormInput
-                      type="file"
-                      name="propertyImages"
-                      multiple
-                      onChange={handleImageUpload}
-                      accept=".jpg,.png,.gif"
-                      required
-                    />
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <CFormInput
-                      type="file"
-                      name="propertyImages"
-                      multiple
-                      onChange={handleImageUpload}
-                      accept=".jpg,.png,.gif"
-                      required
-                    />
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <CFormInput
-                      type="file"
-                      name="propertyImages"
-                      multiple
-                      onChange={handleImageUpload}
-                      accept=".jpg,.png,.gif"
-                      required
-                    />
-                  </CCol>
-                </CRow>
                 <small className="text-muted">
                   Upload up to 5 images. Maximum file size: 5MB. Accepted formats: jpg, png, gif.
                 </small>
+                <CRow className="mb-3">
+                  <CCol md={12}>
+                    <CFormInput
+                      type="file"
+                      name="propertyImages"
+                      multiple
+                      onChange={handleImageUpload}
+                      accept=".jpg,.png,.gif"
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={12}>
+                    <CFormInput
+                      type="file"
+                      name="propertyImages"
+                      multiple
+                      onChange={handleImageUpload}
+                      accept=".jpg,.png,.gif"
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={12}>
+                    <CFormInput
+                      type="file"
+                      name="propertyImages"
+                      multiple
+                      onChange={handleImageUpload}
+                      accept=".jpg,.png,.gif"
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={12}>
+                    <CFormInput
+                      type="file"
+                      name="propertyImages"
+                      multiple
+                      onChange={handleImageUpload}
+                      accept=".jpg,.png,.gif"
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={12}>
+                    <CFormInput
+                      type="file"
+                      name="propertyImages"
+                      multiple
+                      onChange={handleImageUpload}
+                      accept=".jpg,.png,.gif"
+                      required
+                    />
+                  </CCol>
+                </CRow>
               </CTabPane>
             </CTabContent>
 
