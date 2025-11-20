@@ -76,7 +76,7 @@ const Tenants = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setLoading(true)
     setErrorMessage(null)
 
     const formData = new FormData()
@@ -121,7 +121,7 @@ const Tenants = () => {
       console.error('Error submitting tenant:', err)
       setErrorMessage(err.message)
     } finally {
-      setIsSubmitting(false)
+      setLoading(false)
     }
   }
 
