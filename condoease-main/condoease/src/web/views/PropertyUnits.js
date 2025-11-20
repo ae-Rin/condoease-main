@@ -83,7 +83,7 @@ const PropertyUnits = () => {
     <CContainer className="mt-5">
       <h4 className="mb-4">Register New Property Unit</h4>
       <CCard>
-        <CCardHeader>
+        <CCardHeader className="text-body-secondary">
           <strong>Unit Information</strong>
         </CCardHeader>
         <CCardBody>
@@ -119,6 +119,7 @@ const PropertyUnits = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Unit Number</strong>
                 <CFormInput
                   type="text"
                   name="unitNumber"
@@ -129,6 +130,7 @@ const PropertyUnits = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Commission Percentage (%)</strong>
                 <CFormInput
                   type="number"
                   name="commissionPercentage"
@@ -141,6 +143,7 @@ const PropertyUnits = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Unit Rent Price (₱)</strong>
                 <CFormInput
                   type="number"
                   name="rentPrice"
@@ -151,6 +154,7 @@ const PropertyUnits = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Deposit Price (₱)</strong>
                 <CFormInput
                   type="number"
                   name="depositPrice"
@@ -163,6 +167,7 @@ const PropertyUnits = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Unit Floor</strong>
                 <CFormInput
                   type="text"
                   name="floor"
@@ -173,6 +178,7 @@ const PropertyUnits = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Unit Size (sqm)</strong>
                 <CFormInput
                   type="number"
                   name="size"
@@ -185,6 +191,7 @@ const PropertyUnits = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={12}>
+                <strong>Unit Description/Amenities/Features</strong>
                 <CFormTextarea
                   name="description"
                   placeholder="Unit Description/Amenities/Features"
@@ -197,6 +204,7 @@ const PropertyUnits = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={12}>
+                <strong>Upload Unit Images</strong>
                 <CFormInput
                   type="file"
                   name="unitImages"
@@ -213,7 +221,8 @@ const PropertyUnits = () => {
             <div className="d-flex justify-content-end">
               <CButton
                 type="submit"
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
+                className="text-white fw-bold px-4"
               >
                 Add Unit
               </CButton>

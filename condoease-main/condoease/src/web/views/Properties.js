@@ -181,7 +181,7 @@ const Properties = () => {
     <CContainer className="mt-5">
       <h4 className="mb-4">Register New Property</h4>
       <strong className="text-body-secondary">
-        FILL ALL REQUIRED DETAILS IN ALL TABS TO SUCCESSFULLY REGISTER A NEW PROPERTY.
+        Fill all required details in all tabs to successfully register a new property.
       </strong>
       <CCard>
         <CCardHeader>
@@ -235,6 +235,7 @@ const Properties = () => {
               <CTabPane visible={activeTab === 0}>
                 <CRow className="mb-3">
                   <CCol md={6}>
+                    <strong>Property Name</strong>
                     <CFormInput
                       type="text"
                       name="propertyName"
@@ -245,6 +246,7 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <strong>Rent Price (₱)</strong>
                     <CFormInput
                       type="number"
                       name="rentPrice"
@@ -284,6 +286,7 @@ const Properties = () => {
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={6}>
+                    <strong>Deposit Price (₱)</strong>
                     <CFormInput
                       type="number"
                       name="depositPrice"
@@ -294,10 +297,11 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <strong>Agent Commission (%)</strong>
                     <CFormInput
                       type="number"
                       name="commissionPercentage"
-                      placeholder="Agency Commission (%)"
+                      placeholder="Agent Commission (%)"
                       value={formValues.commissionPercentage}
                       onChange={handleInputChange}
                       required
@@ -306,6 +310,7 @@ const Properties = () => {
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={12}>
+                    <strong>Property Description</strong>
                     <CFormTextarea
                       name="description"
                       placeholder="Property Description"
@@ -515,8 +520,9 @@ const Properties = () => {
             {/* Submit Button */}
             <div className="d-flex justify-content-end mt-4">
               <CButton
+                className="text-white fw-bold px-4"
                 type="submit"
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
               >
                 Add Property
               </CButton>

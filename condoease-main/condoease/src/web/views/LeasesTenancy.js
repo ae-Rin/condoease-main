@@ -353,6 +353,7 @@ const LeasesTenancy = () => {
             {/* Tenancy Terms */}
             <CRow className="mb-3">
               <CCol md={12}>
+                <strong>Tenancy Terms</strong>
                 <CFormTextarea
                   name="tenancyTerms"
                   placeholder="Tenancy Terms"
@@ -491,7 +492,8 @@ const LeasesTenancy = () => {
             <div className="d-flex justify-content-end">
               <CButton
                 type="submit"
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
+                className="text-white fw-bold px-4"
               >
                 Create Lease
               </CButton>
