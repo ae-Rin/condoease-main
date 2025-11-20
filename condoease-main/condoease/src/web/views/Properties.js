@@ -180,9 +180,9 @@ const Properties = () => {
   return (
     <CContainer className="mt-5">
       <h4 className="mb-4">Register New Property</h4>
-      <span className="text-body-secondary">
+      <strong className="text-body-secondary">
         FILL ALL REQUIRED DETAILS IN ALL TABS TO SUCCESSFULLY REGISTER A NEW PROPERTY.
-      </span>
+      </strong>
       <CCard>
         <CCardHeader>
           <CNav variant="tabs" className="d-flex justify-content-between w-100">

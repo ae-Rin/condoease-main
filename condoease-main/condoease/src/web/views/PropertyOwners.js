@@ -255,7 +255,6 @@ const PropertyOwners = () => {
             <strong className="mb-3">Bank Information</strong>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>Bank Associated</strong>
                 <CFormInput
                   type="text"
                   name="bankAssociated"
@@ -266,7 +265,6 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>Bank Account Number</strong>
                 <CFormInput
                   type="text"
                   name="bankAccountNumber"
