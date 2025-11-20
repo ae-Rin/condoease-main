@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CContainer,
   CRow,
@@ -11,6 +11,7 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CSpinner,
 } from '@coreui/react'
 
 const idTypes = [
@@ -52,6 +53,10 @@ const PropertyOwners = () => {
     bankAccountNumber: '',
   })
 
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const API_URL = import.meta.env.VITE_APP_API_URL
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues((prev) => ({ ...prev, [name]: value }))
@@ -64,6 +69,8 @@ const PropertyOwners = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    setErrorMessage(null)
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
@@ -71,7 +78,7 @@ const PropertyOwners = () => {
     })
 
     try {
-      const res = await fetch('http://localhost:5000/api/property-owners', {
+      const res = await fetch(`${API_URL}/api/property-owners`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -79,7 +86,10 @@ const PropertyOwners = () => {
         },
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      const result = await res.json()
+      if (!res.ok) {
+        throw new Error(result.detail || 'Unknown error')
+      }
 
       alert('Property owner registered successfully!')
       setFormValues({
@@ -98,8 +108,10 @@ const PropertyOwners = () => {
         bankAccountNumber: '',
       })
     } catch (err) {
-      console.error(err)
-      alert('Error registering property owner.')
+      console.error('Error submitting property owner:', err)
+      setErrorMessage(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -276,11 +288,23 @@ const PropertyOwners = () => {
             {/* Submit Button */}
             <div className="d-flex justify-content-end">
               <CButton
-                type="submit"
                 className="text-white fw-bold px-4"
-                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
+                style={{
+                  borderRadius: 20,
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
+                type="submit"
+                disabled={loading}
               >
-                Register Owner
+                {loading ? (
+                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                ) : (
+                  'Register Owner'
+                )}
               </CButton>
             </div>
           </CForm>

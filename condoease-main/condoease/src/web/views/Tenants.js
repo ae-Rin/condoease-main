@@ -92,7 +92,6 @@ const Tenants = () => {
       })
 
       const result = await res.json()
-
       if (!res.ok) {
         throw new Error(result.detail || 'Unknown error')
       }
