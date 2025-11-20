@@ -344,7 +344,7 @@ const Tenants = () => {
                     borderRadius: 20, 
                     fontSize: 20, 
                     backgroundColor: '#F28D35',
-                    minWidth: '220px',
+                    minWidth: '215px',
                     display: 'inline-flex',
                     justifyContent: 'center'
                   }}
