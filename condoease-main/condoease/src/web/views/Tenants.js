@@ -12,6 +12,7 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CSpinner,
 } from '@coreui/react'
 
 const idTypes = [
@@ -58,6 +59,7 @@ const Tenants = () => {
     emergencyContactNumber: '',
   })
 
+  const [loading, setLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const API_URL = import.meta.env.VITE_APP_API_URL
@@ -340,9 +342,13 @@ const Tenants = () => {
                 className="text-white fw-bold px-4"
                 type="submit"
                 style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
-                disabled={isSubmitting}
+                disabled={loading}
               >
-                {isSubmitting ? 'Submitting...' : 'Register Tenant'}
+                {loading ? (
+                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                ) : (
+                  'Register Tenant'
+                )}
               </CButton>
             </div>
           </CForm>

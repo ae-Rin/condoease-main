@@ -140,18 +140,6 @@ const Login2 = () => {
               </CInputGroup>
 
               <div className="d-flex align-items-center justify-content-between mb-3">
-                {/* <div>
-                  <input
-                    type="checkbox"
-                    id="keepLoggedIn"
-                    checked={keepLoggedIn}
-                    onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-                    style={{ marginRight: 8 }}
-                  />
-                  <label htmlFor="keepLoggedIn" style={{ fontSize: 14 }}>
-                    Keep me logged in for 30 days
-                  </label>
-                </div> */}
                 <button
                   type="button"
                   className="btn p-0"
