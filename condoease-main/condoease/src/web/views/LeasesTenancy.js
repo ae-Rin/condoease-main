@@ -191,7 +191,7 @@ const LeasesTenancy = () => {
     <CContainer className="mt-5">
       <h4 className="mb-4">Create New Lease</h4>
       <CCard>
-        <CCardHeader>
+        <CCardHeader className="text-body-secondary">
           <strong>Lease Information</strong>
         </CCardHeader>
         <CCardBody>

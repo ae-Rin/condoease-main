@@ -116,6 +116,7 @@ const PropertyOwners = () => {
             {/* Personal Info */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Last Name</strong>
                 <CFormInput
                   type="text"
                   name="lastName"
@@ -126,6 +127,7 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>First Name</strong>
                 <CFormInput
                   type="text"
                   name="firstName"
@@ -138,6 +140,7 @@ const PropertyOwners = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Email</strong>
                 <CFormInput
                   type="email"
                   name="email"
@@ -148,6 +151,7 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Contact Number</strong>
                 <CFormInput
                   type="text"
                   name="contactNumber"
@@ -162,6 +166,7 @@ const PropertyOwners = () => {
             {/* Address Section */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Street</strong>
                 <CFormInput
                   type="text"
                   name="street"
@@ -172,6 +177,7 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Barangay</strong>
                 <CFormInput
                   type="text"
                   name="barangay"
@@ -184,6 +190,7 @@ const PropertyOwners = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>City</strong>
                 <CFormInput
                   type="text"
                   name="city"
@@ -194,6 +201,7 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Province</strong>
                 <CFormInput
                   type="text"
                   name="province"
@@ -235,15 +243,19 @@ const PropertyOwners = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={12}>
+                <strong>Upload ID Document</strong>
                 <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
+                <small className="text-muted">
+                  Accepted formats: jpg, png, pdf.
+                </small>
               </CCol>
             </CRow>
 
             {/* Bank Information */}
-            <hr className="my-4" />
             <h5 className="mb-3">Bank Information</h5>
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong className="text-body-secondary">Bank Associated</strong>
                 <CFormInput
                   type="text"
                   name="bankAssociated"
