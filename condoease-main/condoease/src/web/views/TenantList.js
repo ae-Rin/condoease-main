@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import {
   CContainer,
@@ -14,7 +13,7 @@ import {
 } from '@coreui/react'
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'
 
-const TenantList = () => {  
+const TenantList = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [tenants, setTenants] = useState([])
   const [loading, setLoading] = useState(true)

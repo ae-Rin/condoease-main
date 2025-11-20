@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import {
   CContainer,
@@ -245,9 +244,7 @@ const PropertyOwners = () => {
               <CCol md={12}>
                 <strong>Upload ID Document</strong>
                 <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
-                <small className="text-muted">
-                  Accepted formats: jpg, png, pdf.
-                </small>
+                <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
               </CCol>
             </CRow>
 

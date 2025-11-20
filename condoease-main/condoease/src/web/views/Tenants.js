@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   CContainer,
   CRow,
@@ -60,7 +59,6 @@ const Tenants = () => {
   })
 
   const [loading, setLoading] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const API_URL = import.meta.env.VITE_APP_API_URL
 
@@ -271,18 +269,14 @@ const Tenants = () => {
               <CCol md={12}>
                 <strong>Upload ID Document</strong>
                 <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
-                <small className="text-muted">
-                  Accepted formats: jpg, png, pdf.
-                </small>
+                <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
               </CCol>
             </CRow>
 
             {/* Occupation */}
-            {/* <hr className="my-4" /> */}
             <strong className="mb-3">Place of Work / School</strong>
             <CRow className="mb-3">
               <CCol md={6}>
-                {/* <strong>OCCUPATION STATUS</strong> */}
                 <CFormSelect
                   name="occupationStatus"
                   value={formValues.occupationStatus}
@@ -297,7 +291,6 @@ const Tenants = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
-                {/* <strong>COMPANY / SCHOOL NAME</strong> */}
                 <CFormInput
                   type="text"
                   name="occupationPlace"
@@ -310,11 +303,9 @@ const Tenants = () => {
             </CRow>
 
             {/* Emergency */}
-            {/* <hr className="my-4" /> */}
             <strong className="mb-3">Emergency Contact</strong>
             <CRow className="mb-3">
               <CCol md={6}>
-                {/* <strong>CONTACT NAME</strong> */}
                 <CFormInput
                   type="text"
                   name="emergencyContactName"
@@ -325,7 +316,6 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                {/* <strong>CONTACT NUMBER</strong> */}
                 <CFormInput
                   type="text"
                   name="emergencyContactNumber"
@@ -340,14 +330,14 @@ const Tenants = () => {
             <div className="d-flex justify-content-end">
               <CButton
                 className="text-white fw-bold px-4"
-                style={{ 
-                    borderRadius: 20, 
-                    fontSize: 20, 
-                    backgroundColor: '#F28D35',
-                    minWidth: '205px',
-                    display: 'inline-flex',
-                    justifyContent: 'center'
-                  }}
+                style={{
+                  borderRadius: 20,
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
                 type="submit"
                 disabled={loading}
               >
