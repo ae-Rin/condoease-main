@@ -343,9 +343,6 @@ const Tenants = () => {
                 style={{ 
                     borderRadius: 20, 
                     fontSize: 20, 
-                    padding: '13px 0',
-                    width: '90%',
-                    margin: '0 auto',
                     backgroundColor: '#F28D35'  
                   }}
                 type="submit"
