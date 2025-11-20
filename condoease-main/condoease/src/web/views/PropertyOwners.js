@@ -307,7 +307,6 @@ const PropertyOwners = () => {
                   name="bankAssociated"
                   value={formValues.bankAssociated}
                   onChange={handleInputChange}
-                  required
                 >
                   <option value="">Select Bank Associated</option>
                   {bankAssociates.map((bank, idx) => (
@@ -324,7 +323,6 @@ const PropertyOwners = () => {
                   placeholder="Bank Account Number"
                   value={formValues.bankAccountNumber}
                   onChange={handleInputChange}
-                  required
                 />
               </CCol>
             </CRow>
