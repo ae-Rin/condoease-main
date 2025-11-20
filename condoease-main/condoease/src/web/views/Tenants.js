@@ -343,8 +343,10 @@ const Tenants = () => {
                 style={{ 
                     borderRadius: 20, 
                     fontSize: 20, 
-                    width: '20%',
-                    backgroundColor: '#F28D35'  
+                    backgroundColor: '#F28D35',
+                    minWidth: '220px',
+                    display: 'inline-flex',
+                    justifyContent: 'center'
                   }}
                 type="submit"
                 disabled={loading}
