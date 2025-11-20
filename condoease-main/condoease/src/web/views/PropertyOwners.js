@@ -162,6 +162,11 @@ const PropertyOwners = () => {
           <strong>Owner Information</strong>
         </CCardHeader>
         <CCardBody>
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <CForm onSubmit={handleSubmit}>
             {/* Personal Info */}
             <CRow className="mb-3">
