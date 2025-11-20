@@ -125,10 +125,10 @@ const Tenants = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">REGISTER NEW TENANT</h4>
+      <h4 className="mb-4">Register New Tenant</h4>
       <CCard>
         <CCardHeader className="text-body-secondary">
-          <strong>TENANT INFORMATION</strong>
+          <strong>Tenant Information</strong>
         </CCardHeader>
         <CCardBody>
           {errorMessage && (
@@ -140,7 +140,7 @@ const Tenants = () => {
             {/* Personal Info */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>LAST NAME</strong>
+                <strong>Last Name</strong>
                 <CFormInput
                   type="text"
                   name="lastName"
@@ -151,7 +151,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>FIRST NAME</strong>
+                <strong>First Name</strong>
                 <CFormInput
                   type="text"
                   name="firstName"
@@ -164,7 +164,7 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>EMAIL</strong>
+                <strong>Email</strong>
                 <CFormInput
                   type="email"
                   name="email"
@@ -175,7 +175,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>CONTACT NUMBER</strong>
+                <strong>Contact Number</strong>
                 <CFormInput
                   type="text"
                   name="contactNumber"
@@ -190,7 +190,7 @@ const Tenants = () => {
             {/* Address Section */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>STREET</strong>
+                <strong>Street</strong>
                 <CFormInput
                   type="text"
                   name="street"
@@ -201,7 +201,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>BARANGAY</strong>
+                <strong>Barangay</strong>
                 <CFormInput
                   type="text"
                   name="barangay"
@@ -214,7 +214,7 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>CITY</strong>
+                <strong>City</strong>
                 <CFormInput
                   type="text"
                   name="city"
@@ -225,7 +225,7 @@ const Tenants = () => {
                 />
               </CCol>
               <CCol md={6}>
-                <strong>PROVINCE</strong>
+                <strong>Province</strong>
                 <CFormInput
                   type="text"
                   name="province"
@@ -240,7 +240,6 @@ const Tenants = () => {
             {/* ID Section */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong>ID TYPE</strong>
                 <CFormSelect
                   name="idType"
                   value={formValues.idType}
@@ -256,7 +255,6 @@ const Tenants = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
-                <strong>ID NUMBER</strong>
                 <CFormInput
                   type="text"
                   name="idNumber"
@@ -269,7 +267,7 @@ const Tenants = () => {
             </CRow>
             <CRow className="mb-3">
               <CCol md={12}>
-                <strong>UPLOAD ID DOCUMENT</strong>
+                <strong>Upload ID Document</strong>
                 <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
                 <small className="text-muted">
                   Accepted formats: jpg, png, pdf.
@@ -279,7 +277,7 @@ const Tenants = () => {
 
             {/* Occupation */}
             {/* <hr className="my-4" /> */}
-            <strong className="mb-3">PLACE OF WORK / SCHOOL</strong>
+            <strong className="mb-3">Place of Work / School</strong>
             <CRow className="mb-3">
               <CCol md={6}>
                 {/* <strong>OCCUPATION STATUS</strong> */}
@@ -311,7 +309,7 @@ const Tenants = () => {
 
             {/* Emergency */}
             {/* <hr className="my-4" /> */}
-            <strong className="mb-3">EMERGENCY CONTACT</strong>
+            <strong className="mb-3">Emergency Contact</strong>
             <CRow className="mb-3">
               <CCol md={6}>
                 {/* <strong>CONTACT NAME</strong> */}
@@ -339,8 +337,9 @@ const Tenants = () => {
 
             <div className="d-flex justify-content-end">
               <CButton
+                className="text-white fw-bold px-4"
                 type="submit"
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Register Tenant'}
