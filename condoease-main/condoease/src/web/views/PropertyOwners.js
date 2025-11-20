@@ -36,6 +36,45 @@ const idTypes = [
   'Military ID',
 ]
 
+const bankAssociates = [
+  'BDO Unibank, Inc.',
+  'Land Bank of the Philippines (LandBank)',
+  'Bank of the Philippine Islands (BPI)',
+  'Metropolitan Bank & Trust Company (Metrobank)',
+  'China Banking Corporation (China Bank)',
+  'Rizal Commercial Banking Corporation (RCBC)',
+  'Security Bank Corporation',
+  'Philippine National Bank (PNB)',
+  'Development Bank of the Philippines (DBP)',
+  'Union Bank of the Philippines, Inc. (UnionBank)',
+  'Asia United Bank Corporation (AUB)',
+  'Bank of Commerce (BankCom)',
+  'CTBC Bank (Philippines) Corporation',
+  'East West Banking Corporation (EastWest Bank)',
+  'Maybank Philippines, Inc.',
+  'Philippine Bank of Communications (PBCom)',
+  'Philippine Trust Company (Philtrust Bank)',
+  'Philippine Veterans Bank',
+  'Al-Amanah Islamic Investment Bank of the Philippines (Government)',
+  'Overseas Filipino Bank (OFBank)',
+  'Citibank, N.A.',
+  'The Hongkong and Shanghai Banking Corporation (HSBC)',
+  'Standard Chartered Bank',
+  'Deutsche Bank AG',
+  'MUFG Bank, Ltd.',
+  'Mizuho Bank, Ltd.',
+  'JPMorgan Chase Bank, N.A.',
+  'CIMB Bank Philippines Inc.',
+  'ING Bank N.V.',
+  'Philippine Savings Bank (PSBank)',
+  'China Bank Savings, Inc. (CBS)',
+  'City Savings Bank, Inc.',
+  'Philippine Business Bank, Inc.',
+  'Sterling Bank of Asia, Inc.',
+  'BPI Direct BanKo, Inc.',
+  'UCPB Savings Bank',
+]
+
 const PropertyOwners = () => {
   const [formValues, setFormValues] = useState({
     lastName: '',
@@ -243,7 +282,7 @@ const PropertyOwners = () => {
               </CCol>
               <CCol md={6}>
                 <CFormInput
-                  type="text"
+                  type="number"
                   name="idNumber"
                   placeholder="ID Number"
                   value={formValues.idNumber}
@@ -264,14 +303,19 @@ const PropertyOwners = () => {
             <strong className="mb-3">Bank Information</strong>
             <CRow className="mb-3">
               <CCol md={6}>
-                <CFormInput
-                  type="text"
+                <CFormSelect
                   name="bankAssociated"
-                  placeholder="Bank Associated"
                   value={formValues.bankAssociated}
                   onChange={handleInputChange}
                   required
-                />
+                >
+                  <option value="">Select Bank Associated</option>
+                  {bankAssociates.map((bank, idx) => (
+                    <option key={idx} value={bank}>
+                      {bank}
+                    </option>
+                  ))}
+                </CFormSelect>
               </CCol>
               <CCol md={6}>
                 <CFormInput
