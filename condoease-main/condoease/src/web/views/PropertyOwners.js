@@ -252,10 +252,10 @@ const PropertyOwners = () => {
             </CRow>
 
             {/* Bank Information */}
-            <h5 className="mb-3">Bank Information</h5>
+            <strong className="mb-3">Bank Information</strong>
             <CRow className="mb-3">
               <CCol md={6}>
-                <strong className="text-body-secondary">Bank Associated</strong>
+                <strong>Bank Associated</strong>
                 <CFormInput
                   type="text"
                   name="bankAssociated"
@@ -266,6 +266,7 @@ const PropertyOwners = () => {
                 />
               </CCol>
               <CCol md={6}>
+                <strong>Bank Account Number</strong>
                 <CFormInput
                   type="text"
                   name="bankAccountNumber"
@@ -281,7 +282,8 @@ const PropertyOwners = () => {
             <div className="d-flex justify-content-end">
               <CButton
                 type="submit"
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                className="text-white fw-bold px-4"
+                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
               >
                 Register Owner
               </CButton>
