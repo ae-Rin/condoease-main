@@ -461,7 +461,12 @@ const Properties = () => {
                       type="text"
                       name="street"
                       placeholder="Street"
-                      value={formValues.address.street || address.road || address.pedestrian || ''}
+                      value={
+                        formValues.address.street ||
+                        formValues.address.road ||
+                        formValues.address.pedestrian ||
+                        ''
+                      }
                       onChange={handleAddressChange}
                       required
                     />
@@ -490,7 +495,12 @@ const Properties = () => {
                       type="text"
                       name="city"
                       placeholder="City"
-                      value={formValues.address.city || address.town || address.county || ''}
+                      value={
+                        formValues.address.city ||
+                        formValues.address.town ||
+                        formValues.address.county ||
+                        ''
+                      }
                       onChange={handleAddressChange}
                       required
                     />
@@ -501,7 +511,7 @@ const Properties = () => {
                       type="text"
                       name="province"
                       placeholder="Province"
-                      value={formValues.address.state || address.province || ''}
+                      value={formValues.address.state || formValues.address.province || ''}
                       onChange={handleAddressChange}
                       required
                     />
