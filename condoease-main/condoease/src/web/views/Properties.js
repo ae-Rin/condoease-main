@@ -91,15 +91,19 @@ const Properties = () => {
       setShowSuggestions(false)
       return
     }
-    const NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5`
-
+    const NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=ph`
     try {
       const res = await fetch(NOMINATIM_URL, {
-        headers: { 'User-Agent': 'Your-Property-App/1.0 (your-email@example.com)' }, // Crucial for Nominatim Usage Policy
+        headers: { 'User-Agent': 'Your-Property-App/1.0 (your-email@example.com)' },
       })
       if (!res.ok) throw new Error('Failed to fetch Nominatim suggestions')
       const data = await res.json()
-      setSuggestions(data)
+      const philippineResults = data.filter(
+        (item) =>
+          item.address &&
+          (item.address.country_code === 'ph' || item.address.country === 'Philippines'),
+      )
+      setSuggestions(philippineResults)
       setShowSuggestions(true)
     } catch (err) {
       console.error('Nominatim Geocoding error:', err)
@@ -151,24 +155,6 @@ const Properties = () => {
       address: { ...prev.address, [name]: value },
     }))
   }
-
-  // const fetchLocationSuggestions = async (query) => {
-  //   if (!query) {
-  //     setLocationSuggestions([])
-  //     return
-  //   }
-  //   setIsSearching(true)
-  //   try {
-  //     const res = await fetch(
-  //       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
-  //     )
-  //     const data = await res.json()
-  //     setLocationSuggestions(data.slice(0, 5))
-  //   } catch (err) {
-  //     console.error('Nominatim Search Error:', err)
-  //   }
-  //   setIsSearching(false)
-  // }
 
   const handleFeatureChange = (feature) => {
     setFormValues((prev) => ({
@@ -475,7 +461,7 @@ const Properties = () => {
                       type="text"
                       name="street"
                       placeholder="Street"
-                      value={formValues.address.street}
+                      value={formValues.address.street || address.road || address.pedestrian || ''}
                       onChange={handleAddressChange}
                       required
                     />
@@ -486,7 +472,12 @@ const Properties = () => {
                       type="text"
                       name="barangay"
                       placeholder="Barangay"
-                      value={formValues.address.barangay}
+                      value={
+                        formValues.address.suburb ||
+                        formValues.address.village ||
+                        formValues.address.neighbourhood ||
+                        ''
+                      }
                       onChange={handleAddressChange}
                       required
                     />
@@ -499,7 +490,7 @@ const Properties = () => {
                       type="text"
                       name="city"
                       placeholder="City"
-                      value={formValues.address.city}
+                      value={formValues.address.city || address.town || address.county || ''}
                       onChange={handleAddressChange}
                       required
                     />
@@ -510,7 +501,7 @@ const Properties = () => {
                       type="text"
                       name="province"
                       placeholder="Province"
-                      value={formValues.address.province}
+                      value={formValues.address.state || address.province || ''}
                       onChange={handleAddressChange}
                       required
                     />
