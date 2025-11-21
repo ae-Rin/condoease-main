@@ -17,6 +17,7 @@ import {
   CNavLink,
   CTabContent,
   CTabPane,
+  CSpinner,
 } from '@coreui/react'
 
 const features = [
@@ -32,12 +33,15 @@ const features = [
 ]
 const Properties = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [registeredOwners, setRegisteredOwners] = useState([])
   const [activeTab, setActiveTab] = useState(0)
+  const [locationSuggestions, setLocationSuggestions] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
   const [formValues, setFormValues] = useState({
     propertyName: '',
     rentPrice: '',
-    // propertyType: '',
     registeredOwner: '',
     areaMeasurement: '',
     commissionPercentage: '',
@@ -52,8 +56,6 @@ const Properties = () => {
     },
     propertyNotes: '',
     units: 0,
-    // bedrooms: 0,
-    // bathrooms: 0,
     selectedFeatures: [],
     propertyImages: [],
   })
@@ -89,6 +91,24 @@ const Properties = () => {
     }))
   }
 
+  const fetchLocationSuggestions = async (query) => {
+  if (!query) {
+    setLocationSuggestions([])
+    return
+  }
+  setIsSearching(true)
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
+    )
+    const data = await res.json()
+    setLocationSuggestions(data.slice(0, 5))
+  } catch (err) {
+    console.error("Nominatim Search Error:", err)
+  }
+  setIsSearching(false)
+}
+
   const handleFeatureChange = (feature) => {
     setFormValues((prev) => ({
       ...prev,
@@ -117,6 +137,8 @@ const Properties = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    setErrorMessage(null) 
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
@@ -132,7 +154,7 @@ const Properties = () => {
     })
 
     try {
-      const res = await fetch('http://localhost:5000/api/properties', {
+      const res = await fetch(`${API_URL}/api/properties`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -146,7 +168,6 @@ const Properties = () => {
       setFormValues({
         propertyName: '',
         rentPrice: '',
-        // propertyType: '',
         registeredOwner: '',
         areaMeasurement: '',
         commissionPercentage: '',
@@ -161,8 +182,6 @@ const Properties = () => {
         },
         propertyNotes: '',
         units: 0,
-        // bedrooms: 0,
-        // bathrooms: 0,
         selectedFeatures: [],
         propertyImages: [],
       })
@@ -333,9 +352,56 @@ const Properties = () => {
                       name="locationSearch"
                       placeholder="Search Location"
                       value={formValues.locationSearch}
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        fetchLocationSuggestions(e.target.value);
+                      }}
                       required
                     />
+                    {locationSuggestions.length > 0 && (
+                      <div
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: 5,
+                          maxHeight: 150,
+                          overflowY: "auto",
+                          background: "#fff",
+                          marginTop: 5,
+                          padding: 5,
+                          position: "absolute",
+                          zIndex: 999,
+                          width: "95%",
+                        }}
+                      >
+                        {locationSuggestions.map((item, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              const address = item.address || {}
+                              setFormValues((prev) => ({
+                                ...prev,
+                                locationSearch: item.display_name,
+                                address: {
+                                  street: address.road || "",
+                                  barangay: address.suburb || "",
+                                  city: address.city || address.town || address.village || "",
+                                  province: address.state || "",
+                                }
+                              }))
+                              setLocationSuggestions([]);
+                            }}
+                            style={{
+                              padding: "8px 12px",
+                              cursor: "pointer",
+                            }}
+                            onMouseEnter={(e) => (e.target.style.background = "#f0f0f0")}
+                            onMouseLeave={(e) => (e.target.style.background = "transparent")}
+                          >
+                            {item.display_name}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -415,28 +481,6 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  {/* <CCol md={4}>
-                    <strong>Number of Bedrooms</strong>
-                    <CFormInput
-                      type="number"
-                      name="bedrooms"
-                      placeholder="Number of Bedrooms"
-                      value={formValues.bedrooms}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol> */}
-                  {/* <CCol md={4}>
-                    <strong>Number of Bathrooms</strong>
-                    <CFormInput
-                      type="number"
-                      name="bathrooms"
-                      placeholder="Number of Bathrooms"
-                      value={formValues.bathrooms}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol> */}
                 </CRow>
                 <CRow className="mb-3">
                   <strong className="mb-2">Check All Features & Amenities in this Property</strong>
@@ -531,10 +575,22 @@ const Properties = () => {
             <div className="d-flex justify-content-end mt-4">
               <CButton
                 className="text-white fw-bold px-4"
+                style={{
+                  borderRadius: 20,
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
                 type="submit"
-                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
+                disabled={loading}
               >
-                Add Property
+                {loading ? (
+                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                ) : (
+                  'Add Property'
+                )}
               </CButton>
             </div>
           </CForm>
