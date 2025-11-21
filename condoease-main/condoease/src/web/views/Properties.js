@@ -85,7 +85,7 @@ const Properties = () => {
     fetchRegisteredOwners()
   }, [API_URL])
 
-  const fetchSuggestions = async (query) => {
+  const fetchSuggestions = useCallback(async (query) => {
     if (query.length < 3) {
       setSuggestions([])
       setShowSuggestions(false)
@@ -110,9 +110,12 @@ const Properties = () => {
       setSuggestions([])
       setShowSuggestions(false)
     }
-  }
+  }, [])
 
-  const debouncedFetchSuggestions = useCallback(debounce(fetchSuggestions, 500), [])
+  const debouncedFetchSuggestions = useMemo(
+    () => debounce(fetchSuggestions, 500),
+    [fetchSuggestions],
+  )
   const parseNominatimAddress = (suggestion) => {
     const address = suggestion.address || {}
     const street =
@@ -514,116 +517,6 @@ const Properties = () => {
                   </CCol>
                 </CRow>
               </CTabPane>
-              {/* <CTabPane visible={activeTab === 1}>
-                <CRow className="mb-3">
-                  <CCol md={12}>
-                    <strong>Search Location</strong>
-                    <CFormInput
-                      type="text"
-                      name="locationSearch"
-                      placeholder="Search Location"
-                      value={formValues.locationSearch}
-                      onChange={(e) => {
-                        handleInputChange(e)
-                        fetchLocationSuggestions(e.target.value)
-                      }}
-                      required
-                    />
-                    {locationSuggestions.length > 0 && (
-                      <div
-                        style={{
-                          border: '1px solid #ccc',
-                          borderRadius: 5,
-                          maxHeight: 150,
-                          overflowY: 'auto',
-                          background: '#fff',
-                          marginTop: 5,
-                          padding: 5,
-                          position: 'absolute',
-                          zIndex: 999,
-                          width: '95%',
-                        }}
-                      >
-                        {locationSuggestions.map((item, index) => (
-                          <div
-                            key={index}
-                            onClick={() => {
-                              const address = item.address || {}
-                              setFormValues((prev) => ({
-                                ...prev,
-                                locationSearch: item.display_name,
-                                address: {
-                                  street: address.street || '',
-                                  barangay: address.barangay || '',
-                                  city: address.city || address.town || address.village || '',
-                                  province: address.province || '',
-                                },
-                              }))
-                              setLocationSuggestions([])
-                            }}
-                            style={{
-                              padding: '8px 12px',
-                              cursor: 'pointer',
-                            }}
-                            onMouseEnter={(e) => (e.target.style.background = '#f0f0f0')}
-                            onMouseLeave={(e) => (e.target.style.background = 'transparent')}
-                          >
-                            {item.display_name}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={6}>
-                    <strong>Street</strong>
-                    <CFormInput
-                      type="text"
-                      name="street"
-                      placeholder="Street"
-                      value={formValues.address.street}
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </CCol>
-                  <CCol md={6}>
-                    <strong>Barangay</strong>
-                    <CFormInput
-                      type="text"
-                      name="barangay"
-                      placeholder="Barangay"
-                      value={formValues.address.barangay}
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CCol md={6}>
-                    <strong>City</strong>
-                    <CFormInput
-                      type="text"
-                      name="city"
-                      placeholder="City"
-                      value={formValues.address.city}
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </CCol>
-                  <CCol md={6}>
-                    <strong>Province</strong>
-                    <CFormInput
-                      type="text"
-                      name="province"
-                      placeholder="Province"
-                      value={formValues.address.province}
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </CCol>
-                </CRow>
-              </CTabPane> */}
 
               {/* Features & Amenities */}
               <CTabPane visible={activeTab === 2}>
@@ -687,7 +580,6 @@ const Properties = () => {
                       multiple
                       onChange={handleImageUpload}
                       accept=".jpg,.png,.gif"
-                      required
                     />
                   </CCol>
                 </CRow>
@@ -699,7 +591,6 @@ const Properties = () => {
                       multiple
                       onChange={handleImageUpload}
                       accept=".jpg,.png,.gif"
-                      required
                     />
                   </CCol>
                 </CRow>
@@ -711,7 +602,6 @@ const Properties = () => {
                       multiple
                       onChange={handleImageUpload}
                       accept=".jpg,.png,.gif"
-                      required
                     />
                   </CCol>
                 </CRow>
@@ -723,7 +613,6 @@ const Properties = () => {
                       multiple
                       onChange={handleImageUpload}
                       accept=".jpg,.png,.gif"
-                      required
                     />
                   </CCol>
                 </CRow>
@@ -735,7 +624,6 @@ const Properties = () => {
                       multiple
                       onChange={handleImageUpload}
                       accept=".jpg,.png,.gif"
-                      required
                     />
                   </CCol>
                 </CRow>
