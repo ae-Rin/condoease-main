@@ -94,7 +94,7 @@ const Properties = () => {
     const NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=ph`
     try {
       const res = await fetch(NOMINATIM_URL, {
-        headers: { 'User-Agent': 'Your-Property-App/1.0 (your-email@example.com)' },
+        headers: { 'User-Agent': 'CondoEase/1.0 (support@condoease.me)' },
       })
       if (!res.ok) throw new Error('Failed to fetch Nominatim suggestions')
       const data = await res.json()
@@ -133,9 +133,9 @@ const Properties = () => {
       ...prev,
       address: {
         street: parsedAddress.street,
-        barangay: parsedAddress.barangay,
+        barangay: parsedAddress.suburb,
         city: parsedAddress.city,
-        province: parsedAddress.province,
+        province: parsedAddress.state,
       },
     }))
   }
@@ -478,6 +478,7 @@ const Properties = () => {
                       name="barangay"
                       placeholder="Barangay"
                       value={
+                        formValues.address.barangay ||
                         formValues.address.suburb ||
                         formValues.address.village ||
                         formValues.address.neighbourhood ||
