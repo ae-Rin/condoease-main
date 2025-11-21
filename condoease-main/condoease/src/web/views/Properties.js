@@ -114,9 +114,9 @@ const Properties = () => {
     return {
       street: address.street || address.road || address.pedestrian || '',
       barangay:
-        address.barangay || address.suburb || address.village || address.neighbourhood || '',
+        address.suburb || address.village || address.barangay || address.neighbourhood || '',
       city: address.city || address.town || address.county || '',
-      province: address.province || address.state || '',
+      province: address.state || address.province || '',
     }
   }
 
