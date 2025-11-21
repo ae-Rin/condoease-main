@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import {
   CContainer,
   CRow,
@@ -31,14 +30,23 @@ const features = [
   'Swimming Pool',
   'Pets Allowed',
 ]
+const debounce = (func, delay) => {
+  let timeoutId
+  return function (...args) {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}
 const Properties = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [registeredOwners, setRegisteredOwners] = useState([])
   const [activeTab, setActiveTab] = useState(0)
-  const [locationSuggestions, setLocationSuggestions] = useState([])
-  const [isSearching, setIsSearching] = useState(false)
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const [formValues, setFormValues] = useState({
     propertyName: '',
     rentPrice: '',
@@ -64,23 +72,75 @@ const Properties = () => {
     const fetchRegisteredOwners = async () => {
       try {
         const res = await fetch(`${API_URL}/api/property-owners`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
         })
         if (!res.ok) throw new Error('Failed to fetch registered owners')
         const data = await res.json()
         setRegisteredOwners(data)
       } catch (err) {
-        console.error("Error fetching data:", err)
+        console.error('Error fetching data:', err)
       }
     }
 
     fetchRegisteredOwners()
   }, [API_URL])
 
+  const fetchSuggestions = async (query) => {
+    if (query.length < 3) {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+    const NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5`
+
+    try {
+      const res = await fetch(NOMINATIM_URL, {
+        headers: { 'User-Agent': 'Your-Property-App/1.0 (your-email@example.com)' }, // Crucial for Nominatim Usage Policy
+      })
+      if (!res.ok) throw new Error('Failed to fetch Nominatim suggestions')
+      const data = await res.json()
+      setSuggestions(data)
+      setShowSuggestions(true)
+    } catch (err) {
+      console.error('Nominatim Geocoding error:', err)
+      setSuggestions([])
+      setShowSuggestions(false)
+    }
+  }
+
+  const debouncedFetchSuggestions = useCallback(debounce(fetchSuggestions, 500), [])
+  const parseNominatimAddress = (suggestion) => {
+    const address = suggestion.address || {}
+    return {
+      street: address.road || address.pedestrian || '',
+      barangay: address.suburb || address.village || address.neighbourhood || '',
+      city: address.city || address.town || address.county || '',
+      province: address.state || '',
+    }
+  }
+
+  const handleSuggestionClick = (suggestion) => {
+    setFormValues((prev) => ({ ...prev, locationSearch: suggestion.display_name }))
+    setSuggestions([])
+    setShowSuggestions(false)
+    const parsedAddress = parseNominatimAddress(suggestion)
+    setFormValues((prev) => ({
+      ...prev,
+      address: {
+        street: parsedAddress.street,
+        barangay: parsedAddress.barangay,
+        city: parsedAddress.city,
+        province: parsedAddress.province,
+      },
+    }))
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues((prev) => ({ ...prev, [name]: value }))
+    if (name === 'locationSearch') {
+      debouncedFetchSuggestions(value)
+    }
   }
 
   const handleAddressChange = (e) => {
@@ -91,23 +151,23 @@ const Properties = () => {
     }))
   }
 
-  const fetchLocationSuggestions = async (query) => {
-  if (!query) {
-    setLocationSuggestions([])
-    return
-  }
-  setIsSearching(true)
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
-    )
-    const data = await res.json()
-    setLocationSuggestions(data.slice(0, 5))
-  } catch (err) {
-    console.error("Nominatim Search Error:", err)
-  }
-  setIsSearching(false)
-}
+  // const fetchLocationSuggestions = async (query) => {
+  //   if (!query) {
+  //     setLocationSuggestions([])
+  //     return
+  //   }
+  //   setIsSearching(true)
+  //   try {
+  //     const res = await fetch(
+  //       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
+  //     )
+  //     const data = await res.json()
+  //     setLocationSuggestions(data.slice(0, 5))
+  //   } catch (err) {
+  //     console.error('Nominatim Search Error:', err)
+  //   }
+  //   setIsSearching(false)
+  // }
 
   const handleFeatureChange = (feature) => {
     setFormValues((prev) => ({
@@ -138,7 +198,7 @@ const Properties = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setErrorMessage(null) 
+    setErrorMessage(null)
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
@@ -186,8 +246,10 @@ const Properties = () => {
         propertyImages: [],
       })
     } catch (err) {
-      console.error(err)
-      alert('Error adding property.')
+      console.error('Error submitting property:', err)
+      setErrorMessage(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -248,6 +310,11 @@ const Properties = () => {
           </CNav>
         </CCardHeader>
         <CCardBody>
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <CForm onSubmit={handleSubmit}>
             <CTabContent>
               {/* Basic Details */}
@@ -285,11 +352,11 @@ const Properties = () => {
                       required
                     >
                       <option value="">Select Registered Property Owner</option>
-                        {registeredOwners.map((registeredOwner) => (
-                          <option key={registeredOwner.owner_id} value={registeredOwner.owner_id}>
-                            {registeredOwner.first_name} {registeredOwner.last_name}
-                          </option>
-                        ))}
+                      {registeredOwners.map((registeredOwner) => (
+                        <option key={registeredOwner.owner_id} value={registeredOwner.owner_id}>
+                          {registeredOwner.first_name} {registeredOwner.last_name}
+                        </option>
+                      ))}
                     </CFormSelect>
                   </CCol>
                   <CCol md={6}>
@@ -345,6 +412,112 @@ const Properties = () => {
               {/* Location */}
               <CTabPane visible={activeTab === 1}>
                 <CRow className="mb-3">
+                  <CCol md={12} style={{ position: 'relative' }}>
+                    <strong>Search Location</strong>
+                    <CFormInput
+                      type="text"
+                      name="locationSearch"
+                      placeholder="Search Location (e.g., Ayala Avenue, Makati)"
+                      value={formValues.locationSearch}
+                      onChange={handleInputChange}
+                      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                      onFocus={() => {
+                        if (suggestions.length > 0) setShowSuggestions(true)
+                      }}
+                      required
+                    />
+                    {showSuggestions && suggestions.length > 0 && (
+                      <ul
+                        style={{
+                          position: 'absolute',
+                          zIndex: 1000,
+                          width: '100%',
+                          maxHeight: '300px',
+                          overflowY: 'auto',
+                          border: '1px solid #ccc',
+                          listStyle: 'none',
+                          padding: 0,
+                          margin: 0,
+                          backgroundColor: 'white',
+                          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                          top: '100%',
+                        }}
+                      >
+                        {suggestions.map((suggestion) => (
+                          <li
+                            key={suggestion.place_id}
+                            onClick={() => handleSuggestionClick(suggestion)}
+                            style={{
+                              padding: '10px',
+                              cursor: 'pointer',
+                              borderBottom: '1px solid #eee',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor = '#f0f0f0')
+                            }
+                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                          >
+                            {suggestion.display_name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={6}>
+                    <strong>Street</strong>
+                    <CFormInput
+                      type="text"
+                      name="street"
+                      placeholder="Street"
+                      value={formValues.address.street}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <strong>Barangay</strong>
+                    <CFormInput
+                      type="text"
+                      name="barangay"
+                      placeholder="Barangay"
+                      value={formValues.address.barangay}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CCol md={6}>
+                    <strong>City</strong>
+                    <CFormInput
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={formValues.address.city}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </CCol>
+                  <CCol md={6}>
+                    <strong>Province</strong>
+                    <CFormInput
+                      type="text"
+                      name="province"
+                      placeholder="Province"
+                      value={formValues.address.province}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </CCol>
+                </CRow>
+              </CTabPane>
+              {/* <CTabPane visible={activeTab === 1}>
+                <CRow className="mb-3">
                   <CCol md={12}>
                     <strong>Search Location</strong>
                     <CFormInput
@@ -353,24 +526,24 @@ const Properties = () => {
                       placeholder="Search Location"
                       value={formValues.locationSearch}
                       onChange={(e) => {
-                        handleInputChange(e);
-                        fetchLocationSuggestions(e.target.value);
+                        handleInputChange(e)
+                        fetchLocationSuggestions(e.target.value)
                       }}
                       required
                     />
                     {locationSuggestions.length > 0 && (
                       <div
                         style={{
-                          border: "1px solid #ccc",
+                          border: '1px solid #ccc',
                           borderRadius: 5,
                           maxHeight: 150,
-                          overflowY: "auto",
-                          background: "#fff",
+                          overflowY: 'auto',
+                          background: '#fff',
                           marginTop: 5,
                           padding: 5,
-                          position: "absolute",
+                          position: 'absolute',
                           zIndex: 999,
-                          width: "95%",
+                          width: '95%',
                         }}
                       >
                         {locationSuggestions.map((item, index) => (
@@ -382,20 +555,20 @@ const Properties = () => {
                                 ...prev,
                                 locationSearch: item.display_name,
                                 address: {
-                                  street: address.road || "",
-                                  barangay: address.suburb || "",
-                                  city: address.city || address.town || address.village || "",
-                                  province: address.state || "",
-                                }
+                                  street: address.street || '',
+                                  barangay: address.barangay || '',
+                                  city: address.city || address.town || address.village || '',
+                                  province: address.province || '',
+                                },
                               }))
-                              setLocationSuggestions([]);
+                              setLocationSuggestions([])
                             }}
                             style={{
-                              padding: "8px 12px",
-                              cursor: "pointer",
+                              padding: '8px 12px',
+                              cursor: 'pointer',
                             }}
-                            onMouseEnter={(e) => (e.target.style.background = "#f0f0f0")}
-                            onMouseLeave={(e) => (e.target.style.background = "transparent")}
+                            onMouseEnter={(e) => (e.target.style.background = '#f0f0f0')}
+                            onMouseLeave={(e) => (e.target.style.background = 'transparent')}
                           >
                             {item.display_name}
                           </div>
@@ -452,7 +625,7 @@ const Properties = () => {
                     />
                   </CCol>
                 </CRow>
-              </CTabPane>
+              </CTabPane> */}
 
               {/* Features & Amenities */}
               <CTabPane visible={activeTab === 2}>
