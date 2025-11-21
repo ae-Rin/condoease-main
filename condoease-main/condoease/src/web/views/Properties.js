@@ -112,10 +112,11 @@ const Properties = () => {
   const parseNominatimAddress = (suggestion) => {
     const address = suggestion.address || {}
     return {
-      street: address.road || address.pedestrian || '',
-      barangay: address.suburb || address.village || address.neighbourhood || '',
+      street: address.street || address.road || address.pedestrian || '',
+      barangay:
+        address.barangay || address.suburb || address.village || address.neighbourhood || '',
       city: address.city || address.town || address.county || '',
-      province: address.state || '',
+      province: address.province || address.state || '',
     }
   }
 

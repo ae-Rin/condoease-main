@@ -56,7 +56,7 @@ const Login2 = () => {
       }
     } catch (error) {
       console.error('Login error:', error)
-      alert('Server error. Please try again later.')
+      alert('Server is offline. Please try logging in again.')
     } finally {
       setLoading(false)
     }
