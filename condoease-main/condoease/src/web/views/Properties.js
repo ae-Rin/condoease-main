@@ -115,12 +115,23 @@ const Properties = () => {
   const debouncedFetchSuggestions = useCallback(debounce(fetchSuggestions, 500), [])
   const parseNominatimAddress = (suggestion) => {
     const address = suggestion.address || {}
+    const street =
+      address.road ||
+      address.street ||
+      address.pedestrian ||
+      address.primary ||
+      address.secondary ||
+      address.tertiary ||
+      ''
+    const barangay =
+      address.barangay || address.suburb || address.neighbourhood || address.village || ''
+    const city = address.city || address.town || address.municipality || address.county || ''
+    const province = address.state || address.province || address.region || ''
     return {
-      street: address.street || address.road || address.pedestrian || '',
-      barangay:
-        address.suburb || address.village || address.barangay || address.neighbourhood || '',
-      city: address.city || address.town || address.county || '',
-      province: address.state || address.province || '',
+      street: street,
+      barangay: barangay,
+      city: city,
+      province: province,
     }
   }
 
@@ -133,9 +144,9 @@ const Properties = () => {
       ...prev,
       address: {
         street: parsedAddress.street,
-        barangay: parsedAddress.suburb,
+        barangay: parsedAddress.barangay,
         city: parsedAddress.city,
-        province: parsedAddress.state,
+        province: parsedAddress.province,
       },
     }))
   }
@@ -461,12 +472,7 @@ const Properties = () => {
                       type="text"
                       name="street"
                       placeholder="Street"
-                      value={
-                        formValues.address.street ||
-                        formValues.address.road ||
-                        formValues.address.pedestrian ||
-                        ''
-                      }
+                      value={formValues.address.street}
                       onChange={handleAddressChange}
                       required
                     />
@@ -477,13 +483,7 @@ const Properties = () => {
                       type="text"
                       name="barangay"
                       placeholder="Barangay"
-                      value={
-                        formValues.address.barangay ||
-                        formValues.address.suburb ||
-                        formValues.address.village ||
-                        formValues.address.neighbourhood ||
-                        ''
-                      }
+                      value={formValues.address.barangay}
                       onChange={handleAddressChange}
                       required
                     />
@@ -496,12 +496,7 @@ const Properties = () => {
                       type="text"
                       name="city"
                       placeholder="City"
-                      value={
-                        formValues.address.city ||
-                        formValues.address.town ||
-                        formValues.address.county ||
-                        ''
-                      }
+                      value={formValues.address.city}
                       onChange={handleAddressChange}
                       required
                     />
@@ -512,7 +507,7 @@ const Properties = () => {
                       type="text"
                       name="province"
                       placeholder="Province"
-                      value={formValues.address.state || formValues.address.province || ''}
+                      value={formValues.address.province}
                       onChange={handleAddressChange}
                       required
                     />
