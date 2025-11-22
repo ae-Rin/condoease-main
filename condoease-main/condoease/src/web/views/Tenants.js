@@ -231,7 +231,7 @@ const Tenants = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Register New Tenant</h4>
+      <h4 className="mb-4">Register New Tenants</h4>
       <CCard>
         <CCardHeader className="text-body-secondary">
           <strong>Tenant Information</strong>
