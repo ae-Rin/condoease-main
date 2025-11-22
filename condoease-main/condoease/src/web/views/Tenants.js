@@ -168,9 +168,23 @@ const Tenants = () => {
     setErrorMessage(null)
 
     const formData = new FormData()
-    Object.keys(formValues).forEach((key) => {
-      formData.append(key, formValues[key])
-    })
+    formData.append('lastName', formValues.lastName)
+    formData.append('firstName', formValues.firstName)
+    formData.append('email', formValues.email)
+    formData.append('contactNumber', formValues.contactNumber)
+    formData.append('street', formValues.address.street)
+    formData.append('barangay', formValues.address.barangay)
+    formData.append('city', formValues.address.city)
+    formData.append('province', formValues.address.province)
+    formData.append('idType', formValues.idType)
+    formData.append('idNumber', formValues.idNumber)
+    formData.append('occupationStatus', formValues.occupationStatus)
+    formData.append('occupationPlace', formValues.occupationPlace)
+    formData.append('emergencyContactName', formValues.emergencyContactName)
+    formData.append('emergencyContactNumber', formValues.emergencyContactNumber)
+    if (formValues.idDocument) {
+      formData.append('idDocument', formValues.idDocument)
+    }
 
     try {
       const res = await fetch(`${API_URL}/api/tenants`, {
