@@ -333,6 +333,7 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <strong>Area Measurement (sqm)</strong>
                     <CFormInput
                       type="number"
                       name="areaMeasurement"
