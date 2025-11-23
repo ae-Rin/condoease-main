@@ -49,7 +49,7 @@ const Properties = () => {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [formValues, setFormValues] = useState({
     propertyName: '',
-    rentPrice: '',
+    // rentPrice: '',
     registeredOwner: '',
     areaMeasurement: '',
     commissionPercentage: '',
@@ -228,7 +228,7 @@ const Properties = () => {
       alert('Property added successfully!')
       setFormValues({
         propertyName: '',
-        rentPrice: '',
+        // rentPrice: '',
         registeredOwner: '',
         areaMeasurement: '',
         commissionPercentage: '',
@@ -333,6 +333,16 @@ const Properties = () => {
                     />
                   </CCol>
                   <CCol md={6}>
+                    <CFormInput
+                      type="number"
+                      name="areaMeasurement"
+                      placeholder="Area Measurement (sqm)"
+                      value={formValues.areaMeasurement}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </CCol>
+                  {/* <CCol md={6}>
                     <strong>Rent Price (₱)</strong>
                     <CFormInput
                       type="number"
@@ -342,10 +352,10 @@ const Properties = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </CCol>
+                  </CCol> */}
                 </CRow>
                 <CRow className="mb-3">
-                  <CCol md={6}>
+                  <CCol md={12}>
                     <CFormSelect
                       name="registeredOwner"
                       value={formValues.registeredOwner}
@@ -360,7 +370,7 @@ const Properties = () => {
                       ))}
                     </CFormSelect>
                   </CCol>
-                  <CCol md={6}>
+                  {/* <CCol md={6}>
                     <CFormInput
                       type="number"
                       name="areaMeasurement"
@@ -369,9 +379,9 @@ const Properties = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </CCol>
+                  </CCol> */}
                 </CRow>
-                <CRow className="mb-3">
+                {/* <CRow className="mb-3">
                   <CCol md={6}>
                     <strong>Deposit Price (₱)</strong>
                     <CFormInput
@@ -394,7 +404,7 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                </CRow>
+                </CRow> */}
                 <CRow className="mb-3">
                   <CCol md={12}>
                     <strong>Property Description</strong>
