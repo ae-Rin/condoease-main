@@ -49,7 +49,6 @@ const Properties = () => {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [formValues, setFormValues] = useState({
     propertyName: '',
-    // rentPrice: '',
     registeredOwner: '',
     areaMeasurement: '',
     commissionPercentage: '',
@@ -228,7 +227,6 @@ const Properties = () => {
       alert('Property added successfully!')
       setFormValues({
         propertyName: '',
-        // rentPrice: '',
         registeredOwner: '',
         areaMeasurement: '',
         commissionPercentage: '',
@@ -343,17 +341,6 @@ const Properties = () => {
                       required
                     />
                   </CCol>
-                  {/* <CCol md={6}>
-                    <strong>Rent Price (₱)</strong>
-                    <CFormInput
-                      type="number"
-                      name="rentPrice"
-                      placeholder="Rent Price (₱)"
-                      value={formValues.rentPrice}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol> */}
                 </CRow>
                 <CRow className="mb-3">
                   <CCol md={12}>
@@ -371,41 +358,7 @@ const Properties = () => {
                       ))}
                     </CFormSelect>
                   </CCol>
-                  {/* <CCol md={6}>
-                    <CFormInput
-                      type="number"
-                      name="areaMeasurement"
-                      placeholder="Area Measurement (sqm)"
-                      value={formValues.areaMeasurement}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol> */}
                 </CRow>
-                {/* <CRow className="mb-3">
-                  <CCol md={6}>
-                    <strong>Deposit Price (₱)</strong>
-                    <CFormInput
-                      type="number"
-                      name="depositPrice"
-                      placeholder="Deposit Price (₱)"
-                      value={formValues.depositPrice}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol>
-                  <CCol md={6}>
-                    <strong>Agent Commission (%)</strong>
-                    <CFormInput
-                      type="number"
-                      name="commissionPercentage"
-                      placeholder="Agent Commission (%)"
-                      value={formValues.commissionPercentage}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </CCol>
-                </CRow> */}
                 <CRow className="mb-3">
                   <CCol md={12}>
                     <strong>Property Description</strong>
