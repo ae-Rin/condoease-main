@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import {
   CContainer,
@@ -68,14 +67,14 @@ const PropertyList = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Property Name</CTableHeaderCell>
                 <CTableHeaderCell>Location</CTableHeaderCell>
-                <CTableHeaderCell>Property Type</CTableHeaderCell>
-                <CTableHeaderCell>Rent Price</CTableHeaderCell>
-                <CTableHeaderCell>Status</CTableHeaderCell>
                 <CTableHeaderCell>Owner</CTableHeaderCell>
-                <CTableHeaderCell>Number of Units</CTableHeaderCell>
-                <CTableHeaderCell>Action</CTableHeaderCell>
+                <CTableHeaderCell>Area (sqm)</CTableHeaderCell>
+                <CTableHeaderCell>Units</CTableHeaderCell>
+                <CTableHeaderCell>Features</CTableHeaderCell>
+                <CTableHeaderCell>Actions</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
@@ -94,24 +93,23 @@ const PropertyList = () => {
               ) : (
                 <>
                   {properties.map((property) => (
-                    <CTableRow key={property.property_id}>
+                    <CTableRow key={property.id}>
+                      <CTableDataCell>{property.id}</CTableDataCell>
                       <CTableDataCell>{property.property_name}</CTableDataCell>
                       <CTableDataCell>
                         {property
                           ? `${property.street}, ${property.barangay}, ${property.city}, ${property.province}`
                           : 'No Address'}
                       </CTableDataCell>
-                      <CTableDataCell>{property.property_type}</CTableDataCell>
-                      <CTableDataCell>₱{property.rent_price}</CTableDataCell>
-                      <CTableDataCell>{property.status}</CTableDataCell>
                       <CTableDataCell>{property.registered_owner}</CTableDataCell>
-                      <CTableDataCell>{property.number_of_units || 0}</CTableDataCell>
+                      <CTableDataCell>{property.area_measurement || 'N/A' || 0}</CTableDataCell>
+                      <CTableDataCell>{property.units || 0}</CTableDataCell>
                       <CTableDataCell>
                         <CButton
                           color="info"
                           size="sm"
                           className="me-2"
-                          onClick={() => handleView(property.property_id)}
+                          onClick={() => handleView(property.id)}
                         >
                           <FaEye />
                         </CButton>
@@ -119,15 +117,11 @@ const PropertyList = () => {
                           color="warning"
                           size="sm"
                           className="me-2"
-                          onClick={() => handleEdit(property.property_id)}
+                          onClick={() => handleEdit(property.id)}
                         >
                           <FaEdit />
                         </CButton>
-                        <CButton
-                          color="danger"
-                          size="sm"
-                          onClick={() => handleDelete(property.property_id)}
-                        >
+                        <CButton color="danger" size="sm" onClick={() => handleDelete(property.id)}>
                           <FaTrash />
                         </CButton>
                       </CTableDataCell>
