@@ -199,7 +199,7 @@ const Properties = () => {
     setErrorMessage(null)
     const missing = []
     if (!formValues.propertyName.trim()) missing.push('Property Name is required.')
-    if (!formValues.registeredOwner) missing.push('Registered Owner is required.')
+    if (!formValues.registeredOwner.trim()) missing.push('Registered Owner is required.')
     if (!formValues.areaMeasurement) missing.push('Area Measurement is required.')
     if (!formValues.description.trim()) missing.push('Property Description is required.')
     if (!formValues.locationSearch.trim()) missing.push('Search Location is required.')
