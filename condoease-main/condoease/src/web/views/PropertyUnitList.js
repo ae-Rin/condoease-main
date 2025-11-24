@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import {
   CContainer,
@@ -28,7 +27,7 @@ const PropertyUnitList = () => {
           },
         })
 
-        if (!res.ok){
+        if (!res.ok) {
           const errorData = await response.json()
           throw new Error(errorData.error || 'Failed to fetch property units')
         }
@@ -68,6 +67,7 @@ const PropertyUnitList = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Property/Building Name</CTableHeaderCell>
                 <CTableHeaderCell>Unit Type</CTableHeaderCell>
                 <CTableHeaderCell>Unit Number</CTableHeaderCell>
@@ -92,7 +92,8 @@ const PropertyUnitList = () => {
               ) : (
                 <>
                   {units.map((unit) => (
-                    <CTableRow key={unit.property_unit_id}>
+                    <CTableRow key={unit.id}>
+                      <CTableDataCell>{unit.id}</CTableDataCell>
                       <CTableDataCell>{unit.property_name}</CTableDataCell>
                       <CTableDataCell>{unit.unit_type}</CTableDataCell>
                       <CTableDataCell>{unit.unit_number}</CTableDataCell>
@@ -103,7 +104,7 @@ const PropertyUnitList = () => {
                           color="info"
                           size="sm"
                           className="me-2"
-                          onClick={() => handleView(unit.property_unit_id)}
+                          onClick={() => handleView(unit.id)}
                         >
                           <FaEye />
                         </CButton>
@@ -111,15 +112,11 @@ const PropertyUnitList = () => {
                           color="warning"
                           size="sm"
                           className="me-2"
-                          onClick={() => handleEdit(unit.property_unit_id)}
+                          onClick={() => handleEdit(unit.id)}
                         >
                           <FaEdit />
                         </CButton>
-                        <CButton
-                          color="danger"
-                          size="sm"
-                          onClick={() => handleDelete(unit.property_unit_id)}
-                        >
+                        <CButton color="danger" size="sm" onClick={() => handleDelete(unit.id)}>
                           <FaTrash />
                         </CButton>
                       </CTableDataCell>

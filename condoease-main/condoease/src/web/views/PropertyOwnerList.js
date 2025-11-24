@@ -67,6 +67,7 @@ const PropertyOwnerList = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Fullname</CTableHeaderCell>
                 <CTableHeaderCell>Email</CTableHeaderCell>
                 <CTableHeaderCell>Contact Number</CTableHeaderCell>
@@ -92,6 +93,7 @@ const PropertyOwnerList = () => {
                 <>
                   {owners.map((owner) => (
                     <CTableRow key={owner.owner_id}>
+                      <CTableDataCell>{owner.owner_id}</CTableDataCell>
                       <CTableDataCell>{`${owner.first_name} ${owner.last_name}`}</CTableDataCell>
                       <CTableDataCell>{owner.email}</CTableDataCell>
                       <CTableDataCell>{owner.contact_number}</CTableDataCell>

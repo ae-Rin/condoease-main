@@ -67,6 +67,7 @@ const TenantList = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Fullname</CTableHeaderCell>
                 <CTableHeaderCell>Email</CTableHeaderCell>
                 <CTableHeaderCell>Contact Number</CTableHeaderCell>
@@ -92,6 +93,7 @@ const TenantList = () => {
                 <>
                   {tenants.map((tenant) => (
                     <CTableRow key={tenant.tenant_id}>
+                      <CTableDataCell>{tenant.tenant_id}</CTableDataCell>
                       <CTableDataCell>{`${tenant.first_name} ${tenant.last_name}`}</CTableDataCell>
                       <CTableDataCell>{tenant.email}</CTableDataCell>
                       <CTableDataCell>{tenant.contact_number}</CTableDataCell>
