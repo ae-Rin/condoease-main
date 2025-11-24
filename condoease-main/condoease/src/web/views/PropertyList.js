@@ -104,7 +104,7 @@ const PropertyList = () => {
                       <CTableDataCell>{property.registered_owner}</CTableDataCell>
                       <CTableDataCell>{property.area_measurement || 'N/A' || 0}</CTableDataCell>
                       <CTableDataCell>{property.units || 0}</CTableDataCell>
-                      <CTableDataCell>{property.features || 'N/A'}</CTableDataCell>
+                      <CTableDataCell>{property.selected_features || 'N/A'}</CTableDataCell>
                       <CTableDataCell>
                         <CButton
                           color="info"
