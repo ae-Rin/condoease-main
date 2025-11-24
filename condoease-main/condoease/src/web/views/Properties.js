@@ -51,8 +51,6 @@ const Properties = () => {
     propertyName: '',
     registeredOwner: '',
     areaMeasurement: '',
-    commissionPercentage: '',
-    depositPrice: '',
     description: '',
     locationSearch: '',
     address: {
@@ -199,19 +197,46 @@ const Properties = () => {
     e.preventDefault()
     setLoading(true)
     setErrorMessage(null)
+    const missing = []
+    if (!formValues.propertyName.trim()) missing.push('Property Name is required.')
+    if (!formValues.registeredOwner) missing.push('Registered Owner is required.')
+    if (!formValues.areaMeasurement) missing.push('Area Measurement is required.')
+    if (!formValues.description.trim()) missing.push('Property Description is required.')
+    if (!formValues.locationSearch.trim()) missing.push('Search Location is required.')
+    if (!formValues.address.street.trim()) missing.push('Street is required.')
+    if (!formValues.address.barangay.trim()) missing.push('Barangay is required.')
+    if (!formValues.address.city.trim()) missing.push('City is required.')
+    if (!formValues.address.province.trim()) missing.push('Province is required.')
+    if (!formValues.propertyNotes.trim()) missing.push('Property Notes are required.')
+    if (!formValues.units || formValues.units <= 0)
+      missing.push('Number of Units/Rooms is required.')
+    if (missing.length > 0) {
+      setErrorMessage(missing.join('\n'))
+      setLoading(false)
+      return
+    }
 
     const formData = new FormData()
-    Object.keys(formValues).forEach((key) => {
-      if (key === 'address') {
-        Object.keys(formValues.address).forEach((subKey) => {
-          formData.append(`address[${subKey}]`, formValues.address[subKey])
-        })
-      } else if (key === 'propertyImages') {
-        formValues.propertyImages.forEach((file) => formData.append('propertyImages', file))
-      } else {
-        formData.append(key, formValues[key])
-      }
-    })
+    formData.append('propertyName', formValues.propertyName)
+    formData.append('registeredOwner', formValues.registeredOwner)
+    formData.append('areaMeasurement', formValues.areaMeasurement)
+    formData.append('description', formValues.description)
+    formData.append('propertyNotes', formValues.propertyNotes)
+    formData.append('units', formValues.units)
+    formData.append('selectedFeatures', formValues.selectedFeatures.join(','))
+    formValues.propertyImages.forEach((file) => formData.append('propertyImages', file))
+
+    // Object.keys(formValues).forEach((key) => {
+    //   if (key === 'address') {
+    //     Object.keys(formValues.address).forEach((subKey) => {
+    //       formData.append(`address[${subKey}]`, formValues.address[subKey])
+    //     })
+    //   } else if (key === 'propertyImages') {
+    //     formValues.propertyImages.forEach((file) => formData.append('propertyImages', file))
+    //   } else {
+    //     formData.append(key, formValues[key])
+    //   }
+    // })
 
     try {
       const res = await fetch(`${API_URL}/api/properties`, {
@@ -229,8 +254,6 @@ const Properties = () => {
         propertyName: '',
         registeredOwner: '',
         areaMeasurement: '',
-        commissionPercentage: '',
-        depositPrice: '',
         description: '',
         locationSearch: '',
         address: {
