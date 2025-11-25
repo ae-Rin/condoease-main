@@ -101,7 +101,7 @@ const PropertyList = () => {
                           ? `${property.street}, ${property.barangay}, ${property.city}, ${property.province}`
                           : 'No Address'}
                       </CTableDataCell>
-                      <CTableDataCell>{property.registered_owner}</CTableDataCell>
+                      <CTableDataCell>{property.owner_full_name}</CTableDataCell>
                       <CTableDataCell>{property.area_measurement || 'N/A' || 0}</CTableDataCell>
                       <CTableDataCell>{property.units || 0}</CTableDataCell>
                       <CTableDataCell>{property.selected_features || 'N/A'}</CTableDataCell>
