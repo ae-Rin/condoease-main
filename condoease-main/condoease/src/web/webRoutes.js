@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 
 // Pages
 const Login = React.lazy(() => import('./views/login/Login'))
-const Login2 = React.lazy(() => import('./views/login/Login2'))
+// const Login2 = React.lazy(() => import('./views/login/Login2'))
 const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
 const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
@@ -35,7 +35,7 @@ const Page500 = React.lazy(() => import('./views/page500/Page500'))
 const webRoutes = [
   { path: '/', name: 'Default', element: <Navigate to="/login" replace />, isProtected: false },
   { path: '/login', name: 'Login Page', element: <Login />, isProtected: false },
-  { path: '/loginstep2', name: 'Login Step 2', element: <Login2 />, isProtected: false },
+  // { path: '/loginstep2', name: 'Login Step 2', element: <Login2 />, isProtected: false },
   { path: '/register', name: 'Register Page', element: <Register />, isProtected: false },
   {
     path: '/registerstep2',

@@ -17,12 +17,16 @@ import { FaEye } from 'react-icons/fa'
 import logoWhite from 'src/assets/images/logo_white.png'
 
 const Login = () => {
-  const location = useLocation()
+  // const location = useLocation()
   const navigate = useNavigate()
   const { setUser } = useUser() // <-- Context setter
   const API_URL = import.meta.env.VITE_APP_API_URL
-  const emailFromState = location.state?.email || ''
-  const [email, setEmail] = useState(emailFromState)
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    return regex.test(email)
+  }
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
@@ -30,6 +34,12 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email without numbers (e.g., john.doe@gmail.com)')
+      return
+    } else {
+      setEmailError('')
+    }
     setLoading(true) // Start loading
     try {
       const response = await fetch(`${API_URL}/api/login`, {
@@ -104,6 +114,32 @@ const Login = () => {
               <CFormInput
                 type="email"
                 placeholder="email@gmail.com"
+                className="mb-3"
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: 10,
+                  fontSize: 16,
+                  padding: '16px 16px',
+                }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              {emailError && (
+                <div
+                  style={{
+                    color: 'red',
+                    fontSize: '0.9rem',
+                    marginBottom: 12,
+                    textAlign: 'center',
+                  }}
+                >
+                  {emailError}
+                </div>
+              )}
+              {/* <CFormInput
+                type="email"
+                placeholder="email@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="mb-3"
@@ -114,7 +150,7 @@ const Login = () => {
                   fontSize: 16,
                   padding: '16px 16px',
                 }}
-              />
+              /> */}
 
               <div className="mb-2 fw-semibold text-start">Password</div>
               <CInputGroup className="mb-3">
