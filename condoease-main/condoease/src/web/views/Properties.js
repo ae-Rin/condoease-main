@@ -230,18 +230,6 @@ const Properties = () => {
     formData.append('selectedFeatures', formValues.selectedFeatures.join(','))
     formValues.propertyImages.forEach((file) => formData.append('propertyImages', file))
 
-    // Object.keys(formValues).forEach((key) => {
-    //   if (key === 'address') {
-    //     Object.keys(formValues.address).forEach((subKey) => {
-    //       formData.append(`address[${subKey}]`, formValues.address[subKey])
-    //     })
-    //   } else if (key === 'propertyImages') {
-    //     formValues.propertyImages.forEach((file) => formData.append('propertyImages', file))
-    //   } else {
-    //     formData.append(key, formValues[key])
-    //   }
-    // })
-
     try {
       const res = await fetch(`${API_URL}/api/properties`, {
         method: 'POST',
