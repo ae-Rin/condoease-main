@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CContainer,
   CRow,
@@ -22,6 +22,10 @@ import {
 const unitTypes = ['Studio', '1-Bedroom', '2-Bedroom', '3-Bedroom', 'Penthouse']
 
 const PropertyUnits = () => {
+  const API_URL = import.meta.env.VITE_APP_API_URL
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [properties, setProperties] = useState([])
   const [formValues, setFormValues] = useState({
     property: '',
     unitType: '',
@@ -35,7 +39,23 @@ const PropertyUnits = () => {
     unitImages: [],
   })
 
-  const [units, setUnits] = useState([]) // Stores the list of added units
+  const [units, setUnits] = useState([])
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/properties`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        })
+        if (!res.ok) throw new Error('Failed to fetch properties')
+        const data = await res.json()
+        setProperties(data)
+      } catch (err) {
+        console.error('Error fetching data:', err)
+      }
+    }
+
+    fetchProperties()
+  }, [API_URL])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -96,8 +116,11 @@ const PropertyUnits = () => {
                   required
                 >
                   <option value="">Select Property/Building</option>
-                  {/* Replace with dynamic property options */}
-                  <option value="Building A">Building A</option>
+                  {properties.map((property) => (
+                    <option key={property.id} value={property.property_name}>
+                      {property.property_name}
+                    </option>
+                  ))}
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
