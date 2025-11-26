@@ -78,10 +78,7 @@ const PropertyUnits = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    // Add the new unit to the list of units
     setUnits((prev) => [...prev, formValues])
-
-    // Reset the form
     setFormValues({
       property: '',
       unitType: '',
