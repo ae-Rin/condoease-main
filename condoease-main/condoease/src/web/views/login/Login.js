@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useUser } from '../../../context/UserContext'
 
 import {
@@ -17,7 +17,6 @@ import { FaEye } from 'react-icons/fa'
 import logoWhite from 'src/assets/images/logo_white.png'
 
 const Login = () => {
-  // const location = useLocation()
   const navigate = useNavigate()
   const { setUser } = useUser() // <-- Context setter
   const API_URL = import.meta.env.VITE_APP_API_URL
@@ -137,21 +136,6 @@ const Login = () => {
                   {emailError}
                 </div>
               )}
-              {/* <CFormInput
-                type="email"
-                placeholder="email@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mb-3"
-                required
-                style={{
-                  borderColor: '#A3C49A',
-                  borderRadius: 10,
-                  fontSize: 16,
-                  padding: '16px 16px',
-                }}
-              /> */}
-
               <div className="mb-2 fw-semibold text-start">Password</div>
               <CInputGroup className="mb-3">
                 <CFormInput
