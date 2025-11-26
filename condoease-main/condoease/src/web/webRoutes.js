@@ -1,10 +1,7 @@
-/* eslint-disable prettier/prettier */
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
-// Pages
 const Login = React.lazy(() => import('./views/login/Login'))
-// const Login2 = React.lazy(() => import('./views/login/Login2'))
 const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
 const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
@@ -35,7 +32,6 @@ const Page500 = React.lazy(() => import('./views/page500/Page500'))
 const webRoutes = [
   { path: '/', name: 'Default', element: <Navigate to="/login" replace />, isProtected: false },
   { path: '/login', name: 'Login Page', element: <Login />, isProtected: false },
-  // { path: '/loginstep2', name: 'Login Step 2', element: <Login2 />, isProtected: false },
   { path: '/register', name: 'Register Page', element: <Register />, isProtected: false },
   {
     path: '/registerstep2',
@@ -57,18 +53,53 @@ const webRoutes = [
   { path: '/tables', name: 'Tables', element: <Tables />, isProtected: true },
   { path: '/tenants', name: 'Tenants', element: <Tenants />, isProtected: true },
   { path: '/tenantlist', name: 'Tenant List', element: <TenantList />, isProtected: true },
-  { path: '/propertyowners', name: 'Property Owners', element: <PropertyOwners />, isProtected: true },
-  { path: '/propertyownerlist', name: 'Property Owner List', element: <PropertyOwnerList />, isProtected: true },
+  {
+    path: '/propertyowners',
+    name: 'Property Owners',
+    element: <PropertyOwners />,
+    isProtected: true,
+  },
+  {
+    path: '/propertyownerlist',
+    name: 'Property Owner List',
+    element: <PropertyOwnerList />,
+    isProtected: true,
+  },
   { path: '/properties', name: 'Properties', element: <Properties />, isProtected: true },
   { path: '/propertylist', name: 'Property List', element: <PropertyList />, isProtected: true },
   { path: '/propertyunits', name: 'Property Units', element: <PropertyUnits />, isProtected: true },
-  { path: '/propertyunitlist', name: 'Property Unit List', element: <PropertyUnitList />, isProtected: true },
+  {
+    path: '/propertyunitlist',
+    name: 'Property Unit List',
+    element: <PropertyUnitList />,
+    isProtected: true,
+  },
   { path: '/leasestenancy', name: 'Lease Tenancy', element: <LeasesTenancy />, isProtected: true },
-  { path: '/leasestenancylist', name: 'List of Leases', element: <LeasesTenancyList />, isProtected: true },
-  { path: '/leasestenancyterminated', name: 'Terminated Leases', element: <LeasesTenancyTerminated />, isProtected: true },
-  { path: '/maintenance-request/:requestId', name: 'Maintenance Request', element: <MaintenanceRequest />, isProtected: true },
+  {
+    path: '/leasestenancylist',
+    name: 'List of Leases',
+    element: <LeasesTenancyList />,
+    isProtected: true,
+  },
+  {
+    path: '/leasestenancyterminated',
+    name: 'Terminated Leases',
+    element: <LeasesTenancyTerminated />,
+    isProtected: true,
+  },
+  {
+    path: '/maintenance-request/:requestId',
+    name: 'Maintenance Request',
+    element: <MaintenanceRequest />,
+    isProtected: true,
+  },
   { path: '/allusers', name: 'Manage All Users', element: <ManageAllUsers />, isProtected: true },
-  { path: '/applicationlogs', name: 'Application Logs', element: <ApplicationLogs />, isProtected: true },
+  {
+    path: '/applicationlogs',
+    name: 'Application Logs',
+    element: <ApplicationLogs />,
+    isProtected: true,
+  },
   { path: '/404', name: 'Page 404', element: <Page404 />, isProtected: true },
   { path: '/500', name: 'Page 500', element: <Page500 />, isProtected: true },
   {
