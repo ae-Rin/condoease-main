@@ -77,6 +77,27 @@ const PropertyUnits = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setLoading(true)
+    setErrorMessage(null)
+    const missing = []
+    if (!formValues.property.trim()) missing.push('Please select a property.')
+    if (!formValues.unitType.trim()) missing.push('Please select a unit type.')
+    if (!formValues.unitNumber.trim()) missing.push('Please enter the unit number.')
+    if (!formValues.commissionPercentage.trim())
+      missing.push('Please enter the commission percentage.')
+    if (!formValues.rentPrice.trim()) missing.push('Please enter the rent price.')
+    if (!formValues.depositPrice.trim()) missing.push('Please enter the deposit price.')
+    if (!formValues.floor.trim()) missing.push('Please enter the unit floor.')
+    if (!formValues.size.trim()) missing.push('Please enter the unit size.')
+    if (!formValues.description.trim()) missing.push('Please enter the unit description.')
+    if (formValues.unitImages.length === 0) missing.push('Please upload at least one unit image.')
+    if (missing.length > 0) {
+      setErrorMessage(missing.join('\n'))
+      setLoading(false)
+      return
+    }
+
+    // Add logic to submit the form data to the backend API here
 
     setUnits((prev) => [...prev, formValues])
     setFormValues({

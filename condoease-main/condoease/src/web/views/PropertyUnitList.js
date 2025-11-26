@@ -61,7 +61,7 @@ const PropertyUnitList = () => {
 
   return (
     <CContainer className="mt-5">
-      <h4 className="mb-4">Registered Property UNITS</h4>
+      <h4 className="mb-4">Registered Property Units</h4>
       <CRow>
         <CCol>
           <CTable striped hover responsive>
