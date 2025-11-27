@@ -229,7 +229,7 @@ const PropertyUnits = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.id} value={property.property_name}>
+                    <option key={property.id} value={property.id}>
                       {property.property_name}
                     </option>
                   ))}
