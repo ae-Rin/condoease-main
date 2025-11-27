@@ -212,6 +212,11 @@ const PropertyUnits = () => {
           <strong>Unit Information</strong>
         </CCardHeader>
         <CCardBody>
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <CForm onSubmit={handleSubmit}>
             <CRow className="mb-3">
               <CCol md={6}>
@@ -348,11 +353,23 @@ const PropertyUnits = () => {
             </CRow>
             <div className="d-flex justify-content-end">
               <CButton
-                type="submit"
-                style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
                 className="text-white fw-bold px-4"
+                style={{
+                  borderRadius: 20,
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
+                type="submit"
+                disabled={loading}
               >
-                Add Unit
+                {loading ? (
+                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                ) : (
+                  'Add Unit'
+                )}
               </CButton>
             </div>
           </CForm>
