@@ -229,7 +229,7 @@ const PropertyUnits = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
+                    <option key={property.id} value={property.property_name}>
                       {property.property_name}
                     </option>
                   ))}
@@ -386,6 +386,7 @@ const PropertyUnits = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Property</CTableHeaderCell>
                 <CTableHeaderCell>Unit Type</CTableHeaderCell>
                 <CTableHeaderCell>Unit Number</CTableHeaderCell>
@@ -398,6 +399,7 @@ const PropertyUnits = () => {
             <CTableBody>
               {units.map((unit, idx) => (
                 <CTableRow key={idx}>
+                  <CTableDataCell>{unit.id}</CTableDataCell>
                   <CTableDataCell>{unit.property}</CTableDataCell>
                   <CTableDataCell>{unit.unitType}</CTableDataCell>
                   <CTableDataCell>{unit.unitNumber}</CTableDataCell>
