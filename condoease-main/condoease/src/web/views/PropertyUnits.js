@@ -17,6 +17,7 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
+  CSpinner,
 } from '@coreui/react'
 
 const unitTypes = ['Studio', '1-Bedroom', '2-Bedroom', '3-Bedroom', 'Penthouse']
@@ -26,6 +27,7 @@ const PropertyUnits = () => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [properties, setProperties] = useState([])
+  const [units, setUnits] = useState([])
   const [formValues, setFormValues] = useState({
     property: '',
     unitType: '',
@@ -39,7 +41,6 @@ const PropertyUnits = () => {
     unitImages: [],
   })
 
-  const [units, setUnits] = useState([])
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -75,74 +76,11 @@ const PropertyUnits = () => {
     setFormValues((prev) => ({ ...prev, unitImages: validFiles }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setErrorMessage(null)
-
-    const missing = []
-    if (!formValues.property) missing.push('Please select a property.')
-    if (!formValues.unitType) missing.push('Please select a unit type.')
-    if (!formValues.unitNumber) missing.push('Please enter the unit number.')
-    if (!formValues.commissionPercentage) missing.push('Please enter commission %.')
-    if (!formValues.rentPrice) missing.push('Please enter rent price.')
-    if (!formValues.depositPrice) missing.push('Please enter deposit price.')
-    if (!formValues.floor) missing.push('Please enter floor.')
-    if (!formValues.size) missing.push('Please enter size.')
-    if (!formValues.description) missing.push('Please enter description.')
-    if (formValues.unitImages.length === 0) missing.push('Please upload images.')
-    if (missing.length > 0) {
-      setErrorMessage(missing.join('\n'))
-      setLoading(false)
-      return
-    }
-
-    try {
-      const formData = new FormData()
-      formData.append('propertyId', formValues.property)
-      formData.append('unitType', formValues.unitType)
-      formData.append('unitNumber', formValues.unitNumber)
-      formData.append('commissionPercentage', formValues.commissionPercentage)
-      formData.append('rentPrice', formValues.rentPrice)
-      formData.append('depositPrice', formValues.depositPrice)
-      formData.append('floor', formValues.floor)
-      formData.append('size', formValues.size)
-      formData.append('description', formValues.description)
-      formValues.unitImages.forEach((img) => formData.append('unitImages', img))
-
-      const res = await fetch(`${API_URL}/api/property-units`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: formData,
-      })
-      if (!res.ok) throw new Error('Failed to save unit.')
-      alert('Unit added successfully!')
-      setUnits((prev) => [...prev, formValues])
-      setFormValues({
-        property: '',
-        unitType: '',
-        unitNumber: '',
-        commissionPercentage: '',
-        rentPrice: '',
-        depositPrice: '',
-        floor: '',
-        size: '',
-        description: '',
-        unitImages: [],
-      })
-    } catch (err) {
-      console.error(err)
-      alert('Failed to add unit.')
-    }
-    setLoading(false)
-  }
-
   // const handleSubmit = async (e) => {
   //   e.preventDefault()
   //   setLoading(true)
   //   setErrorMessage(null)
+
   //   const missing = []
   //   if (!formValues.property) missing.push('Please select a property.')
   //   if (!formValues.unitType) missing.push('Please select a unit type.')
@@ -160,28 +98,27 @@ const PropertyUnits = () => {
   //     return
   //   }
 
-  //   const formData = new FormData()
-  //   formData.append('propertyId', formValues.property)
-  //   formData.append('unitType', formValues.unitType)
-  //   formData.append('unitNumber', formValues.unitNumber)
-  //   formData.append('commissionPercentage', formValues.commissionPercentage)
-  //   formData.append('rentPrice', formValues.rentPrice)
-  //   formData.append('depositPrice', formValues.depositPrice)
-  //   formData.append('floor', formValues.floor)
-  //   formData.append('size', formValues.size)
-  //   formData.append('description', formValues.description)
-  //   formValues.unitImages.forEach((img) => formData.append('unitImages', img))
-
   //   try {
+  //     const formData = new FormData()
+  //     formData.append('propertyId', formValues.property)
+  //     formData.append('unitType', formValues.unitType)
+  //     formData.append('unitNumber', formValues.unitNumber)
+  //     formData.append('commissionPercentage', formValues.commissionPercentage)
+  //     formData.append('rentPrice', formValues.rentPrice)
+  //     formData.append('depositPrice', formValues.depositPrice)
+  //     formData.append('floor', formValues.floor)
+  //     formData.append('size', formValues.size)
+  //     formData.append('description', formValues.description)
+  //     formValues.unitImages.forEach((img) => formData.append('unitImages', img))
+
   //     const res = await fetch(`${API_URL}/api/property-units`, {
   //       method: 'POST',
-  //       body: formData,
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('authToken')}`,
   //       },
+  //       body: formData,
   //     })
   //     if (!res.ok) throw new Error('Failed to save unit.')
-
   //     alert('Unit added successfully!')
   //     setUnits((prev) => [...prev, formValues])
   //     setFormValues({
@@ -197,12 +134,76 @@ const PropertyUnits = () => {
   //       unitImages: [],
   //     })
   //   } catch (err) {
-  //     console.error('Error submitting unit:', err)
-  //     setErrorMessage(err.message)
-  //   } finally {
-  //     setLoading(false)
+  //     console.error(err)
+  //     alert('Failed to add unit.')
   //   }
+  //   setLoading(false)
   // }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setErrorMessage(null)
+    const missing = []
+    if (!formValues.property) missing.push('Please select a property.')
+    if (!formValues.unitType) missing.push('Please select a unit type.')
+    if (!formValues.unitNumber) missing.push('Please enter the unit number.')
+    if (!formValues.commissionPercentage) missing.push('Please enter commission %.')
+    if (!formValues.rentPrice) missing.push('Please enter rent price.')
+    if (!formValues.depositPrice) missing.push('Please enter deposit price.')
+    if (!formValues.floor) missing.push('Please enter floor.')
+    if (!formValues.size) missing.push('Please enter size.')
+    if (!formValues.description) missing.push('Please enter description.')
+    if (formValues.unitImages.length === 0) missing.push('Please upload images.')
+    if (missing.length > 0) {
+      setErrorMessage(missing.join('\n'))
+      setLoading(false)
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('propertyId', formValues.property)
+    formData.append('unitType', formValues.unitType)
+    formData.append('unitNumber', formValues.unitNumber)
+    formData.append('commissionPercentage', formValues.commissionPercentage)
+    formData.append('rentPrice', formValues.rentPrice)
+    formData.append('depositPrice', formValues.depositPrice)
+    formData.append('floor', formValues.floor)
+    formData.append('size', formValues.size)
+    formData.append('description', formValues.description)
+    formValues.unitImages.forEach((img) => formData.append('unitImages', img))
+
+    try {
+      const res = await fetch(`${API_URL}/api/property-units`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      })
+      if (!res.ok) throw new Error('Failed to save unit.')
+
+      alert('Unit added successfully!')
+      setUnits((prev) => [...prev, formValues])
+      setFormValues({
+        property: '',
+        unitType: '',
+        unitNumber: '',
+        commissionPercentage: '',
+        rentPrice: '',
+        depositPrice: '',
+        floor: '',
+        size: '',
+        description: '',
+        unitImages: [],
+      })
+    } catch (err) {
+      console.error('Error submitting unit:', err)
+      setErrorMessage(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <CContainer className="mt-5">
