@@ -132,7 +132,7 @@ const PropertyUnits = () => {
         },
       })
       // if (!res.ok) throw new Error('Failed to save unit.')
-      if (!res.ok) throw new Error(await res.text())
+      if (!res.ok) throw new Error(await res.json())
 
       alert('Unit added successfully!')
       setUnits((prev) => [...prev, formValues])
