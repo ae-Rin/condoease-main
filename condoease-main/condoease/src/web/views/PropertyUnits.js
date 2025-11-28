@@ -350,13 +350,14 @@ const PropertyUnits = () => {
               {units.map((unit, idx) => (
                 <CTableRow key={idx}>
                   <CTableDataCell>{unit.id}</CTableDataCell>
-                  <CTableDataCell>
+                  <CTableDataCell>{unit.property_name}</CTableDataCell>
+                  {/* <CTableDataCell>
                     {properties.find((p) => p.id === Number(unit.property))?.property_name}
-                  </CTableDataCell>
-                  <CTableDataCell>{unit.unitType}</CTableDataCell>
-                  <CTableDataCell>{unit.unitNumber}</CTableDataCell>
-                  <CTableDataCell>₱{unit.rentPrice}</CTableDataCell>
-                  <CTableDataCell>₱{unit.depositPrice}</CTableDataCell>
+                  </CTableDataCell> */}
+                  <CTableDataCell>{unit.unit_type}</CTableDataCell>
+                  <CTableDataCell>{unit.unit_number}</CTableDataCell>
+                  <CTableDataCell>₱{unit.rent_price}</CTableDataCell>
+                  <CTableDataCell>₱{unit.deposit_price}</CTableDataCell>
                   <CTableDataCell>{unit.floor}</CTableDataCell>
                   <CTableDataCell>{unit.size}</CTableDataCell>
                 </CTableRow>
