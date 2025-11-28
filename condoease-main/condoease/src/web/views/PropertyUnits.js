@@ -165,7 +165,7 @@ const PropertyUnits = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
+                    <option key={property.id} value={property.property_name}>
                       {property.property_name}
                     </option>
                   ))}
