@@ -229,7 +229,7 @@ const PropertyUnits = () => {
                 >
                   <option value="">Select Property/Building</option>
                   {properties.map((property) => (
-                    <option key={property.id} value={property.property_name}>
+                    <option key={property.id} value={property.id}>
                       {property.property_name}
                     </option>
                   ))}
@@ -400,7 +400,9 @@ const PropertyUnits = () => {
               {units.map((unit, idx) => (
                 <CTableRow key={idx}>
                   <CTableDataCell>{unit.id}</CTableDataCell>
-                  <CTableDataCell>{unit.property}</CTableDataCell>
+                  <CTableDataCell>
+                    {properties.find((p) => p.id === Number(unit.property))?.property_name}
+                  </CTableDataCell>
                   <CTableDataCell>{unit.unitType}</CTableDataCell>
                   <CTableDataCell>{unit.unitNumber}</CTableDataCell>
                   <CTableDataCell>₱{unit.rentPrice}</CTableDataCell>
