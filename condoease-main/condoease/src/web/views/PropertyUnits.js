@@ -131,7 +131,8 @@ const PropertyUnits = () => {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
       })
-      if (!res.ok) throw new Error('Failed to save unit.')
+      // if (!res.ok) throw new Error('Failed to save unit.')
+      if (!res.ok) throw new Error(await res.text())
 
       alert('Unit added successfully!')
       setUnits((prev) => [...prev, formValues])
