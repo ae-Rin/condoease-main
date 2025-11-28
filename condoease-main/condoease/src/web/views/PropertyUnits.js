@@ -55,6 +55,20 @@ const PropertyUnits = () => {
       }
     }
 
+    const fetchUnits = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/property-units`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        })
+        if (!res.ok) throw new Error('Failed to fetch property units')
+        const data = await res.json()
+        setUnits(data)
+      } catch (err) {
+        console.error('Error fetching units:', err)
+      }
+    }
+
+    fetchUnits()
     fetchProperties()
   }, [API_URL])
 
