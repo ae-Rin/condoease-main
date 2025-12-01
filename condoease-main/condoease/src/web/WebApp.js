@@ -13,7 +13,7 @@ const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
 const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
 const Cards = React.lazy(() => import('./views/Cards'))
-const Carousel = React.lazy(() => import('./views/Carousels'))
+// const Carousel = React.lazy(() => import('./views/Announcements'))
 const Navs = React.lazy(() => import('./views/Navs'))
 const Collapses = React.lazy(() => import('./views/Collapses'))
 const ListGroups = React.lazy(() => import('./views/ListGroups'))
@@ -80,7 +80,7 @@ const WebApp = () => {
                     <Route index element={<Navigate to="/cards" replace />} />
                     <Route path="/registerverify" element={<RegisterVerify />} />
                     <Route path="cards" element={<Cards />} />
-                    <Route path="carousel" element={<Carousel />} />
+                    {/* <Route path="carousel" element={<Carousel />} /> */}
                     <Route path="navs" element={<Navs />} />
                     <Route path="collapses" element={<Collapses />} />
                     <Route path="listgroups" element={<ListGroups />} />

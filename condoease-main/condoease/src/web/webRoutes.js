@@ -6,7 +6,7 @@ const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
 const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
 const Cards = React.lazy(() => import('./views/Cards'))
-const Carousel = React.lazy(() => import('./views/Carousels'))
+// const Carousel = React.lazy(() => import('./views/Carousels'))
 const Navs = React.lazy(() => import('./views/Navs'))
 const Collapses = React.lazy(() => import('./views/Collapses'))
 const ListGroups = React.lazy(() => import('./views/ListGroups'))
@@ -46,9 +46,10 @@ const webRoutes = [
     isProtected: true,
   },
   { path: '/cards', name: 'Cards', element: <Cards />, isProtected: true },
-  { path: '/carousel', name: 'Carousel', element: <Carousel />, isProtected: true },
+  // { path: '/carousel', name: 'Carousel', element: <Carousel />, isProtected: true },
   { path: '/navs', name: 'Navs', element: <Navs />, isProtected: true },
   { path: '/collapses', name: 'Collapses', element: <Collapses />, isProtected: true },
+  { path: '/listgroups', name: 'List Groups', element: <ListGroups />, isProtected: true },
   { path: '/announcements', name: 'Announcements', element: <Announcements />, isProtected: true },
   { path: '/tables', name: 'Tables', element: <Tables />, isProtected: true },
   { path: '/tenants', name: 'Tenants', element: <Tenants />, isProtected: true },
