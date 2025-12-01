@@ -22,7 +22,7 @@ import socket from '../../shared/socket' // Adjust the import path as needed;
 const Announcements = () => {
   const navigate = useNavigate()
   const { user } = useUser()
-
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [announcements, setAnnouncements] = useState([])
@@ -70,7 +70,7 @@ const Announcements = () => {
     if (file) formData.append('file', file)
 
     try {
-      const res = await fetch('http://localhost:5000/api/announcements', {
+      const res = await fetch(`${API_URL}/api/announcements`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -102,7 +102,7 @@ const Announcements = () => {
     if (editForm.file) formData.append('file', editForm.file)
 
     try {
-      const res = await fetch(`http://localhost:5000/api/announcements/${editForm.id}`, {
+      const res = await fetch(`${API_URL}/api/announcements/${editForm.id}`, {
         method: 'PUT',
         body: formData,
         headers: {
@@ -126,7 +126,7 @@ const Announcements = () => {
     if (!window.confirm('Are you sure you want to delete this announcement?')) return
 
     try {
-      const res = await fetch(`http://localhost:5000/api/announcements/${id}`, {
+      const res = await fetch(`${API_URL}/api/announcements/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -150,14 +150,11 @@ const Announcements = () => {
     const fetchAnnouncements = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const response = await axios.get(
-          `http://localhost:5000/api/announcements?userId=${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get(`${API_URL}/api/announcements?userId=${user.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        )
+        })
         setAnnouncements(response.data)
       } catch (err) {
         console.error('Error fetching announcements:', err)
