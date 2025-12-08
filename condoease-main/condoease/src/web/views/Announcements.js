@@ -146,6 +146,16 @@ const Announcements = () => {
     }
   }
 
+  const ws = new WebSocket('wss://condoease-backends.onrender.com/ws/announcements')
+
+  ws.onmessage = (msg) => {
+    const { event, data } = JSON.parse(msg.data)
+
+    if (event === 'new_announcement') {
+      setAnnouncements((prev) => [data, ...prev])
+    }
+  }
+
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
