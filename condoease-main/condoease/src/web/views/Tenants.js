@@ -199,7 +199,7 @@ const Tenants = () => {
         throw new Error(result.detail || 'Unknown error')
       }
 
-      alert('Tenant registered successfully YAAAAYYYYY!')
+      alert('Tenant registered successfully!')
       setFormValues({
         lastName: '',
         firstName: '',
