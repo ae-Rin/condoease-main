@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, use } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
   CContainer,
@@ -49,10 +49,10 @@ const UpdateTenant = () => {
   const navigate = useNavigate()
   const [formValues, setFormValues] = useState({
     lastName: '',
-    firstName: '',  
+    firstName: '',
     email: '',
     contactNumber: '',
-    address:{
+    address: {
       street: '',
       barangay: '',
       city: '',
