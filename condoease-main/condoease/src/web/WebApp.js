@@ -20,6 +20,7 @@ const ListGroups = React.lazy(() => import('./views/ListGroups'))
 const Announcements = React.lazy(() => import('./views/Announcements'))
 const Tables = React.lazy(() => import('./views/Tables'))
 const Tenants = React.lazy(() => import('./views/Tenants'))
+const UpdateTenant = React.lazy(() => import('./views/UpdateTenant'))
 const TenantList = React.lazy(() => import('./views/TenantList'))
 const PropertyOwners = React.lazy(() => import('./views/PropertyOwners'))
 const PropertyOwnerList = React.lazy(() => import('./views/PropertyOwnerList'))
@@ -87,6 +88,7 @@ const WebApp = () => {
                     <Route path="announcements" element={<Announcements />} />
                     <Route path="tables" element={<Tables />} />
                     <Route path="tenants" element={<Tenants />} />
+                    <Route path="tenants/edit/:tenantId" element={<UpdateTenant />} />
                     <Route path="tenantlist" element={<TenantList />} />
                     <Route path="propertyowners" element={<PropertyOwners />} />
                     <Route path="propertyownerlist" element={<PropertyOwnerList />} />

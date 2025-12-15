@@ -13,6 +13,7 @@ const ListGroups = React.lazy(() => import('./views/ListGroups'))
 const Announcements = React.lazy(() => import('./views/Announcements'))
 const Tables = React.lazy(() => import('./views/Tables'))
 const Tenants = React.lazy(() => import('./views/Tenants'))
+const UpdateTenant = React.lazy(() => import('./views/UpdateTenant'))
 const TenantList = React.lazy(() => import('./views/TenantList'))
 const PropertyOwners = React.lazy(() => import('./views/PropertyOwners'))
 const PropertyOwnerList = React.lazy(() => import('./views/PropertyOwnerList'))
@@ -53,6 +54,12 @@ const webRoutes = [
   { path: '/announcements', name: 'Announcements', element: <Announcements />, isProtected: true },
   { path: '/tables', name: 'Tables', element: <Tables />, isProtected: true },
   { path: '/tenants', name: 'Tenants', element: <Tenants />, isProtected: true },
+  {
+    path: '/tenants/edit/:tenantId',
+    name: 'Update Tenant',
+    element: <UpdateTenant />,
+    isProtected: true,
+  },
   { path: '/tenantlist', name: 'Tenant List', element: <TenantList />, isProtected: true },
   {
     path: '/propertyowners',

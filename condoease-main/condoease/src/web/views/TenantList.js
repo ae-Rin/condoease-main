@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CContainer,
   CRow,
@@ -17,6 +18,7 @@ const TenantList = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [tenants, setTenants] = useState([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchTenants = async () => {
@@ -114,7 +116,7 @@ const TenantList = () => {
                           color="warning"
                           size="sm"
                           className="me-2"
-                          onClick={() => handleEdit(tenant.tenant_id)}
+                          onClick={() => navigate(`/tenants/edit/${tenant.tenant_id}`)}
                         >
                           <FaEdit />
                         </CButton>
