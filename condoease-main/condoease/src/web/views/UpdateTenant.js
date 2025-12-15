@@ -260,7 +260,9 @@ const UpdateTenant = () => {
       <h4 className="mb-4">Update Tenant Information</h4>
       <CCard>
         <CCardHeader className="text-body-secondary">
-          <strong>Tenant Information</strong>
+          <strong>
+            Tenant Information - {formValues.firstName} {formValues.lastName}
+          </strong>
         </CCardHeader>
         <CCardBody>
           {errorMessage && (
@@ -432,7 +434,7 @@ const UpdateTenant = () => {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value={formValues.idType}>Select ID Type</option>
+                  <option value="">Select ID Type</option>
                   {idTypes.map((type, idx) => (
                     <option key={idx} value={type}>
                       {type}
