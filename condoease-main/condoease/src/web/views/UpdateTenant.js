@@ -432,7 +432,7 @@ const UpdateTenant = () => {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">Select ID Type</option>
+                  <option value={formValues.idType}>Select ID Type</option>
                   {idTypes.map((type, idx) => (
                     <option key={idx} value={type}>
                       {type}
