@@ -82,9 +82,12 @@ const UpdateTenant = () => {
           },
         })
 
-        const data = await res.json()
-        const tenant = data.find((t) => t.id === Number(tenantId))
-        if (!tenant) throw new Error('Tenant not found')
+        if (!res.ok) {
+          const err = await res.json()
+          throw new Error(err.detail || 'Failed to fetch tenant')
+        }
+
+        const tenant = await res.json()
 
         setFormValues({
           lastName: tenant.last_name,
@@ -231,7 +234,7 @@ const UpdateTenant = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/api/tenants/${tenant_id}`, {
+      const res = await fetch(`${API_URL}/api/tenants/${tenantId}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
