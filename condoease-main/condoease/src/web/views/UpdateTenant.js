@@ -47,6 +47,7 @@ const debounce = (func, delay) => {
 const UpdateTenant = () => {
   const { tenantId } = useParams()
   const navigate = useNavigate()
+  const [tenantDetails, setTenantDetails] = useState(null)
   const [formValues, setFormValues] = useState({
     lastName: '',
     firstName: '',
@@ -87,26 +88,46 @@ const UpdateTenant = () => {
           throw new Error(err.detail || 'Failed to fetch tenant')
         }
 
-        const tenant = await res.json()
-
+        // const tenant = await res.json()
+        // setFormValues({
+        //   lastName: tenant.last_name,
+        //   firstName: tenant.first_name,
+        //   email: tenant.email,
+        //   contactNumber: tenant.contact_number,
+        //   address: {
+        //     street: tenant.street,
+        //     barangay: tenant.barangay,
+        //     city: tenant.city,
+        //     province: tenant.province,
+        //   },
+        //   idType: tenant.id_type,
+        //   idNumber: tenant.id_number,
+        //   idDocument: null,
+        //   occupationStatus: tenant.occupation_status,
+        //   occupationPlace: tenant.occupation_place,
+        //   emergencyContactName: tenant.emergency_contact_name,
+        //   emergencyContactNumber: tenant.emergency_contact_number,
+        // })
+        const data = await res.json()
+        setTenantDetails(data)
         setFormValues({
-          lastName: tenant.last_name,
-          firstName: tenant.first_name,
-          email: tenant.email,
-          contactNumber: tenant.contact_number,
+          lastName: data.last_name,
+          firstName: data.first_name,
+          email: data.email,
+          contactNumber: data.contact_number,
           address: {
-            street: tenant.street,
-            barangay: tenant.barangay,
-            city: tenant.city,
-            province: tenant.province,
+            street: data.street,
+            barangay: data.barangay,
+            city: data.city,
+            province: data.province,
           },
-          idType: tenant.id_type,
-          idNumber: tenant.id_number,
+          idType: data.id_type,
+          idNumber: data.id_number,
           idDocument: null,
-          occupationStatus: tenant.occupation_status,
-          occupationPlace: tenant.occupation_place,
-          emergencyContactName: tenant.emergency_contact_name,
-          emergencyContactNumber: tenant.emergency_contact_number,
+          occupationStatus: data.occupation_status,
+          occupationPlace: data.occupation_place,
+          emergencyContactName: data.emergency_contact_name,
+          emergencyContactNumber: data.emergency_contact_number,
         })
       } catch (err) {
         setErrorMessage(err.message)
@@ -278,7 +299,7 @@ const UpdateTenant = () => {
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
-                  value={formValues.lastName}// the value must get from the saved database information of the tenant_id
+                  value={tenantDetails.lastName}
                   onChange={handleInputChange}
                   required
                 />
