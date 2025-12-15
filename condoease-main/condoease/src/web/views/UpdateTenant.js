@@ -76,14 +76,14 @@ const UpdateTenant = () => {
   useEffect(() => {
     const fetchTenant = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/tenants`, {
+        const res = await fetch(`${API_URL}/api/tenants/${tenantId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         })
 
         const data = await res.json()
-        const tenant = data.find((t) => t.id === Number(tenant_id))
+        const tenant = data.find((t) => t.id === Number(tenantId))
         if (!tenant) throw new Error('Tenant not found')
 
         setFormValues({
@@ -275,7 +275,7 @@ const UpdateTenant = () => {
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
-                  value={formValues.lastName}
+                  value={formValues.lastName}// the value must get from the saved database information of the tenant_id
                   onChange={handleInputChange}
                   required
                 />
