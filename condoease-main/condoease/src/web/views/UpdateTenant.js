@@ -299,7 +299,7 @@ const UpdateTenant = () => {
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
-                  value={tenantDetails.lastName}
+                  value={setFormValues.lastName}
                   onChange={handleInputChange}
                   required
                 />
@@ -310,7 +310,7 @@ const UpdateTenant = () => {
                   type="text"
                   name="firstName"
                   placeholder="First Name"
-                  value={formValues.firstName}
+                  value={setFormValues.firstName}
                   onChange={handleInputChange}
                   required
                 />
