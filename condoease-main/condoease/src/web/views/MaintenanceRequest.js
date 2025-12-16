@@ -11,6 +11,7 @@ const MaintenanceRequest = () => {
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
   const [status, setStatus] = useState('')
+  const [scheduledAt, setScheduledAt] = useState(null)
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -40,21 +41,22 @@ const MaintenanceRequest = () => {
   }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
+    if (status === 'approved' && !scheduledAt) {
+      alert('Please select a schedule for the approved request.')
+      return
+    }
+
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: JSON.stringify({ status, comment }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        body: JSON.stringify({
+          status: status === 'approved' ? 'ongoing' : 'pending',
+          comment,
+          scheduled_at: scheduledAt ? scheduledAt.toISOString() : null,
+        }),
       })
-
-      if (!res.ok) {
-        const errorData = await res.json()
-        throw new Error(errorData.error || 'Failed to update status')
-      }
-
+      if (!res.ok) throw new Error('Failed to update status')
       alert('Status updated successfully!')
       navigate('/collapses')
     } catch (err) {
@@ -144,7 +146,7 @@ const MaintenanceRequest = () => {
                 </div>
               </>
             )}
-            <div className="mt-4">
+            <div className="mt-3">
               <CFormSelect
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
@@ -159,13 +161,28 @@ const MaintenanceRequest = () => {
                 <option value="rejected">Reject</option>
               </CFormSelect>
             </div>
+
+            {status === 'approved' && (
+              <div className="mt-3">
+                <label><strong>Schedule Date & Time of Maintenance:</strong></label>
+                <DatePicker
+                  selected={scheduledAt}
+                  onChange={(date) => setScheduledAt(date)}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  className="form-control"
+                  placeholderText="Select date & time"
+                />
+              </div>
+            )}
+
             <div className="mt-3">
               <h6>Comment</h6>
               <CFormTextarea
                 rows="3"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Add your comment here..."
+                placeholder="Add your remarks & reason here..."
                 style={{
                   borderColor: '#A3C49A',
                   borderRadius: '8px',
