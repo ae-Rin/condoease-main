@@ -50,10 +50,8 @@ const Login = () => {
       const data = await response.json()
 
       if (response.ok && data.token) {
-        // localStorage.setItem('authToken', data.token)
-        // setUser(data.user)
         localStorage.setItem('authToken', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+        localStorage.setItem('authUser', JSON.stringify(data.user))
         setUser(data.user)
 
         alert('Login successful!')
