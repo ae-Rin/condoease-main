@@ -21,7 +21,7 @@ const MaintenanceRequest = () => {
         const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },    
+          },
         })
 
         if (!res.ok) {
@@ -159,6 +159,7 @@ const MaintenanceRequest = () => {
                   fontSize: '16px',
                 }}
               >
+                <option value="">Select Request Status</option>
                 <option value="approved">Approve</option>
                 <option value="rejected">Reject</option>
               </CFormSelect>

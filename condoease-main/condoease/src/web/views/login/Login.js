@@ -48,14 +48,12 @@ const Login = () => {
       })
 
       const data = await response.json()
-      // console.log('API URL:', API_URL)
 
       if (response.ok && data.token) {
-        // console.log('%c[Login] Login successful!', 'color: green')
-        // console.log('Token:', data.token)
-        // console.log('User:', data.user)
-
+        // localStorage.setItem('authToken', data.token)
+        // setUser(data.user)
         localStorage.setItem('authToken', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
         setUser(data.user)
 
         alert('Login successful!')
