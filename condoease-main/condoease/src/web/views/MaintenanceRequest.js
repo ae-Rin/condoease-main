@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CFormSelect } from '@coreui/react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css' 
 
 const MaintenanceRequest = () => {
   const { requestId } = useParams()
@@ -19,7 +21,7 @@ const MaintenanceRequest = () => {
         const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
+          },    
         })
 
         if (!res.ok) {

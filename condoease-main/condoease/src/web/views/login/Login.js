@@ -18,7 +18,7 @@ import logoWhite from 'src/assets/images/logo_white.png'
 
 const Login = () => {
   const navigate = useNavigate()
-  const { setUser } = useUser() // <-- Context setter
+  const { setUser } = useUser()
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -29,7 +29,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
-  const [loading, setLoading] = useState(false) // <-- Loading state
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -39,7 +39,7 @@ const Login = () => {
     } else {
       setEmailError('')
     }
-    setLoading(true) // Start loading
+    setLoading(true)
     try {
       const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
@@ -48,12 +48,12 @@ const Login = () => {
       })
 
       const data = await response.json()
-      console.log('API URL:', API_URL)
+      // console.log('API URL:', API_URL)
 
       if (response.ok && data.token) {
-        console.log('%c[Login] Login successful!', 'color: green')
-        console.log('Token:', data.token)
-        console.log('User:', data.user)
+        // console.log('%c[Login] Login successful!', 'color: green')
+        // console.log('Token:', data.token)
+        // console.log('User:', data.user)
 
         localStorage.setItem('authToken', data.token)
         setUser(data.user)
