@@ -20,7 +20,7 @@ import defaultAvatar from '../../../src/assets/images/avatars/8.jpg'
 
 const EditModal = ({ visible, field, tempData, setTempData, onClose, onSave }) => {
   const fieldLabel = field.charAt(0).toUpperCase() + field.slice(1)
-
+  const API_URL = import.meta.env.VITE_APP_API_URL
   const [showCurrent, setShowCurrent] = useState(false)
   const [showNew, setShowNew] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)

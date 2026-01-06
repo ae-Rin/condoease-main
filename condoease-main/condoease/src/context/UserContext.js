@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(undefined) // undefined = loading, null = not logged in
+  const [user, setUser] = useState(undefined)
 
   useEffect(() => {
     const stored = localStorage.getItem('authUser')

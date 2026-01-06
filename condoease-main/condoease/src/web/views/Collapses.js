@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -47,7 +46,6 @@ const Collapses = () => {
         const data = await res.json()
         setMaintenanceRequests(data.requests)
 
-        // Calculate stats
         const total = data.requests.length
         const pending = data.requests.filter((req) => req.status === 'pending').length
         const ongoing = data.requests.filter((req) => req.status === 'ongoing').length
@@ -64,8 +62,17 @@ const Collapses = () => {
     fetchMaintenanceRequests()
   }, [API_URL])
 
-  const handleViewRequest = (requestId) => {
-    navigate(`/maintenance-request/${requestId}`)
+  // const handleViewRequest = (requestId) => {
+  //   navigate(`/maintenance-request/${requestId}`)
+  // }
+  const handleViewRequest = (requestId, status) => {
+    if (status === 'pending') {
+      navigate(`/maintenance-request/${requestId}`)
+    } else if (status === 'ongoing') {
+      navigate(`/maintenance-ongoing/${requestId}`)
+    } else if (status === 'completed') {
+      navigate(`/maintenance-completed/${requestId}`)
+    }
   }
 
   return (
@@ -160,7 +167,9 @@ const Collapses = () => {
                     color="info"
                     size="sm"
                     className="me-2"
-                    onClick={() => handleViewRequest(request.maintenance_request_id)}
+                    onClick={() =>
+                      handleViewRequest(request.maintenance_request_id, request.status)
+                    }
                   >
                     View
                   </CButton>

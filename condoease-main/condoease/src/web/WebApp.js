@@ -32,6 +32,8 @@ const LeasesTenancy = React.lazy(() => import('./views/LeasesTenancy'))
 const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
 const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
 const MaintenanceRequest = React.lazy(() => import('./views/MaintenanceRequest'))
+const MaintenanceOngoing = React.lazy(() => import('./views/MaintenanceOngoing'))
+const MaintenanceCompleted = React.lazy(() => import('./views/MaintenanceCompleted'))
 const ManageAllUsers = React.lazy(() => import('./views/ManageAllUsers'))
 const ApplicationLogs = React.lazy(() => import('./views/ApplicationLogs'))
 
@@ -100,6 +102,11 @@ const WebApp = () => {
                     <Route path="leasestenancylist" element={<LeasesTenancyList />} />
                     <Route path="leasestenancyterminated" element={<LeasesTenancyTerminated />} />
                     <Route path="maintenance-request/:requestId" element={<MaintenanceRequest />} />
+                    <Route path="maintenance-ongoing/:requestId" element={<MaintenanceOngoing />} />
+                    <Route
+                      path="maintenance-completed/:requestId"
+                      element={<MaintenanceCompleted />}
+                    />
                     <Route path="allusers" element={<ManageAllUsers />} />
                     <Route path="applicationlogs" element={<ApplicationLogs />} />
                   </Route>

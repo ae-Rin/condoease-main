@@ -25,6 +25,8 @@ const LeasesTenancy = React.lazy(() => import('./views/LeasesTenancy'))
 const LeasesTenancyList = React.lazy(() => import('./views/LeasesTenancyList'))
 const LeasesTenancyTerminated = React.lazy(() => import('./views/LeasesTenancyTerminated'))
 const MaintenanceRequest = React.lazy(() => import('./views/MaintenanceRequest'))
+const MaintenanceOngoing = React.lazy(() => import('./views/MaintenanceOngoing'))
+const MaintenanceCompleted = React.lazy(() => import('./views/MaintenanceCompleted'))
 const ManageAllUsers = React.lazy(() => import('./views/ManageAllUsers'))
 const ApplicationLogs = React.lazy(() => import('./views/ApplicationLogs'))
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
@@ -99,6 +101,18 @@ const webRoutes = [
     path: '/maintenance-request/:requestId',
     name: 'Maintenance Request',
     element: <MaintenanceRequest />,
+    isProtected: true,
+  },
+  {
+    path: '/maintenance-ongoing/:requestId',
+    name: 'Ongoing Maintenance',
+    element: <MaintenanceOngoing />,
+    isProtected: true,
+  },
+  {
+    path: '/maintenance-completed/:requestId',
+    name: 'Completed Maintenance',
+    element: <MaintenanceCompleted />,
     isProtected: true,
   },
   { path: '/allusers', name: 'Manage All Users', element: <ManageAllUsers />, isProtected: true },
