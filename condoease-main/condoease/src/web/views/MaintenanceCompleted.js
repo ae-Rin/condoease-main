@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { CCard, CCardBody, CCardHeader, CButton } from '@coreui/react'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const MaintenanceOngoing = () => {
+const MaintenanceCompleted = () => {
   const { requestId } = useParams()
   const navigate = useNavigate()
   const API_URL = import.meta.env.VITE_APP_API_URL
@@ -67,7 +67,7 @@ const MaintenanceOngoing = () => {
 
   return (
     <div className="container" style={{ padding: '20px' }}>
-      <h4 className="mb-3">Ongoing Maintenance Request</h4>
+      <h4 className="mb-3">Completed Maintenance Request</h4>
       <div className="mb-3">
         <span
           className="text-body-secondary"
@@ -84,10 +84,10 @@ const MaintenanceOngoing = () => {
         >
           MAINTENANCE TRACKING
         </span>{' '}
-        / <span style={{ color: '#F28D35' }}>ONGOING MAINTENANCE REQUEST</span>
+        / <span style={{ color: '#F28D35' }}>COMPLETED MAINTENANCE REQUEST</span>
       </div>
       {loading ? (
-        <p>Loading ongoing maintenance request...</p>
+        <p>Loading completed maintenance request...</p>
       ) : requestDetails ? (
         <CCard>
           <CCardHeader>
@@ -144,10 +144,10 @@ const MaintenanceOngoing = () => {
           </CCardBody>
         </CCard>
       ) : (
-        <p>Ongoing Request not found.</p>
+        <p>Completed Request not found.</p>
       )}
     </div>
   )
 }
 
-export default MaintenanceOngoing
+export default MaintenanceCompleted
