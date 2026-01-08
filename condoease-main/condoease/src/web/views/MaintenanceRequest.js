@@ -1,9 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CFormSelect } from '@coreui/react'
+import {
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CFormTextarea,
+  CButton,
+  CFormSelect,
+  CSpinner,
+} from '@coreui/react'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css' 
+import 'react-datepicker/dist/react-datepicker.css'
 
 const MaintenanceRequest = () => {
   const { requestId } = useParams()
@@ -51,18 +59,21 @@ const MaintenanceRequest = () => {
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
         body: JSON.stringify({
           status: status === 'approved' ? 'ongoing' : 'pending',
           comment,
           scheduled_at: scheduledAt ? scheduledAt.toISOString() : null,
         }),
       })
-      if (!res.ok) throw new Error('Failed to update status')
-      alert('Status updated successfully!')
+      if (!res.ok) throw new Error('Failed to update maintenance')
+      alert('Maintenance marked as ongoing!')
       navigate('/collapses')
     } catch (err) {
-      console.error('Error updating status:', err)
+      console.error('Error updating maintenance:', err)
     }
   }
 
@@ -167,7 +178,9 @@ const MaintenanceRequest = () => {
 
             {status === 'approved' && (
               <div className="mt-3">
-                <label><strong>Schedule Date & Time of Maintenance:</strong></label>
+                <label>
+                  <strong>Schedule Date & Time of Maintenance:</strong>
+                </label>
                 <DatePicker
                   selected={scheduledAt}
                   onChange={(date) => setScheduledAt(date)}
@@ -204,10 +217,22 @@ const MaintenanceRequest = () => {
                 Cancel
               </CButton>
               <CButton
+                className="text-white fw-bold px-4"
                 onClick={handleUpdateStatus}
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                disabled={loading}
+                style={{
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
               >
-                Send Decision
+                {loading ? (
+                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                ) : (
+                  'Completed'
+                )}
               </CButton>
             </div>
           </CCardBody>

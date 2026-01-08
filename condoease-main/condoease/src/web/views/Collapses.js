@@ -62,9 +62,6 @@ const Collapses = () => {
     fetchMaintenanceRequests()
   }, [API_URL])
 
-  // const handleViewRequest = (requestId) => {
-  //   navigate(`/maintenance-request/${requestId}`)
-  // }
   const handleViewRequest = (requestId, status) => {
     if (status === 'pending') {
       navigate(`/maintenance-request/${requestId}`)

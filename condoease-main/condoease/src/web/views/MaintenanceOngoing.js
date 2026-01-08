@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { CCard, CCardBody, CCardHeader, CButton } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CFormSelect } from '@coreui/react'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const MaintenanceOngoing = () => {
@@ -10,11 +11,17 @@ const MaintenanceOngoing = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [requestDetails, setRequestDetails] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [resolutionSummary, setResolutionSummary] = useState('')
+  const [status, setStatus] = useState('')
+  const [completedAt, setCompletedAt] = useState(null)
+  const [totalCost, setTotalCost] = useState('')
+  const [warrantInfo, setWarrantInfo] = useState('')
+  const [invoiceFile, setInvoiceFile] = useState(null)
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
+        const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
@@ -39,29 +46,37 @@ const MaintenanceOngoing = () => {
   }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
-    if (status === 'approved' && !scheduledAt) {
-      alert('Please select a schedule for the approved request.')
+    if (status === 'completed' && !completedAt) {
+      alert('Please select a completion date for the completed request.')
       return
     }
+    else if (!resolutionSummary.trim()) {
+      alert('Resolution summary is required.')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('status', 'completed')
+    formData.append('resolution_summary', resolutionSummary)
+    formData.append('completed_at', completedAt ? completedAt.toISOString() : null)
+    if (totalCost) formData.append('total_cost', totalCost)
+    if (warrantInfo) formData.append('warranty_info', warrantInfo)
+    if (invoiceFile) formData.append('invoice', invoiceFile)
 
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
-        body: JSON.stringify({
-          status: status === 'completed' ? 'ongoing' : 'pending',
-          comment,
-          scheduled_at: scheduledAt ? scheduledAt.toISOString() : null,
-        }),
+        body: formData,
       })
-      if (!res.ok) throw new Error('Failed to update status')
-      alert('Status updated successfully!')
+      
+      if (!res.ok) throw new Error('Failed to complete maintenance request')
+      alert('Maintenance marked as completed!')
       navigate('/collapses')
     } catch (err) {
-      console.error('Error updating status:', err)
+      console.error('Error completing maintenance:', err)
     }
   }
 
@@ -117,7 +132,7 @@ const MaintenanceOngoing = () => {
 
             {requestDetails.admin_comment && (
               <div className="mt-3">
-                <h6>Admin Remarks</h6>
+                <h6>Admin Comments/Remarks</h6>
                 <div
                   style={{
                     background: '#f8f9fa',
@@ -130,9 +145,59 @@ const MaintenanceOngoing = () => {
                 </div>
               </div>
             )}
-            {/* <div className="mt-3">
-              
-            </div> */}
+            <div className="mt-3">
+              <h6>Resolution Summary</h6>
+              <CFormTextarea
+                rows="3"
+                value={resolutionSummary}
+                onChange={(e) => setResolutionSummary(e.target.value)}
+                placeholder="Write what was done here..."
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  fontSize: '16px',
+                }}
+              />
+            </div>
+            <div className="mt-3">
+              <h6>Completion Date & Time</h6>
+              <DatePicker
+                selected={completedAt}
+                onChange={(date) => setCompletedAt(date)}
+                showTimeSelect
+                dateFormat="Pp"
+                className="form-control"
+              />
+            </div>
+            <div className="mt-3">
+              <h6>Total Cost (Optional)</h6>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="₱0.00"
+                value={totalCost}
+                onChange={(e) => setTotalCost(e.target.value)}
+              />
+            </div>
+            <div className="mt-3">
+              <h6>Attach Invoice / Receipt (Optional)</h6>
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*,.pdf"
+                onChange={(e) => setInvoiceFile(e.target.files[0])}
+              />
+            </div>
+            <div className="mt-3">
+              <h6>Warranty Information (Optional)</h6>
+              <CFormTextarea
+                rows="2"
+                value={warrantyInfo}
+                onChange={(e) => setWarrantyInfo(e.target.value)}
+                placeholder="Warranty duration, coverage, notes..."
+              />
+            </div>
             <div className="d-flex justify-content-end mt-4">
               <CButton
                 onClick={handleUpdateStatus}
