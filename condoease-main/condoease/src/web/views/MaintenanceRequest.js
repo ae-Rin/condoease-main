@@ -51,11 +51,11 @@ const MaintenanceRequest = () => {
   }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
+    setLoading(true)
     if (status === 'approved' && !scheduledAt) {
       alert('Please select a schedule for the approved request.')
       return
     }
-    setLoading(true)
 
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
