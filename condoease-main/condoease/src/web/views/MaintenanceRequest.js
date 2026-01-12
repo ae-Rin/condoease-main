@@ -12,13 +12,15 @@ import {
 } from '@coreui/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { sub } from 'date-fns'
 
 const MaintenanceRequest = () => {
   const { requestId } = useParams()
   const navigate = useNavigate()
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [requestDetails, setRequestDetails] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [comment, setComment] = useState('')
   const [status, setStatus] = useState('')
   const [scheduledAt, setScheduledAt] = useState(null)
@@ -51,12 +53,11 @@ const MaintenanceRequest = () => {
   }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
-    setLoading(true)
     if (status === 'approved' && !scheduledAt) {
       alert('Please select a schedule for the approved request.')
       return
     }
-
+    setSubmitting(true)
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
         method: 'PUT',
@@ -77,7 +78,7 @@ const MaintenanceRequest = () => {
       console.error('Error updating maintenance:', err)
       alert('Failed to update maintenance')
     } finally {
-      setLoading(false)
+      setSubmitting(false)
     }
   }
 
@@ -223,7 +224,7 @@ const MaintenanceRequest = () => {
               <CButton
                 className="text-white fw-bold px-4"
                 onClick={handleUpdateStatus}
-                disabled={loading}
+                disabled={submitting}
                 style={{
                   fontSize: 20,
                   backgroundColor: '#F28D35',
@@ -232,11 +233,7 @@ const MaintenanceRequest = () => {
                   justifyContent: 'center',
                 }}
               >
-                {loading ? (
-                  <CSpinner style={{ width: '1.5rem', height: '1.5rem', color: '#FFFFFF' }} />
-                ) : (
-                  'Send Decision'
-                )}
+                {submitting ? <CSpinner size="sm" /> : 'Send Decision'}
               </CButton>
             </div>
           </CCardBody>
