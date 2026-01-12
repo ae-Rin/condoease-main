@@ -21,7 +21,7 @@ const MaintenanceOngoing = () => {
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
+        const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
