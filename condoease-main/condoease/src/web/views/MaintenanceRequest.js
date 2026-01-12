@@ -60,7 +60,7 @@ const MaintenanceRequest = () => {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
         method: 'PUT',
         headers: {
-          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
         body: JSON.stringify({
