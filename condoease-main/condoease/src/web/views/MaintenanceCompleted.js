@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { CCard, CCardBody, CCardHeader, CButton } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader } from '@coreui/react'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const MaintenanceCompleted = () => {
@@ -11,83 +11,30 @@ const MaintenanceCompleted = () => {
   const [requestDetails, setRequestDetails] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   const fetchRequestDetails = async () => {
-  //     try {
-  //       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-  //         },
-  //       })
-
-  //       if (!res.ok) {
-  //         const errorData = await res.json()
-  //         throw new Error(errorData.error || 'Failed to fetch request details')
-  //       }
-
-  //       const data = await res.json()
-  //       setRequestDetails(data)
-  //       setStatus(data.status)
-  //     } catch (err) {
-  //       console.error('Error fetching request details:', err)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   fetchRequestDetails()
-  // }, [API_URL, requestId])
   useEffect(() => {
-      const fetchRequestDetails = async () => {
-        try {
-          const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}/complete`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            },
-          })
-          if (!res.ok) {
-            const errorData = await res.json()
-            throw new Error(errorData.error || 'Failed to fetch request details')
-          }
-          const data = await res.json()
-          setRequestDetails(data)
-          setStatus(data.status)
-        } catch (err) {
-          console.error('Error fetching request details:', err)
-        } finally {
-          setLoading(false)
+    const fetchRequestDetails = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/maintenance-completed/${requestId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch request details')
         }
+        const data = await res.json()
+        setRequestDetails(data)
+        setStatus(data.status)
+      } catch (err) {
+        console.error('Error fetching request details:', err)
+      } finally {
+        setLoading(false)
       }
-  
-      fetchRequestDetails()
-    }, [API_URL, requestId])
-
-  const handleUpdateStatus = async () => {
-    if (status === 'approved' && !scheduledAt) {
-      alert('Please select a schedule for the approved request.')
-      return
     }
 
-    try {
-      const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: JSON.stringify({
-          status: status === 'completed' ? 'ongoing' : 'pending',
-          comment,
-          scheduled_at: scheduledAt ? scheduledAt.toISOString() : null,
-        }),
-      })
-      if (!res.ok) throw new Error('Failed to update status')
-      alert('Status updated successfully!')
-      navigate('/collapses')
-    } catch (err) {
-      console.error('Error updating status:', err)
-    }
-  }
+    fetchRequestDetails()
+  }, [API_URL, requestId])
 
   return (
     <div className="container" style={{ padding: '20px' }}>
@@ -141,7 +88,7 @@ const MaintenanceCompleted = () => {
 
             {requestDetails.admin_comment && (
               <div className="mt-3">
-                <h6>Admin Remarks</h6>
+                <strong>Comments/Remarks</strong>
                 <div
                   style={{
                     background: '#f8f9fa',
@@ -154,16 +101,71 @@ const MaintenanceCompleted = () => {
                 </div>
               </div>
             )}
-            {/* <div className="mt-3">
-              
-            </div> */}
-            <div className="d-flex justify-content-end mt-4">
-              <CButton
-                onClick={handleUpdateStatus}
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+            <div className="mt-3">
+              <strong>Resolution Summary</strong>
+              <div
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  fontSize: '16px',
+                }}
               >
-                Completed
-              </CButton>
+                {requestDetails.resolution_summary}
+              </div>
+            </div>
+            <div className="mt-3">
+              <strong>Completion Date & Time</strong>
+              <div
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  fontSize: '16px',
+                }}
+              >
+                {new Date(requestDetails.completed_at).toLocaleString()}
+              </div>
+            </div>
+            <div className="mt-3">
+              <h6>Total Cost (Optional)</h6>
+              <div
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  fontSize: '16px',
+                }}
+              >
+                {requestDetails.total_cost ? `₱${requestDetails.total_cost}` : 'N/A'}
+              </div>
+            </div>
+            <div className="mt-3">
+              <h6>Attach Receipt (Optional)</h6>
+              {requestDetails.invoice_url ? (
+                <a
+                  href={`${API_URL}${requestDetails.invoice_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Receipt
+                </a>
+              ) : (
+                'N/A'
+              )}
+            </div>
+            <div className="mt-3">
+              <h6>Warranty Information (Optional)</h6>
+              <div
+                style={{
+                  borderColor: '#A3C49A',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  fontSize: '16px',
+                }}
+              >
+                {requestDetails.warranty_info || 'N/A'}
+              </div>
             </div>
           </CCardBody>
         </CCard>

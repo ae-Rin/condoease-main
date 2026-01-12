@@ -183,7 +183,7 @@ const MaintenanceOngoing = () => {
               />
             </div>
             <div className="mt-3">
-              <h6>Attach Invoice / Receipt (Optional)</h6>
+              <h6>Attach Receipt (Optional)</h6>
               <input
                 type="file"
                 className="form-control"
