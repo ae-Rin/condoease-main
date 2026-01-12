@@ -229,7 +229,7 @@ const MaintenanceRequest = () => {
                 }}
               >
                 {loading ? (
-                  <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                  <CSpinner style={{ width: '1rem', height: '1rem', color: '#FFFFFF' }} />
                 ) : (
                   'Send Decision'
                 )}
