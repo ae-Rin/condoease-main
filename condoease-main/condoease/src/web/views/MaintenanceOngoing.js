@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CFormSelect } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CSpinner } from '@coreui/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -11,6 +11,7 @@ const MaintenanceOngoing = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [requestDetails, setRequestDetails] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [resolutionSummary, setResolutionSummary] = useState('')
   const [status, setStatus] = useState('')
   const [completedAt, setCompletedAt] = useState(null)
@@ -18,58 +19,58 @@ const MaintenanceOngoing = () => {
   const [warrantyInfo, setWarrantyInfo] = useState('')
   const [invoiceFile, setInvoiceFile] = useState(null)
 
-  // useEffect(() => {
-  //   const fetchRequestDetails = async () => {
-  //     try {
-  //       const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-  //         },
-  //       })
-
-  //       if (!res.ok) {
-  //         const errorData = await res.json()
-  //         throw new Error(errorData.error || 'Failed to fetch request details')
-  //       }
-
-  //       const data = await res.json()
-  //       setRequestDetails(data)
-  //       setStatus(data.status)
-  //     } catch (err) {
-  //       console.error('Error fetching request details:', err)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   fetchRequestDetails()
-  // }, [API_URL, requestId])
   useEffect(() => {
-        const fetchRequestDetails = async () => {
-          try {
-            const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-              },
-            })
-    
-            if (!res.ok) {
-              const errorData = await res.json()
-              throw new Error(errorData.error || 'Failed to fetch request details')
-            }
-    
-            const data = await res.json()
-            setRequestDetails(data)
-            setStatus(data.status)
-          } catch (err) {
-            console.error('Error fetching request details:', err)
-          } finally {
-            setLoading(false)
-          }
+    const fetchRequestDetails = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
+
+        if (!res.ok) {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Failed to fetch request details')
         }
+
+        const data = await res.json()
+        setRequestDetails(data)
+        setStatus(data.status)
+      } catch (err) {
+        console.error('Error fetching request details:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchRequestDetails()
+  }, [API_URL, requestId])
+  // useEffect(() => {
+  //       const fetchRequestDetails = async () => {
+  //         try {
+  //           const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
+  //             headers: {
+  //               Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+  //             },
+  //           })
     
-        fetchRequestDetails()
-      }, [API_URL, requestId])
+  //           if (!res.ok) {
+  //             const errorData = await res.json()
+  //             throw new Error(errorData.error || 'Failed to fetch request details')
+  //           }
+    
+  //           const data = await res.json()
+  //           setRequestDetails(data)
+  //           setStatus(data.status)
+  //         } catch (err) {
+  //           console.error('Error fetching request details:', err)
+  //         } finally {
+  //           setLoading(false)
+  //         }
+  //       }
+    
+  //       fetchRequestDetails()
+  //     }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
     if (status === 'completed' && !completedAt) {
@@ -88,13 +89,14 @@ const MaintenanceOngoing = () => {
     // if (warrantyInfo) formData.append('warranty_info', warrantyInfo)
     // if (invoiceFile) formData.append('invoice', invoiceFile)
     const formData = new FormData()
+    formData.append('status', 'completed')
     formData.append('resolution_summary', resolutionSummary)
     if (totalCost) formData.append('total_cost', totalCost)
     if (warrantyInfo) formData.append('warranty_info', warrantyInfo)
     if (invoiceFile) formData.append('invoice', invoiceFile)
 
     try {
-      const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
+      const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -107,6 +109,9 @@ const MaintenanceOngoing = () => {
       navigate('/collapses')
     } catch (err) {
       console.error('Error completing maintenance:', err)
+      alert('Failed to mark complete maintenance')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -230,10 +235,18 @@ const MaintenanceOngoing = () => {
             </div>
             <div className="d-flex justify-content-end mt-4">
               <CButton
+                className='text-white fw-bold px-4'
                 onClick={handleUpdateStatus}
-                style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
+                disabled={submitting}
+                style={{
+                  fontSize: 20,
+                  backgroundColor: '#F28D35',
+                  minWidth: '205px',
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                }}
               >
-                Mark as Completed
+                {submitting ? <CSpinner style={{ width: '1.5rem', height: '1.5rem', color: '#FFFFFF' }} /> : 'Mark as Completed'}
               </CButton>
             </div>
           </CCardBody>
