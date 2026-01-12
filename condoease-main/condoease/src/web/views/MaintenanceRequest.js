@@ -233,7 +233,7 @@ const MaintenanceRequest = () => {
                   justifyContent: 'center',
                 }}
               >
-                {submitting ? <CSpinner style={{ width: '1.5rem', height: '1.5rem', color: '#FFFFFF' }} /> : 'Send Decision'}
+                {submitting ? <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} /> : 'Send Decision'}
               </CButton>
             </div>
           </CCardBody>
