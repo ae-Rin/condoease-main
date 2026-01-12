@@ -136,7 +136,7 @@ const MaintenanceOngoing = () => {
 
             {requestDetails.admin_comment && (
               <div className="mt-3">
-                <h6>Admin Comments/Remarks</h6>
+                <strong>Comments/Remarks</strong>
                 <div
                   style={{
                     background: '#f8f9fa',
@@ -150,7 +150,7 @@ const MaintenanceOngoing = () => {
               </div>
             )}
             <div className="mt-3">
-              <h6>Resolution Summary</h6>
+              <strong>Resolution Summary</strong>
               <CFormTextarea
                 rows="3"
                 value={resolutionSummary}
@@ -165,7 +165,7 @@ const MaintenanceOngoing = () => {
               />
             </div>
             <div className="mt-3">
-              <h6>Completion Date & Time</h6>
+              <strong>Completion Date & Time</strong>
               <DatePicker
                 selected={completedAt}
                 onChange={(date) => setCompletedAt(date)}
@@ -207,7 +207,7 @@ const MaintenanceOngoing = () => {
                 onClick={handleUpdateStatus}
                 style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
               >
-                testasdasdasd
+                Mark as Completed
               </CButton>
             </div>
           </CCardBody>
