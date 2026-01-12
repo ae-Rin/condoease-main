@@ -15,7 +15,7 @@ const MaintenanceOngoing = () => {
   const [status, setStatus] = useState('')
   const [completedAt, setCompletedAt] = useState(null)
   const [totalCost, setTotalCost] = useState('')
-  const [warrantInfo, setWarrantInfo] = useState('')
+  const [warrantyInfo, setWarrantyInfo] = useState('')
   const [invoiceFile, setInvoiceFile] = useState(null)
 
   useEffect(() => {
@@ -49,18 +49,22 @@ const MaintenanceOngoing = () => {
     if (status === 'completed' && !completedAt) {
       alert('Please select a completion date for the completed request.')
       return
-    }
-    else if (!resolutionSummary.trim()) {
+    } else if (!resolutionSummary.trim()) {
       alert('Resolution summary is required.')
       return
     }
 
+    // const formData = new FormData()
+    // formData.append('status', 'completed')
+    // formData.append('resolution_summary', resolutionSummary)
+    // formData.append('completed_at', completedAt ? completedAt.toISOString() : null)
+    // if (totalCost) formData.append('total_cost', totalCost)
+    // if (warrantyInfo) formData.append('warranty_info', warrantyInfo)
+    // if (invoiceFile) formData.append('invoice', invoiceFile)
     const formData = new FormData()
-    formData.append('status', 'completed')
     formData.append('resolution_summary', resolutionSummary)
-    formData.append('completed_at', completedAt ? completedAt.toISOString() : null)
     if (totalCost) formData.append('total_cost', totalCost)
-    if (warrantInfo) formData.append('warranty_info', warrantInfo)
+    if (warrantyInfo) formData.append('warranty_info', warrantyInfo)
     if (invoiceFile) formData.append('invoice', invoiceFile)
 
     try {
@@ -71,7 +75,7 @@ const MaintenanceOngoing = () => {
         },
         body: formData,
       })
-      
+
       if (!res.ok) throw new Error('Failed to complete maintenance request')
       alert('Maintenance marked as completed!')
       navigate('/collapses')
