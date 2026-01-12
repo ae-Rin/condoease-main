@@ -17,7 +17,7 @@ import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import axios from 'axios'
 import { useUser } from '../../context/UserContext'
-import socket from '../../shared/socket' // Adjust the import path as needed;
+// import socket from '../../shared/socket'
 
 const Announcements = () => {
   const navigate = useNavigate()
@@ -146,15 +146,41 @@ const Announcements = () => {
     }
   }
 
-  const ws = new WebSocket('wss://condoease-backends.onrender.com/ws/announcements')
+  useEffect(() => {
+    if (!API_URL) return
 
-  ws.onmessage = (msg) => {
-    const { event, data } = JSON.parse(msg.data)
+    const wsProtocol = API_URL.startsWith('https') ? 'wss' : 'ws'
+    const wsUrl = `${wsProtocol}://${API_URL.replace(/^https?:\/\//, '')}/ws/announcements`
+    const ws = new WebSocket(wsUrl)
 
-    if (event === 'new_announcement') {
-      setAnnouncements((prev) => [data, ...prev])
+    ws.onopen = () => {
+      console.log('✅ Announcements WebSocket connected')
     }
-  }
+    ws.onmessage = (msg) => {
+      try {
+        const { event, data } = JSON.parse(msg.data)
+
+        if (event === 'new_announcement') {
+          setAnnouncements((prev) => {
+            const exists = prev.some((a) => a.id === data.id)
+            return exists ? prev : [data, ...prev]
+          })
+        }
+      } catch (e) {
+        console.error('Invalid WS message', e)
+      }
+    }
+
+    ws.onerror = (err) => {
+      console.error('WebSocket error', err)
+    }
+    ws.onclose = () => {
+      console.log('Announcements WebSocket closed')
+    }
+    return () => {
+      ws.close()
+    }
+  }, [])
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -170,31 +196,7 @@ const Announcements = () => {
         console.error('Error fetching announcements:', err)
       }
     }
-
     if (user?.id) fetchAnnouncements()
-
-    socket.on('announcementCreated', (newAnnouncement) => {
-      setAnnouncements((prev) => {
-        const exists = prev.some((a) => a.id === newAnnouncement.id)
-        return exists ? prev : [newAnnouncement, ...prev]
-      })
-    })
-
-    socket.on('announcementUpdated', (updatedAnnouncement) => {
-      setAnnouncements((prev) =>
-        prev.map((a) => (a.id === updatedAnnouncement.id ? updatedAnnouncement : a)),
-      )
-    })
-
-    socket.on('announcementDeleted', (id) => {
-      setAnnouncements((prev) => prev.filter((a) => a.id !== id))
-    })
-
-    return () => {
-      socket.off('announcementCreated')
-      socket.off('announcementUpdated')
-      socket.off('announcementDeleted')
-    }
   }, [user])
 
   if (!user) {
@@ -367,7 +369,7 @@ const Announcements = () => {
                     <p>
                       Current File:{' '}
                       <a
-                        href={`http://localhost:5000${editForm.file_url}`}
+                        href={`${API_URL}${editForm.file_url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { CCard, CCardBody, CCardHeader, CFormTextarea, CButton, CSpinner } from '@coreui/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { set } from 'date-fns'
 
 const MaintenanceOngoing = () => {
   const { requestId } = useParams()
@@ -61,6 +62,7 @@ const MaintenanceOngoing = () => {
     if (totalCost) formData.append('total_cost', totalCost)
     if (warrantyInfo) formData.append('warranty_info', warrantyInfo)
     if (invoiceFile) formData.append('invoice', invoiceFile)
+    setSubmitting(true)
 
     try {
       const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}/complete`, {
@@ -213,7 +215,7 @@ const MaintenanceOngoing = () => {
                   justifyContent: 'center',
                 }}
               >
-                {submitting ? <CSpinner style={{ width: '2.0rem', height: '2.0rem', color: '#FFFFFF' }} /> : 'Mark as Completed'}
+                {submitting ? <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} /> : 'Mark as Completed'}
               </CButton>
             </div>
           </CCardBody>
