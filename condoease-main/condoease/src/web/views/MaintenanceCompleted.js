@@ -25,7 +25,6 @@ const MaintenanceCompleted = () => {
         }
         const data = await res.json()
         setRequestDetails(data)
-        setStatus(data.status)
       } catch (err) {
         console.error('Error fetching request details:', err)
       } finally {
@@ -105,11 +104,11 @@ const MaintenanceCompleted = () => {
               <strong>Resolution Summary</strong>
               <div
                 style={{
-                  borderColor: '#A3C49A',
-                  borderRadius: '8px',
-                  padding: '10px',
-                  fontSize: '16px',
-                }}
+                    background: '#f8f9fa',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '1px solid #ddd',
+                  }}
               >
                 {requestDetails.resolution_summary}
               </div>

@@ -213,7 +213,7 @@ const MaintenanceOngoing = () => {
                   justifyContent: 'center',
                 }}
               >
-                {submitting ? <CSpinner style={{ width: '1.5rem', height: '1.5rem', color: '#FFFFFF' }} /> : 'Mark as Completed'}
+                {submitting ? <CSpinner style={{ width: '2.0rem', height: '2.0rem', color: '#FFFFFF' }} /> : 'Mark as Completed'}
               </CButton>
             </div>
           </CCardBody>
