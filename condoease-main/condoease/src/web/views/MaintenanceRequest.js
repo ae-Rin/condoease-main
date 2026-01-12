@@ -170,7 +170,7 @@ const MaintenanceRequest = () => {
                   fontSize: '16px',
                 }}
               >
-                <option value="">Select Request Status</option>
+                <option style={{ fontWeight: 'bold' }} value="">Select Request Status</option>
                 <option value="approved">Approve</option>
                 <option value="rejected">Reject</option>
               </CFormSelect>
@@ -193,7 +193,7 @@ const MaintenanceRequest = () => {
             )}
 
             <div className="mt-3">
-              <h6>Comment</h6>
+              <strong>Comment</strong>
               <CFormTextarea
                 rows="3"
                 value={comment}
