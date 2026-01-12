@@ -96,7 +96,7 @@ const MaintenanceOngoing = () => {
     if (invoiceFile) formData.append('invoice', invoiceFile)
 
     try {
-      const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
+      const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}/complete`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,

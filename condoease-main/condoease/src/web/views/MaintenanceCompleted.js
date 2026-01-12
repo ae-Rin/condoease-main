@@ -40,17 +40,15 @@ const MaintenanceCompleted = () => {
   useEffect(() => {
       const fetchRequestDetails = async () => {
         try {
-          const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
+          const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}/complete`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },
           })
-  
           if (!res.ok) {
             const errorData = await res.json()
             throw new Error(errorData.error || 'Failed to fetch request details')
           }
-  
           const data = await res.json()
           setRequestDetails(data)
           setStatus(data.status)
