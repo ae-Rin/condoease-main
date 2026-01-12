@@ -18,32 +18,58 @@ const MaintenanceOngoing = () => {
   const [warrantyInfo, setWarrantyInfo] = useState('')
   const [invoiceFile, setInvoiceFile] = useState(null)
 
+  // useEffect(() => {
+  //   const fetchRequestDetails = async () => {
+  //     try {
+  //       const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+  //         },
+  //       })
+
+  //       if (!res.ok) {
+  //         const errorData = await res.json()
+  //         throw new Error(errorData.error || 'Failed to fetch request details')
+  //       }
+
+  //       const data = await res.json()
+  //       setRequestDetails(data)
+  //       setStatus(data.status)
+  //     } catch (err) {
+  //       console.error('Error fetching request details:', err)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  //   fetchRequestDetails()
+  // }, [API_URL, requestId])
   useEffect(() => {
-    const fetchRequestDetails = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/maintenance-ongoing/${requestId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        })
-
-        if (!res.ok) {
-          const errorData = await res.json()
-          throw new Error(errorData.error || 'Failed to fetch request details')
+        const fetchRequestDetails = async () => {
+          try {
+            const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}/complete`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+              },
+            })
+    
+            if (!res.ok) {
+              const errorData = await res.json()
+              throw new Error(errorData.error || 'Failed to fetch request details')
+            }
+    
+            const data = await res.json()
+            setRequestDetails(data)
+            setStatus(data.status)
+          } catch (err) {
+            console.error('Error fetching request details:', err)
+          } finally {
+            setLoading(false)
+          }
         }
-
-        const data = await res.json()
-        setRequestDetails(data)
-        setStatus(data.status)
-      } catch (err) {
-        console.error('Error fetching request details:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchRequestDetails()
-  }, [API_URL, requestId])
+    
+        fetchRequestDetails()
+      }, [API_URL, requestId])
 
   const handleUpdateStatus = async () => {
     if (status === 'completed' && !completedAt) {
