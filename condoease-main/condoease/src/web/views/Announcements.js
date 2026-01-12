@@ -66,7 +66,7 @@ const Announcements = () => {
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', description)
-    formData.append('userId', user.id) // Ensure user ID is sent
+    //formData.append('userId', user.id) // Ensure user ID is sent
     if (file) formData.append('file', file)
 
     try {
@@ -154,7 +154,7 @@ const Announcements = () => {
     const ws = new WebSocket(wsUrl)
 
     ws.onopen = () => {
-      console.log('✅ Announcements WebSocket connected')
+      console.log('Announcements WebSocket connected')
     }
     ws.onmessage = (msg) => {
       try {
