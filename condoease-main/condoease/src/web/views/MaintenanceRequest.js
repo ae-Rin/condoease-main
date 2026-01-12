@@ -231,7 +231,7 @@ const MaintenanceRequest = () => {
                 {loading ? (
                   <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
                 ) : (
-                  'Completed'
+                  'Send Decision'
                 )}
               </CButton>
             </div>
