@@ -203,7 +203,7 @@ const MaintenanceOngoing = () => {
                 onClick={handleUpdateStatus}
                 style={{ backgroundColor: '#F28D35', color: 'white', fontWeight: 'bold' }}
               >
-                Completed
+                test
               </CButton>
             </div>
           </CCardBody>
