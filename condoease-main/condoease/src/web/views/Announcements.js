@@ -180,7 +180,7 @@ const Announcements = () => {
     return () => {
       ws.close()
     }
-  }, [])
+  }, [API_URL])
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -197,7 +197,7 @@ const Announcements = () => {
       }
     }
     if (user?.id) fetchAnnouncements()
-  }, [user])
+  }, [user, API_URL])
 
   if (!user) {
     return (
