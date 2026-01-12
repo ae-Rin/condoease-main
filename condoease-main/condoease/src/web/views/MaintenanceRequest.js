@@ -18,7 +18,7 @@ const MaintenanceRequest = () => {
   const navigate = useNavigate()
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [requestDetails, setRequestDetails] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [comment, setComment] = useState('')
   const [status, setStatus] = useState('')
   const [scheduledAt, setScheduledAt] = useState(null)
@@ -55,6 +55,7 @@ const MaintenanceRequest = () => {
       alert('Please select a schedule for the approved request.')
       return
     }
+    setLoading(true)
 
     try {
       const res = await fetch(`${API_URL}/api/maintenance-requests/${requestId}`, {
@@ -72,8 +73,11 @@ const MaintenanceRequest = () => {
       if (!res.ok) throw new Error('Failed to update maintenance')
       alert('Maintenance marked as ongoing!')
       navigate('/collapses')
-    } catch (err) {
+    }  catch (err) {
       console.error('Error updating maintenance:', err)
+      alert('Failed to update maintenance')
+    } finally {
+      setLoading(false)
     }
   }
 
