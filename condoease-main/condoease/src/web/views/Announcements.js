@@ -326,7 +326,6 @@ const Announcements = () => {
           </div>
         </CCardBody>
       </CCard>
-      {/* Announcement List */}
       <CRow>
         <CCol md={4}>
           <CInputGroup className="mb-3">
