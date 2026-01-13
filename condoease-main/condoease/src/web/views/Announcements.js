@@ -392,11 +392,7 @@ const Announcements = () => {
                   {editForm.file_url && !previewUrl && (
                     <p>
                       Current File:{' '}
-                      <a
-                        href={`${API_URL}${editForm.file_url}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={editForm.file_url} target="_blank" rel="noopener noreferrer">
                         View
                       </a>
                     </p>
