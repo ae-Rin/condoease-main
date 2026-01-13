@@ -12,6 +12,7 @@ import {
   CButton,
   CInputGroup,
   CInputGroupText,
+  CSpinner,
 } from '@coreui/react'
 import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -94,8 +95,6 @@ const Announcements = () => {
       if (!res.ok) throw new Error('Failed to post announcement')
       alert('Announcement Posted!')
 
-      // const newAnnouncement = await res.json()
-      // setAnnouncements((prev) => [newAnnouncement, ...prev])
       setTitle('')
       setDescription('')
       setFile(null)
@@ -215,7 +214,7 @@ const Announcements = () => {
       }
     }
     if (user?.id) fetchAnnouncements()
-  }, [user])
+  }, [user, API_URL])
 
   if (!user) {
     return (
