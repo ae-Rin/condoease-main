@@ -390,9 +390,23 @@ const Announcements = () => {
                   {editForm.file_url && !previewUrl && (
                     <p>
                       Current File:{' '}
-                      <a href={editForm.file_url} target="_blank" rel="noopener noreferrer">
+                      {/* <a href={editForm.file_url} target="_blank" rel="noopener noreferrer">
                         View
-                      </a>
+                      </a> */}
+                      {/* <div className="border p-3 text-body-secondary">
+                        {file ? file.name : 'No attached files'}
+                      </div> */}
+                      {previewUrl &&
+                        (file?.type?.startsWith('image/') ? (
+                          <img src={previewUrl} alt="Preview" width="200" />
+                        ) : file?.type?.startsWith('video/') ? (
+                          <video width="320" height="240" controls>
+                            <source src={previewUrl} type={file.type} />
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <p>File preview not available</p>
+                        ))}
                     </p>
                   )}
                   <div className="d-flex justify-content-between">
