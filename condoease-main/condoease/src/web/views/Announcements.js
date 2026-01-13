@@ -114,7 +114,7 @@ const Announcements = () => {
     formData.append('title', editForm.title)
     formData.append('description', editForm.description)
     if (editForm.file) formData.append('file', editForm.file)
-
+    setSubmitting(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements/${editForm.id}`, {
         method: 'PUT',
@@ -124,7 +124,8 @@ const Announcements = () => {
         },
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      if (!res.ok) throw new Error('Failed to update announcement')
+      alert('Announcement Updated!')
 
       const updated = await res.json()
       setAnnouncements((prev) => prev.map((a) => (a.id === updated.id ? updated : a)))
@@ -157,6 +158,8 @@ const Announcements = () => {
     } catch (err) {
       console.error(err)
       alert('Failed to delete announcement.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -239,7 +242,9 @@ const Announcements = () => {
       </div>
       {/* Post Section */}
       <CCard className="mb-4">
-        <CCardHeader>Post New Announcements</CCardHeader>
+        <CCardHeader>
+          <strong>Post New Announcements</strong>
+        </CCardHeader>
         <CCardBody>
           <CRow>
             <CCol md={6}>
@@ -295,7 +300,7 @@ const Announcements = () => {
             <CButton
               color="secondary"
               className="me-2"
-              style={{ fontWeight: 'bold' }}
+              style={{ fontWeight: 'bold', fontSize: 20 }}
               onClick={() => {
                 setTitle('')
                 setDescription('')
@@ -327,7 +332,7 @@ const Announcements = () => {
         </CCardBody>
       </CCard>
       <CRow>
-        <CCol md={4}>
+        <CCol md={6}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilSearch} />
@@ -338,6 +343,8 @@ const Announcements = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </CInputGroup>
+        </CCol>
+        <CCol md={4}>
           {loading ? (
             <p>Loading announcement list...</p>
           ) : filteredAnnouncements.length > 0 ? (
@@ -391,7 +398,7 @@ const Announcements = () => {
                     <p>
                       Current File:{' '}
                       <a href={editForm.file_url} target="_blank" rel="noopener noreferrer">
-                        View
+                        Download to View
                       </a>
                     </p>
                   )}
@@ -407,7 +414,7 @@ const Announcements = () => {
                       <CButton
                         color="secondary"
                         className="me-2"
-                        style={{ fontWeight: 'bold' }}
+                        style={{ fontWeight: 'bold', fontSize: 20 }}
                         onClick={() => {
                           setEditForm({
                             id: null,
@@ -422,11 +429,24 @@ const Announcements = () => {
                         Cancel
                       </CButton>
                       <CButton
-                        style={{ backgroundColor: '#F28D35', fontWeight: 'bold' }}
-                        className="text-white"
+                        className="text-white fw-bold px-4"
                         onClick={handleSaveEdit}
+                        disabled={submitting}
+                        style={{
+                          fontSize: 20,
+                          backgroundColor: '#F28D35',
+                          minWidth: '205px',
+                          display: 'inline-flex',
+                          justifyContent: 'center',
+                        }}
                       >
-                        Save Changes
+                        {submitting ? (
+                          <CSpinner
+                            style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }}
+                          />
+                        ) : (
+                          'Save Changes'
+                        )}
                       </CButton>
                     </div>
                   </div>
