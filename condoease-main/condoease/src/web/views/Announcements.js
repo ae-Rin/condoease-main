@@ -18,7 +18,6 @@ import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import axios from 'axios'
 import { useUser } from '../../context/UserContext'
-// import socket from '../../shared/socket'
 
 const Announcements = () => {
   const navigate = useNavigate()
@@ -281,10 +280,10 @@ const Announcements = () => {
               </div>
               {previewUrl &&
                 (file?.type?.startsWith('image/') ? (
-                  <img src={previewUrl} alt="Preview" width="200" />
+                  <img src={post.file_url} alt="Preview" width="200" />
                 ) : file?.type?.startsWith('video/') ? (
                   <video width="320" height="240" controls>
-                    <source src={previewUrl} type={file.type} />
+                    <source src={post.file_url} type={file.type} />
                     Your browser does not support the video tag.
                   </video>
                 ) : (
