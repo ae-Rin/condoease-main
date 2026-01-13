@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   CRow,
@@ -23,6 +23,8 @@ const Announcements = () => {
   const navigate = useNavigate()
   const { user } = useUser()
   const API_URL = import.meta.env.VITE_APP_API_URL
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [announcements, setAnnouncements] = useState([])
@@ -39,6 +41,17 @@ const Announcements = () => {
   })
 
   const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredAnnouncements = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase()
+    if (!normalizedSearch) return announcements
+
+    return announcements.filter((ann) => {
+      const title = ann.title?.toLowerCase() || ''
+      const description = ann.description?.toLowerCase() || ''
+      return title.includes(normalizedSearch) || description.includes(normalizedSearch)
+    })
+  }, [announcements, searchTerm])
 
   const handleCardClick = (announcement) => {
     setEditForm({
@@ -68,7 +81,7 @@ const Announcements = () => {
     formData.append('description', description)
     //formData.append('userId', user.id) // Ensure user ID is sent
     if (file) formData.append('file', file)
-
+    setSubmitting(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements`, {
         method: 'POST',
@@ -78,10 +91,11 @@ const Announcements = () => {
         },
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      if (!res.ok) throw new Error('Failed to post announcement')
+      alert('Announcement Posted!')
 
-      const newAnnouncement = await res.json()
-      setAnnouncements((prev) => [newAnnouncement, ...prev])
+      // const newAnnouncement = await res.json()
+      // setAnnouncements((prev) => [newAnnouncement, ...prev])
       setTitle('')
       setDescription('')
       setFile(null)
@@ -90,6 +104,8 @@ const Announcements = () => {
     } catch (err) {
       console.error(err)
       alert('Error posting announcement.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -194,10 +210,12 @@ const Announcements = () => {
         setAnnouncements(response.data)
       } catch (err) {
         console.error('Error fetching announcements:', err)
+      } finally {
+        setLoading(false)
       }
     }
     if (user?.id) fetchAnnouncements()
-  }, [user, API_URL])
+  }, [user])
 
   if (!user) {
     return (
@@ -221,7 +239,6 @@ const Announcements = () => {
         </span>{' '}
         / <span style={{ color: '#F28D35' }}>ANNOUNCEMENTS</span>
       </div>
-
       {/* Post Section */}
       <CCard className="mb-4">
         <CCardHeader>Post New Announcements</CCardHeader>
@@ -291,16 +308,26 @@ const Announcements = () => {
               Cancel
             </CButton>
             <CButton
-              style={{ backgroundColor: '#F28D35', fontWeight: 'bold' }}
-              className="text-white"
+              className="text-white fw-bold px-4"
               onClick={handlePostAnnouncement}
+              disabled={submitting}
+              style={{
+                fontSize: 20,
+                backgroundColor: '#F28D35',
+                minWidth: '205px',
+                display: 'inline-flex',
+                justifyContent: 'center',
+              }}
             >
-              Post Announcement
+              {submitting ? (
+                <CSpinner style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }} />
+              ) : (
+                'Post Announcement'
+              )}
             </CButton>
           </div>
         </CCardBody>
       </CCard>
-
       {/* Announcement List */}
       <CRow>
         <CCol md={4}>
@@ -314,15 +341,11 @@ const Announcements = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </CInputGroup>
-
-          <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
-            {announcements
-              .filter(
-                (ann) =>
-                  ann.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  ann.description.toLowerCase().includes(searchTerm.toLowerCase()),
-              )
-              .map((ann) => (
+          {loading ? (
+            <p>Loading announcement list...</p>
+          ) : filteredAnnouncements.length > 0 ? (
+            <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+              {filteredAnnouncements.map((ann) => (
                 <CCard
                   key={ann.id}
                   className={`mb-3 ${editForm.id === ann.id ? 'border-warning' : 'border-success'}`}
@@ -340,9 +363,11 @@ const Announcements = () => {
                   </CCardBody>
                 </CCard>
               ))}
-          </div>
+            </div>
+          ) : (
+            <p>No announcements found.</p>
+          )}
         </CCol>
-
         {/* Edit Form */}
         {editForm.id && (
           <CCol md={8}>
