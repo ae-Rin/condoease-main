@@ -6,7 +6,7 @@ import logoWhite from 'src/assets/images/logo_white.png'
 const Register = () => {
   const [email, setEmail] = useState('')
   const navigate = useNavigate()
-  const [role, setRole] = useState('')
+  const [role, setRole] = useState('tenant', 'owner')
 
   const handleContinue = (e) => {
     e.preventDefault()

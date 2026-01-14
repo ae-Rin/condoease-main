@@ -21,6 +21,8 @@ const RegisterStep2 = () => {
 
   const emailFromState = location.state?.email || ''
   const [email, setEmail] = useState(emailFromState)
+  const roleFromState = location.state?.role || 'tenant'
+  const [role, setRole] = useState(roleFromState)
   const [showPassword, setShowPassword] = useState(false)
   const [showRePassword, setShowRePassword] = useState(false)
 
@@ -30,7 +32,7 @@ const RegisterStep2 = () => {
     email: '',
     password: '',
     rePassword: '',
-    role: 'tenant', // default
+    role: '',
   })
 
   const handleInputChange = (e) => {
@@ -64,7 +66,7 @@ const RegisterStep2 = () => {
           lastName: formValues.lastName,
           email: email,
           password: formValues.password,
-          role: formValues.role,
+          role: role,
         }),
       })
       const data = await res.json()
@@ -149,7 +151,7 @@ const RegisterStep2 = () => {
             {/* Title */}
             <div className="text-center mb-3">
               <h2 className="fw-bold mb-4 text-start" style={{ fontSize: 32 }}>
-                Create Account
+                Create {role} Account
               </h2>
             </div>
             {/* Form */}
