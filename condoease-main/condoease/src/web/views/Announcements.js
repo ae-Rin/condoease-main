@@ -189,6 +189,9 @@ const Announcements = () => {
             return exists ? prev : [data, ...prev]
           })
         }
+        if (event === 'archive_announcement') {
+          setAnnouncements((prev) => prev.filter((a) => a.id !== data.id))
+        }
       } catch (e) {
         console.error('Invalid WS message', e)
       }
@@ -435,7 +438,7 @@ const Announcements = () => {
                       {deleting ? (
                         <CSpinner style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }} />
                       ) : (
-                        'Delete'
+                        'Archive'
                       )}
                     </CButton>
                     <div>
