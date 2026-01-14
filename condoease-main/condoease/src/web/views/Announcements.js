@@ -418,18 +418,6 @@ const Announcements = () => {
                     </p>
                   )}
                   <div className="d-flex justify-content-between">
-                    {/* <CButton
-                      className="me-2"
-                      style={{
-                        backgroundColor: '#EE3030',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                      }}
-                      onClick={() => handleDeleteAnnouncement(editForm.id)}
-                    >
-                      Delete
-                    </CButton> */}
                     <CButton
                       className="me-2"
                       onClick={() => handleDeleteAnnouncement(editForm.id)}
