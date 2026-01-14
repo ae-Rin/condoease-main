@@ -281,13 +281,15 @@ const Announcements = () => {
             </CCol>
             <CCol md={6} className="text-center">
               <strong>Image / Video Attachment:</strong>
-              <CButton
-                className="text-white mb-3"
-                onClick={() => fileInputRef.current.click()}
-                style={{ backgroundColor: '#F28D35', fontWeight: 'bold', fontSize: 16 }}
-              >
-                Choose File
-              </CButton>
+              <div>
+                <CButton
+                  className="text-white mb-3"
+                  onClick={() => fileInputRef.current.click()}
+                  style={{ backgroundColor: '#F28D35', fontWeight: 'bold', fontSize: 16 }}
+                >
+                  Choose File
+                </CButton>
+              </div>
               <div className="border p-3 text-body-secondary">
                 {file ? file.name : 'No attached files'}
               </div>
@@ -435,7 +437,9 @@ const Announcements = () => {
                       style={{
                         fontSize: 20,
                         backgroundColor: '#EE3030',
-                        minWidth: '205px',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        minWidth: '175px',
                         display: 'inline-flex',
                         justifyContent: 'center',
                       }}
