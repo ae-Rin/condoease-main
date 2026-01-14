@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/react'
-import { FaGoogle, FaFacebookF } from 'react-icons/fa'
+import { CButton, CContainer, CForm, CFormInput, CRow, CCol, CFormSelect } from '@coreui/react'
 import logoWhite from 'src/assets/images/logo_white.png'
 
 const Register = () => {
   const [email, setEmail] = useState('')
   const navigate = useNavigate()
+  const [role, setRole] = useState('')
 
   const handleContinue = (e) => {
     e.preventDefault()
-    navigate('/registerstep2', { state: { email } })
+    navigate('/registerstep2', { state: { email, role } })
   }
 
   return (
@@ -104,6 +104,24 @@ const Register = () => {
                 required
               />
               <div className="d-grid mb-4">
+                <div className="mb-2 fw-semibold text-start">Role</div>
+                <CFormSelect
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  style={{
+                    borderColor: '#A3C49A',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    fontSize: '16px',
+                  }}
+                >
+                  <option style={{ fontWeight: 'bold' }} value="">
+                    Select Role
+                  </option>
+                  <option value="tenant">Tenant</option>
+                  <option value="owner">Owner</option>
+                </CFormSelect>
+                <div className="d-grid mb-4"></div>
                 <CButton
                   className="text-white fw-bold"
                   style={{
@@ -119,45 +137,6 @@ const Register = () => {
                   Continue with Email
                 </CButton>
               </div>
-              {/* Divider */}
-              {/* <div className="d-flex align-items-center mb-4">
-                <div style={{ flex: 1, height: 1, background: '#A3C49A' }} />
-                <span className="mx-2 text-body-secondary">Or</span>
-                <div style={{ flex: 1, height: 1, background: '#A3C49A' }} />
-              </div> */}
-              {/* Social buttons */}
-              {/* <div className="d-grid mb-2">
-                <CButton
-                  variant="outline"
-                  color="light"
-                  className="fw-semibold mb-3"
-                  style={{
-                    borderColor: '#A3C49A',
-                    borderRadius: 15,
-                    fontSize: 18,
-                    color: '#222',
-                    padding: '16px 0',
-                  }}
-                >
-                  <FaGoogle style={{ marginRight: 8 }} />
-                  Continue with Google
-                </CButton>
-                <CButton
-                  variant="outline"
-                  color="light"
-                  className="fw-semibold"
-                  style={{
-                    borderColor: '#A3C49A',
-                    borderRadius: 15,
-                    fontSize: 18,
-                    color: '#222',
-                    padding: '16px 0',
-                  }}
-                >
-                  <FaFacebookF style={{ marginRight: 8 }} />
-                  Continue with Facebook
-                </CButton>
-              </div> */}
             </CForm>
           </CCol>
         </CRow>
