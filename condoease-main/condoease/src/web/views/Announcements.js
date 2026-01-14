@@ -18,13 +18,16 @@ import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import axios from 'axios'
 import { useUser } from '../../context/UserContext'
+import { set } from 'date-fns'
 
 const Announcements = () => {
   const navigate = useNavigate()
   const { user } = useUser()
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [loading, setLoading] = useState(true)
-  const [submitting, setSubmitting] = useState(false)
+  const [posting, setPosting] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [announcements, setAnnouncements] = useState([])
@@ -81,7 +84,7 @@ const Announcements = () => {
     formData.append('description', description)
     //formData.append('userId', user.id) // Ensure user ID is sent
     if (file) formData.append('file', file)
-    setSubmitting(true)
+    setPosting(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements`, {
         method: 'POST',
@@ -103,7 +106,7 @@ const Announcements = () => {
       console.error(err)
       alert('Error posting announcement.')
     } finally {
-      setSubmitting(false)
+      setPosting(false)
     }
   }
 
@@ -114,7 +117,7 @@ const Announcements = () => {
     formData.append('title', editForm.title)
     formData.append('description', editForm.description)
     if (editForm.file) formData.append('file', editForm.file)
-    setSubmitting(true)
+    setSaving(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements/${editForm.id}`, {
         method: 'PUT',
@@ -134,12 +137,14 @@ const Announcements = () => {
     } catch (err) {
       console.error(err)
       alert('Failed to update announcement.')
+    } finally {
+      setSaving(false)
     }
   }
 
   const handleDeleteAnnouncement = async (id) => {
     if (!window.confirm('Are you sure you want to delete this announcement?')) return
-
+    setDeleting(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements/${id}`, {
         method: 'DELETE',
@@ -148,7 +153,8 @@ const Announcements = () => {
         },
       })
 
-      if (!res.ok) throw new Error('Delete failed')
+      if (!res.ok) throw new Error('Failed to delete announcement')
+      alert('Announcement Deleted!')
 
       setAnnouncements((prev) => prev.filter((a) => a.id !== id))
       if (editForm.id === id) {
@@ -159,7 +165,7 @@ const Announcements = () => {
       console.error(err)
       alert('Failed to delete announcement.')
     } finally {
-      setSubmitting(false)
+      setDeleting(false)
     }
   }
 
@@ -249,16 +255,18 @@ const Announcements = () => {
           <CRow>
             <CCol md={6}>
               <CForm>
+                <strong>Announcement Title</strong>
                 <CFormInput
                   type="text"
-                  placeholder="Announcement Title"
+                  placeholder="Enter Announcement Title..."
                   className="mb-3"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+                <strong>Announcement Description</strong>
                 <CFormTextarea
                   rows="5"
-                  placeholder="Announcement Description"
+                  placeholder="Enter Announcement Description..."
                   className="mb-3"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -272,11 +280,11 @@ const Announcements = () => {
               </CForm>
             </CCol>
             <CCol md={6} className="text-center">
-              <p>Image / Video Attachment:</p>
+              <strong>Image / Video Attachment:</strong>
               <CButton
                 className="text-white mb-3"
                 onClick={() => fileInputRef.current.click()}
-                style={{ backgroundColor: '#F28D35', fontWeight: 'bold' }}
+                style={{ backgroundColor: '#F28D35', fontWeight: 'bold', fontSize: 16 }}
               >
                 Choose File
               </CButton>
@@ -313,7 +321,7 @@ const Announcements = () => {
             <CButton
               className="text-white fw-bold px-4"
               onClick={handlePostAnnouncement}
-              disabled={submitting}
+              disabled={posting}
               style={{
                 fontSize: 20,
                 backgroundColor: '#F28D35',
@@ -322,7 +330,7 @@ const Announcements = () => {
                 justifyContent: 'center',
               }}
             >
-              {submitting ? (
+              {posting ? (
                 <CSpinner style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }} />
               ) : (
                 'Post Announcement'
@@ -374,25 +382,32 @@ const Announcements = () => {
         {editForm.id && (
           <CCol md={8}>
             <CCard className="mb-4 border-warning">
-              <CCardHeader>Edit Announcement</CCardHeader>
+              <CCardHeader>
+                <>
+                  <strong>Edit Announcement</strong>
+                </>
+              </CCardHeader>
               <CCardBody>
                 <CForm>
+                  <strong>Edit Announcement Title</strong>
                   <CFormInput
                     type="text"
-                    placeholder="Announcement Title"
+                    placeholder="Enter Announcement Title..."
                     className="mb-3"
                     value={editForm.title}
                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                   />
+                  <strong>Edit Announcement Description</strong>
                   <CFormTextarea
                     rows="5"
-                    placeholder="Edit description here..."
+                    placeholder="Enter Announcement Description..."
                     className="mb-3"
                     value={editForm.description}
                     onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                   />
+                  <strong>Edit Current Image / Video Attachment</strong>
                   <CFormInput type="file" className="mb-3" onChange={handleFileChange} />
-                  {editForm.file_url && !previewUrl && (
+                  {editForm.file_url && (
                     <p>
                       Current File:{' '}
                       <a href={editForm.file_url} target="_blank" rel="noopener noreferrer">
@@ -401,12 +416,35 @@ const Announcements = () => {
                     </p>
                   )}
                   <div className="d-flex justify-content-between">
-                    <CButton
+                    {/* <CButton
                       className="me-2"
-                      style={{ backgroundColor: '#EE3030', color: 'white', fontWeight: 'bold' }}
+                      style={{
+                        backgroundColor: '#EE3030',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                      }}
                       onClick={() => handleDeleteAnnouncement(editForm.id)}
                     >
                       Delete
+                    </CButton> */}
+                    <CButton
+                      className="me-2"
+                      onClick={() => handleDeleteAnnouncement(editForm.id)}
+                      disabled={deleting}
+                      style={{
+                        fontSize: 20,
+                        backgroundColor: '#EE3030',
+                        minWidth: '205px',
+                        display: 'inline-flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {deleting ? (
+                        <CSpinner style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }} />
+                      ) : (
+                        'Delete'
+                      )}
                     </CButton>
                     <div>
                       <CButton
@@ -429,7 +467,7 @@ const Announcements = () => {
                       <CButton
                         className="text-white fw-bold px-4"
                         onClick={handleSaveEdit}
-                        disabled={submitting}
+                        disabled={saving}
                         style={{
                           fontSize: 20,
                           backgroundColor: '#F28D35',
@@ -438,7 +476,7 @@ const Announcements = () => {
                           justifyContent: 'center',
                         }}
                       >
-                        {submitting ? (
+                        {saving ? (
                           <CSpinner
                             style={{ width: '1.9rem', height: '1.9rem', color: '#FFFFFF' }}
                           />
