@@ -332,18 +332,16 @@ const Announcements = () => {
         </CCardBody>
       </CCard>
       <CRow>
-        <CCol md={6}>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <CIcon icon={cilSearch} />
-            </CInputGroupText>
-            <CFormInput
-              placeholder="Search Announcements"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </CInputGroup>
-        </CCol>
+        <CInputGroup className="mb-3">
+          <CInputGroupText>
+            <CIcon icon={cilSearch} />
+          </CInputGroupText>
+          <CFormInput
+            placeholder="Search Announcements"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </CInputGroup>
         <CCol md={4}>
           {loading ? (
             <p>Loading announcement list...</p>
