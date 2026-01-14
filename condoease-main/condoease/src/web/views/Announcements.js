@@ -332,8 +332,8 @@ const Announcements = () => {
         </CCardBody>
       </CCard>
       <CRow>
-        <CCol md={12}>
-          <CInputGroup className="mb-4">
+        <CCol md={6}>
+          <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilSearch} />
             </CInputGroupText>
