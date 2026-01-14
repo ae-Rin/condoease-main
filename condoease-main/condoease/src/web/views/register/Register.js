@@ -120,13 +120,13 @@ const Register = () => {
                 </CButton>
               </div>
               {/* Divider */}
-              <div className="d-flex align-items-center mb-4">
+              {/* <div className="d-flex align-items-center mb-4">
                 <div style={{ flex: 1, height: 1, background: '#A3C49A' }} />
                 <span className="mx-2 text-body-secondary">Or</span>
                 <div style={{ flex: 1, height: 1, background: '#A3C49A' }} />
-              </div>
+              </div> */}
               {/* Social buttons */}
-              <div className="d-grid mb-2">
+              {/* <div className="d-grid mb-2">
                 <CButton
                   variant="outline"
                   color="light"
@@ -157,7 +157,7 @@ const Register = () => {
                   <FaFacebookF style={{ marginRight: 8 }} />
                   Continue with Facebook
                 </CButton>
-              </div>
+              </div> */}
             </CForm>
           </CCol>
         </CRow>

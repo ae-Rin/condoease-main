@@ -143,7 +143,7 @@ const Announcements = () => {
   }
 
   const handleDeleteAnnouncement = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this announcement?')) return
+    if (!window.confirm('Are you sure you want to archive this announcement?')) return
     setDeleting(true)
     try {
       const res = await fetch(`${API_URL}/api/announcements/${id}`, {
@@ -153,8 +153,8 @@ const Announcements = () => {
         },
       })
 
-      if (!res.ok) throw new Error('Failed to delete announcement')
-      alert('Announcement Deleted!')
+      if (!res.ok) throw new Error('Failed to archive announcement')
+      alert('Announcement Archived!')
 
       setAnnouncements((prev) => prev.filter((a) => a.id !== id))
       if (editForm.id === id) {
@@ -163,7 +163,7 @@ const Announcements = () => {
       }
     } catch (err) {
       console.error(err)
-      alert('Failed to delete announcement.')
+      alert('Failed to archive announcement.')
     } finally {
       setDeleting(false)
     }
