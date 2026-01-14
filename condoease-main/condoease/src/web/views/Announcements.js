@@ -350,24 +350,22 @@ const Announcements = () => {
           ) : filteredAnnouncements.length > 0 ? (
             <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
               {filteredAnnouncements.map((ann) => (
-                <CCol md={3}>
-                  <CCard
-                    key={ann.id}
-                    className={`mb-3 ${editForm.id === ann.id ? 'border-warning' : 'border-success'}`}
-                    onClick={() => handleCardClick(ann)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <CCardBody>
-                      <h6>{ann.title}</h6>
-                      <p className="text-body-secondary small">{ann.description}</p>
-                      {ann.created_at && (
-                        <p className="text-body-secondary small">
-                          {new Date(ann.created_at).toLocaleString()}
-                        </p>
-                      )}
-                    </CCardBody>
-                  </CCard>
-                </CCol>
+                <CCard
+                  key={ann.id}
+                  className={`mb-3 ${editForm.id === ann.id ? 'border-warning' : 'border-success'}`}
+                  onClick={() => handleCardClick(ann)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <CCardBody>
+                    <h6>{ann.title}</h6>
+                    <p className="text-body-secondary small">{ann.description}</p>
+                    {ann.created_at && (
+                      <p className="text-body-secondary small">
+                        {new Date(ann.created_at).toLocaleString()}
+                      </p>
+                    )}
+                  </CCardBody>
+                </CCard>
               ))}
             </div>
           ) : (
