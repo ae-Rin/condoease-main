@@ -6,26 +6,63 @@ import {
   CContainer,
   CForm,
   CFormInput,
+  CFormSelect,
   CRow,
   CCol,
+  CCard,
+  CCardBody,
+  CCardHeader,
   CInputGroup,
   CInputGroupText,
+  CSpinner,
 } from '@coreui/react'
 import { FaEye } from 'react-icons/fa'
 import logoWhite from 'src/assets/images/logo_white.png'
 
+const idTypes = [
+  'Philippine Passport',
+  "Driver's License",
+  'National ID (PhilSys)',
+  'UMID Card',
+  'PRC ID',
+  'SSS ID',
+  "Voter's ID",
+  'Senior Citizen ID',
+  'PhilHealth ID',
+  'TIN Card',
+  'School ID',
+  'Postal ID',
+  'Employee ID',
+  'Barangay Certificate/Clearance',
+  'Company ID',
+  'Pag-IBIG Loyalty Card',
+  'OWWA Card',
+  'NBI Clearance',
+  'Military ID',
+]
+const debounce = (func, delay) => {
+  let timeoutId
+  return function (...args) {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}
 const RegisterStep2 = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const location = useLocation()
   const navigate = useNavigate()
-
   const emailFromState = location.state?.email || ''
   const [email, setEmail] = useState(emailFromState)
   const roleFromState = location.state?.role || 'tenant'
   const [role, setRole] = useState(roleFromState)
   const [showPassword, setShowPassword] = useState(false)
   const [showRePassword, setShowRePassword] = useState(false)
-
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
@@ -33,30 +70,130 @@ const RegisterStep2 = () => {
     password: '',
     rePassword: '',
     role: '',
+    contactNumber: '',
+    locationSearch: '',
+    address: {
+      street: '',
+      barangay: '',
+      city: '',
+      province: '',
+    },
+    idType: '',
+    idNumber: '',
+    idDocument: null,
+    occupationStatus: '',
+    occupationPlace: '',
+    emergencyContactName: '',
+    emergencyContactNumber: '',
   })
+
+  const fetchSuggestions = useCallback(async (query) => {
+    if (query.length < 3) {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+    const NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=ph`
+    try {
+      const res = await fetch(NOMINATIM_URL, {
+        headers: { 'User-Agent': 'CondoEase/1.0 (support@condoease.me)' },
+      })
+      if (!res.ok) throw new Error('Failed to fetch Nominatim suggestions')
+      const data = await res.json()
+      const philippineResults = data.filter(
+        (item) =>
+          item.address &&
+          (item.address.country_code === 'ph' || item.address.country === 'Philippines'),
+      )
+      setSuggestions(philippineResults)
+      setShowSuggestions(true)
+    } catch (err) {
+      console.error('Nominatim Geocoding error:', err)
+      setSuggestions([])
+      setShowSuggestions(false)
+    }
+  }, [])
+
+  const debouncedFetchSuggestions = useMemo(
+    () => debounce(fetchSuggestions, 500),
+    [fetchSuggestions],
+  )
+  const parseNominatimAddress = (suggestion) => {
+    const address = suggestion.address || {}
+    const street =
+      address.road ||
+      address.street ||
+      address.pedestrian ||
+      address.primary ||
+      address.secondary ||
+      address.tertiary ||
+      ''
+    const barangay =
+      address.barangay || address.suburb || address.neighbourhood || address.village || ''
+    const city = address.city || address.town || address.municipality || address.county || ''
+    const province = address.state || address.province || address.region || ''
+    return {
+      street: street,
+      barangay: barangay,
+      city: city,
+      province: province,
+    }
+  }
+
+  const handleSuggestionClick = (suggestion) => {
+    setFormValues((prev) => ({ ...prev, locationSearch: suggestion.display_name }))
+    setSuggestions([])
+    setShowSuggestions(false)
+    const parsedAddress = parseNominatimAddress(suggestion)
+    setFormValues((prev) => ({
+      ...prev,
+      address: {
+        street: parsedAddress.street,
+        barangay: parsedAddress.barangay,
+        city: parsedAddress.city,
+        province: parsedAddress.province,
+      },
+    }))
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormValues({ ...formValues, [name]: value })
+    setFormValues((prev) => ({ ...prev, [name]: value }))
+    if (name === 'locationSearch') {
+      debouncedFetchSuggestions(value)
+    }
   }
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target
+    setFormValues((prev) => ({
+      ...prev,
+      address: { ...prev.address, [name]: value },
+    }))
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    setFormValues((prev) => ({ ...prev, idDocument: file }))
+  }
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target
+  //   setFormValues({ ...formValues, [name]: value })
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{8,}$/
-
     if (formValues.password !== formValues.rePassword) {
       alert('Passwords do not match!')
       return
     }
-
     if (!passwordRegex.test(formValues.password)) {
       alert(
         'Password must be at least 8 characters and include a combination of letters, numbers, and special characters (!$@%).',
       )
       return
     }
-
     try {
       const res = await fetch(`${API_URL}/api/registerstep2`, {
         method: 'POST',
@@ -190,21 +327,42 @@ const RegisterStep2 = () => {
                   />
                 </CCol>
               </CRow>
-              <div className="mb-2 fw-semibold text-start">Email</div>
-              <CFormInput
-                type="email"
-                placeholder="email@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mb-3"
-                required
-                style={{
-                  borderColor: '#A3C49A',
-                  borderRadius: 10,
-                  fontSize: 16,
-                  padding: '16px 16px',
-                }}
-              />
+              <CRow className="mb-3">
+                <CCol>
+                  <div className="fw-semibold text-start mb-1">Email</div>
+                  <CFormInput
+                    type="email"
+                    placeholder="email@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mb-3"
+                    required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '16px 16px',
+                    }}
+                  />
+                </CCol>
+                <CCol>
+                  <div className="fw-semibold text-start mb-1">Contact Number</div>
+                  <CFormInput
+                    type="number"
+                    placeholder="Contact Number"
+                    name="contactNumber"
+                    value={formValues.contactNumber}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '16px 16px',
+                    }}
+                  />
+                </CCol>
+              </CRow>
               <div className="mb-2 fw-semibold text-start">Enter Password</div>
               <CInputGroup className="mb-3">
                 <CFormInput
@@ -253,6 +411,78 @@ const RegisterStep2 = () => {
                   characters (!$@%).
                 </small>
               </CInputGroup>
+
+              <CRow className="mb-3">
+                <CCol>
+                  <div className="fw-semibold text-start mb-1">Search Location</div>
+                  <CFormInput
+                    type="text"
+                    name="locationSearch"
+                    placeholder="Search Location (e.g., Ayala Avenue, Makati)"
+                    value={formValues.locationSearch}
+                    onChange={handleInputChange}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    onFocus={() => {
+                      if (suggestions.length > 0) setShowSuggestions(true)
+                    }}
+                    required
+                  />
+                  {showSuggestions && suggestions.length > 0 && (
+                    <ul
+                      style={{
+                        position: 'absolute',
+                        zIndex: 1000,
+                        width: '100%',
+                        maxHeight: '300px',
+                        overflowY: 'auto',
+                        border: '1px solid #ccc',
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: 0,
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                        top: '100%',
+                      }}
+                    >
+                      {suggestions.map((suggestion) => (
+                        <li
+                          key={suggestion.place_id}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          style={{
+                            padding: '10px',
+                            cursor: 'pointer',
+                            borderBottom: '1px solid #eee',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                        >
+                          {suggestion.display_name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </CCol>
+                <CCol>
+                  <div className="fw-semibold text-start mb-1">Last Name</div>
+                  <CFormInput
+                    type="text"
+                    placeholder="Last Name"
+                    name="lastName"
+                    value={formValues.lastName}
+                    onChange={handleInputChange}
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '16px 16px',
+                    }}
+                  />
+                </CCol>
+              </CRow>
+
               <div className="d-grid mb-4">
                 <CButton
                   className="text-white fw-bold"
