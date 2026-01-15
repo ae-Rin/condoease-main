@@ -409,7 +409,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -425,7 +425,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -444,7 +444,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -461,7 +461,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -478,7 +478,7 @@ const RegisterStep2 = () => {
                     borderColor: '#A3C49A',
                     borderRadius: 10,
                     fontSize: 16,
-                    padding: '10px 10px',
+                    padding: '16px 16px',
                   }}
                 >
                   <CInputGroupText
@@ -507,7 +507,7 @@ const RegisterStep2 = () => {
                     borderColor: '#A3C49A',
                     borderRadius: 10,
                     fontSize: 16,
-                    padding: '10px 10px',
+                    padding: '16px 16px',
                   }}
                 />
                 <CInputGroupText
@@ -540,7 +540,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                   {showSuggestions && suggestions.length > 0 && (
@@ -597,7 +597,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -614,7 +614,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -633,7 +633,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -650,7 +650,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -667,7 +667,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   >
                     <option value="">Select ID Type</option>
@@ -690,7 +690,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                 </CCol>
@@ -707,7 +707,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '10px 10px',
+                      padding: '16px 16px',
                     }}
                   />
                   <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
@@ -728,7 +728,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       >
                         <option value="">Select Occupation Status</option>
@@ -750,7 +750,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       />
                     </CCol>
@@ -770,7 +770,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       />
                     </CCol>
@@ -786,7 +786,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       />
                     </CCol>
@@ -808,7 +808,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       >
                         <option value="">Select Bank Associated</option>
@@ -832,7 +832,7 @@ const RegisterStep2 = () => {
                           borderColor: '#A3C49A',
                           borderRadius: 10,
                           fontSize: 16,
-                          padding: '10px 10px',
+                          padding: '16px 16px',
                         }}
                       />
                     </CCol>
