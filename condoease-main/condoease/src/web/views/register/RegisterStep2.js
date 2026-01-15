@@ -133,7 +133,8 @@ const RegisterStep2 = () => {
         bankAssociated: '',
         bankAccountNumber: '',
       }))
-    } else if (role !== 'tenant') {
+    }
+    if (role !== 'tenant') {
       setFormValues((prev) => ({
         ...prev,
         occupationStatus: '',
@@ -488,20 +489,13 @@ const RegisterStep2 = () => {
                     fontSize: 16,
                     padding: '16px 16px',
                   }}
-                >
-                  <CInputGroupText
-                    style={{ background: 'transparent', cursor: 'pointer' }}
-                    onClick={() => setShowPassword((v) => !v)}
-                  >
-                    <FaEye color="#A3C49A" />
-                  </CInputGroupText>
-                </CFormInput>
-                {/* <CInputGroupText
+                />
+                <CInputGroupText
                   style={{ background: 'transparent', cursor: 'pointer' }}
                   onClick={() => setShowPassword((v) => !v)}
                 >
                   <FaEye color="#A3C49A" />
-                </CInputGroupText> */}
+                </CInputGroupText>
               </CInputGroup>
               <div className="mb-2 fw-semibold text-start">Re-Enter Password</div>
               <CInputGroup className="mb-4">
