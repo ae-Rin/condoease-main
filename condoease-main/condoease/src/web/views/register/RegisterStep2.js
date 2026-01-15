@@ -587,7 +587,7 @@ const RegisterStep2 = () => {
 
               <CRow className="mb-3">
                 <CCol md={6}>
-                  <strong>Street</strong>
+                  <div className="fw-semibold text-start mb-1">Street</div>
                   <CFormInput
                     type="text"
                     name="street"
