@@ -477,7 +477,7 @@ const RegisterStep2 = () => {
                   }}
                 />
                 <CInputGroupText
-                  style={{ background: 'transparent', cursor: 'pointer', borderColor: '#A3C49A' }}
+                  style={{ background: 'transparent', cursor: 'pointer' }}
                   onClick={() => setShowRePassword((v) => !v)}
                 >
                   <FaEye color="#A3C49A" />

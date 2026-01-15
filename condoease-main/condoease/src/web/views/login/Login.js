@@ -148,7 +148,7 @@ const Login = () => {
                   }}
                 />
                 <CInputGroupText
-                  style={{ background: 'transparent', cursor: 'pointer', borderColor: '#A3C49A' }}
+                  style={{ background: 'transparent', cursor: 'pointer' }}
                   onClick={() => setShowPassword((prev) => !prev)}
                 >
                   <FaEye color="#A3C49A" />
