@@ -235,48 +235,10 @@ const RegisterStep2 = () => {
     setFormValues((prev) => ({ ...prev, idDocument: file }))
   }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{8,}$/
-  //   if (formValues.password !== formValues.rePassword) {
-  //     alert('Passwords do not match!')
-  //     return
-  //   }
-  //   if (!passwordRegex.test(formValues.password)) {
-  //     alert(
-  //       'Password must be at least 8 characters and include a combination of letters, numbers, and special characters (!$@%).',
-  //     )
-  //     return
-  //   }
-  //   try {
-  //     const res = await fetch(`${API_URL}/api/registerstep2`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         firstName: formValues.firstName,
-  //         lastName: formValues.lastName,
-  //         email: email,
-  //         password: formValues.password,
-  //         role: role,
-  //       }),
-  //     })
-  //     const data = await res.json()
-  //     if (res.ok && data.success) {
-  //       alert('Registration successful!')
-  //       navigate('/login')
-  //     } else {
-  //       alert(data.error || 'Registration failed.')
-  //     }
-  //   } catch (err) {
-  //     alert('Server error. Please try again later.')
-  //   }
-  // }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setErrorMessage(null)
-
     if (formValues.password !== formValues.rePassword) {
       alert('Passwords do not match!')
       setLoading(false)
@@ -305,10 +267,12 @@ const RegisterStep2 = () => {
       if (formValues.idDocument) {
         formData.append('idDocument', formValues.idDocument)
       }
-      formData.append('occupationStatus', formValues.occupationStatus)
-      formData.append('occupationPlace', formValues.occupationPlace)
-      formData.append('emergencyContactName', formValues.emergencyContactName)
-      formData.append('emergencyContactNumber', formValues.emergencyContactNumber)
+      if (role === 'tenant') {
+        formData.append('occupationStatus', formValues.occupationStatus)
+        formData.append('occupationPlace', formValues.occupationPlace)
+        formData.append('emergencyContactName', formValues.emergencyContactName)
+        formData.append('emergencyContactNumber', formValues.emergencyContactNumber)
+      }
       if (role === 'owner') {
         formData.append('bankAssociated', formValues.bankAssociated)
         formData.append('bankAccountNumber', formValues.bankAccountNumber)
@@ -322,7 +286,7 @@ const RegisterStep2 = () => {
         throw new Error(data.detail || 'Registration failed')
       }
       alert('Registration successful! Please verify your email.')
-      navigate('/login')
+      navigate('/registerverify', { state: { email: email } })
     } catch (err) {
       alert(err.message)
     } finally {
@@ -854,8 +818,13 @@ const RegisterStep2 = () => {
                     backgroundColor: '#F28D35',
                   }}
                   type="submit"
+                  disabled={loading}
                 >
-                  Create Account
+                  {loading ? (
+                    <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                  ) : (
+                    'Create Account'
+                  )}
                 </CButton>
               </div>
             </CForm>

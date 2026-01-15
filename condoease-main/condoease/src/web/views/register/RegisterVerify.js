@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import logoWhite from 'src/assets/images/logo_white.png'
 import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/react'
 
 const RegisterVerify = () => {
+  const location = useLocation()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('sampleTenant@gmail.com') // Example email
+  const email = location.state?.email
   const [confirmationCode, setConfirmationCode] = useState('')
 
   const handleResendCode = () => {
@@ -22,15 +23,15 @@ const RegisterVerify = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/verifyemail', {
+      const res = await fetch(`${API_URL}/api/verifyemail`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, confirmationCode }),
       })
       const data = await res.json()
       if (data.success) {
-        alert('Email verified successfully!')
-        navigate('/registerstep3') // Navigate to the next step
+        alert('Email verified successfully! Waiting for admin approval.')
+        // navigate('/registerstep3')
       } else {
         alert(data.error || 'Verification failed')
       }
