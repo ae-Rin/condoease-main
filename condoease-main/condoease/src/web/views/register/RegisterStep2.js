@@ -277,7 +277,7 @@ const RegisterStep2 = () => {
         formData.append('bankAssociated', formValues.bankAssociated)
         formData.append('bankAccountNumber', formValues.bankAccountNumber)
       }
-      const res = await fetch(`${API_URL}/api/registerstep2`, {
+      const res = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
         body: formData,
       })
