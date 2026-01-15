@@ -133,6 +133,14 @@ const RegisterStep2 = () => {
         bankAssociated: '',
         bankAccountNumber: '',
       }))
+    } else if (role !== 'tenant') {
+      setFormValues((prev) => ({
+        ...prev,
+        occupationStatus: '',
+        occupationPlace: '',
+        emergencyContactName: '',
+        emergencyContactNumber: '',
+      }))
     }
   }, [role])
 
