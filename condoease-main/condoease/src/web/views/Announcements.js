@@ -171,18 +171,15 @@ const Announcements = () => {
 
   useEffect(() => {
     if (!API_URL) return
-
     const wsProtocol = API_URL.startsWith('https') ? 'wss' : 'ws'
     const wsUrl = `${wsProtocol}://${API_URL.replace(/^https?:\/\//, '')}/ws/announcements`
     const ws = new WebSocket(wsUrl)
-
     ws.onopen = () => {
       console.log('Announcements WebSocket connected')
     }
     ws.onmessage = (msg) => {
       try {
         const { event, data } = JSON.parse(msg.data)
-
         if (event === 'new_announcement') {
           setAnnouncements((prev) => {
             const exists = prev.some((a) => a.id === data.id)
@@ -196,7 +193,6 @@ const Announcements = () => {
         console.error('Invalid WS message', e)
       }
     }
-
     ws.onerror = (err) => {
       console.error('WebSocket error', err)
     }

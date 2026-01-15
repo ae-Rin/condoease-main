@@ -568,7 +568,7 @@ const RegisterStep2 = () => {
                   />
                 </CCol>
                 <CCol md={6}>
-                  <strong>Barangay</strong>
+                  <div className="fw-semibold text-start mb-1">Barangay</div>
                   <CFormInput
                     type="text"
                     name="barangay"
@@ -587,7 +587,7 @@ const RegisterStep2 = () => {
               </CRow>
               <CRow className="mb-3">
                 <CCol md={6}>
-                  <strong>City</strong>
+                  <div className="fw-semibold text-start mb-1">City</div>
                   <CFormInput
                     type="text"
                     name="city"
@@ -604,7 +604,7 @@ const RegisterStep2 = () => {
                   />
                 </CCol>
                 <CCol md={6}>
-                  <strong>Province</strong>
+                  <div className="fw-semibold text-start mb-1">Province</div>
                   <CFormInput
                     type="text"
                     name="province"
@@ -663,7 +663,7 @@ const RegisterStep2 = () => {
               </CRow>
               <CRow className="mb-3">
                 <CCol md={12}>
-                  <strong>Upload ID Document</strong>
+                  <div className="fw-semibold text-start mb-1">Upload ID Document</div>
                   <CFormInput
                     type="file"
                     name="idDocument"
@@ -682,7 +682,7 @@ const RegisterStep2 = () => {
 
               {role === 'tenant' && (
                 <>
-                  <strong className="mb-3">Place of Work / School</strong>
+                  <div className="fw-semibold text-start mb-3">Place of Work / School</div>
                   <CRow className="mb-3">
                     <CCol md={6}>
                       <CFormSelect
@@ -722,7 +722,7 @@ const RegisterStep2 = () => {
                     </CCol>
                   </CRow>
 
-                  <strong className="mb-3">Emergency Contact</strong>
+                  <div className="fw-semibold text-start mb-3">Emergency Contact</div>
                   <CRow className="mb-3">
                     <CCol md={6}>
                       <CFormInput
@@ -762,7 +762,7 @@ const RegisterStep2 = () => {
 
               {role === 'owner' && (
                 <>
-                  <strong className="mb-3">Bank Information</strong>
+                  <div className="fw-semibold text-start mb-3">Bank Information</div>
                   <CRow className="mb-3">
                     <CCol md={6}>
                       <CFormSelect
