@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
 import {
   CButton,
   CContainer,
@@ -39,6 +38,44 @@ const idTypes = [
   'OWWA Card',
   'NBI Clearance',
   'Military ID',
+]
+const bankAssociates = [
+  'BDO Unibank, Inc.',
+  'Land Bank of the Philippines (LandBank)',
+  'Bank of the Philippine Islands (BPI)',
+  'Metropolitan Bank & Trust Company (Metrobank)',
+  'China Banking Corporation (China Bank)',
+  'Rizal Commercial Banking Corporation (RCBC)',
+  'Security Bank Corporation',
+  'Philippine National Bank (PNB)',
+  'Development Bank of the Philippines (DBP)',
+  'Union Bank of the Philippines, Inc. (UnionBank)',
+  'Asia United Bank Corporation (AUB)',
+  'Bank of Commerce (BankCom)',
+  'CTBC Bank (Philippines) Corporation',
+  'East West Banking Corporation (EastWest Bank)',
+  'Maybank Philippines, Inc.',
+  'Philippine Bank of Communications (PBCom)',
+  'Philippine Trust Company (Philtrust Bank)',
+  'Philippine Veterans Bank',
+  'Al-Amanah Islamic Investment Bank of the Philippines (Government)',
+  'Overseas Filipino Bank (OFBank)',
+  'Citibank, N.A.',
+  'The Hongkong and Shanghai Banking Corporation (HSBC)',
+  'Standard Chartered Bank',
+  'Deutsche Bank AG',
+  'MUFG Bank, Ltd.',
+  'Mizuho Bank, Ltd.',
+  'JPMorgan Chase Bank, N.A.',
+  'CIMB Bank Philippines Inc.',
+  'ING Bank N.V.',
+  'Philippine Savings Bank (PSBank)',
+  'China Bank Savings, Inc. (CBS)',
+  'City Savings Bank, Inc.',
+  'Philippine Business Bank, Inc.',
+  'Sterling Bank of Asia, Inc.',
+  'BPI Direct BanKo, Inc.',
+  'UCPB Savings Bank',
 ]
 const debounce = (func, delay) => {
   let timeoutId
@@ -85,7 +122,19 @@ const RegisterStep2 = () => {
     occupationPlace: '',
     emergencyContactName: '',
     emergencyContactNumber: '',
+    bankAssociated: '',
+    bankAccountNumber: '',
   })
+
+  useEffect(() => {
+    if (role !== 'owner') {
+      setFormValues((prev) => ({
+        ...prev,
+        bankAssociated: '',
+        bankAccountNumber: '',
+      }))
+    }
+  }, [role])
 
   const fetchSuggestions = useCallback(async (query) => {
     if (query.length < 3) {
@@ -176,45 +225,99 @@ const RegisterStep2 = () => {
     const file = e.target.files[0]
     setFormValues((prev) => ({ ...prev, idDocument: file }))
   }
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target
-  //   setFormValues({ ...formValues, [name]: value })
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{8,}$/
+  //   if (formValues.password !== formValues.rePassword) {
+  //     alert('Passwords do not match!')
+  //     return
+  //   }
+  //   if (!passwordRegex.test(formValues.password)) {
+  //     alert(
+  //       'Password must be at least 8 characters and include a combination of letters, numbers, and special characters (!$@%).',
+  //     )
+  //     return
+  //   }
+  //   try {
+  //     const res = await fetch(`${API_URL}/api/registerstep2`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         firstName: formValues.firstName,
+  //         lastName: formValues.lastName,
+  //         email: email,
+  //         password: formValues.password,
+  //         role: role,
+  //       }),
+  //     })
+  //     const data = await res.json()
+  //     if (res.ok && data.success) {
+  //       alert('Registration successful!')
+  //       navigate('/login')
+  //     } else {
+  //       alert(data.error || 'Registration failed.')
+  //     }
+  //   } catch (err) {
+  //     alert('Server error. Please try again later.')
+  //   }
   // }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{8,}$/
+    setLoading(true)
+    setErrorMessage(null)
+
     if (formValues.password !== formValues.rePassword) {
       alert('Passwords do not match!')
+      setLoading(false)
       return
     }
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{8,}$/
     if (!passwordRegex.test(formValues.password)) {
-      alert(
-        'Password must be at least 8 characters and include a combination of letters, numbers, and special characters (!$@%).',
-      )
+      alert('Password must contain letters, numbers, and special characters (!$@%).')
+      setLoading(false)
       return
     }
     try {
-      const res = await fetch(`${API_URL}/api/registerstep2`, {
+      const formData = new FormData()
+      formData.append('firstName', formValues.firstName)
+      formData.append('lastName', formValues.lastName)
+      formData.append('email', email)
+      formData.append('password', formValues.password)
+      formData.append('role', role)
+      formData.append('contactNumber', formValues.contactNumber)
+      formData.append('street', formValues.address.street)
+      formData.append('barangay', formValues.address.barangay)
+      formData.append('city', formValues.address.city)
+      formData.append('province', formValues.address.province)
+      formData.append('idType', formValues.idType)
+      formData.append('idNumber', formValues.idNumber)
+      if (formValues.idDocument) {
+        formData.append('idDocument', formValues.idDocument)
+      }
+      formData.append('occupationStatus', formValues.occupationStatus)
+      formData.append('occupationPlace', formValues.occupationPlace)
+      formData.append('emergencyContactName', formValues.emergencyContactName)
+      formData.append('emergencyContactNumber', formValues.emergencyContactNumber)
+      if (role === 'owner') {
+        formData.append('bankAssociated', formValues.bankAssociated)
+        formData.append('bankAccountNumber', formValues.bankAccountNumber)
+      }
+      const res = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          email: email,
-          password: formValues.password,
-          role: role,
-        }),
+        body: formData,
       })
       const data = await res.json()
-      if (res.ok && data.success) {
-        alert('Registration successful!')
-        navigate('/login')
-      } else {
-        alert(data.error || 'Registration failed.')
+      if (!res.ok) {
+        throw new Error(data.detail || 'Registration failed')
       }
+      alert('Registration successful! Please verify your email.')
+      navigate('/login')
     } catch (err) {
-      alert('Server error. Please try again later.')
+      alert(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -288,7 +391,7 @@ const RegisterStep2 = () => {
             {/* Title */}
             <div className="text-center mb-3">
               <h2 className="fw-bold mb-4 text-start" style={{ fontSize: 32 }}>
-                Create {role} Account
+                Create {role === 'owner' ? 'Property Owner' : 'Tenant'} Account
               </h2>
             </div>
             {/* Form */}
@@ -465,23 +568,177 @@ const RegisterStep2 = () => {
                     </ul>
                   )}
                 </CCol>
-                <CCol>
-                  <div className="fw-semibold text-start mb-1">Last Name</div>
+              </CRow>
+
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <strong>Street</strong>
                   <CFormInput
                     type="text"
-                    placeholder="Last Name"
-                    name="lastName"
-                    value={formValues.lastName}
-                    onChange={handleInputChange}
-                    style={{
-                      borderColor: '#A3C49A',
-                      borderRadius: 10,
-                      fontSize: 16,
-                      padding: '16px 16px',
-                    }}
+                    name="street"
+                    placeholder="Street"
+                    value={formValues.address.street}
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <strong>Barangay</strong>
+                  <CFormInput
+                    type="text"
+                    name="barangay"
+                    placeholder="Barangay"
+                    value={formValues.address.barangay}
+                    onChange={handleAddressChange}
+                    required
                   />
                 </CCol>
               </CRow>
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <strong>City</strong>
+                  <CFormInput
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={formValues.address.city}
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <strong>Province</strong>
+                  <CFormInput
+                    type="text"
+                    name="province"
+                    placeholder="Province"
+                    value={formValues.address.province}
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </CCol>
+              </CRow>
+
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <CFormSelect
+                    name="idType"
+                    value={formValues.idType}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select ID Type</option>
+                    {idTypes.map((type, idx) => (
+                      <option key={idx} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </CFormSelect>
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    name="idNumber"
+                    placeholder="ID Number"
+                    value={formValues.idNumber}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </CCol>
+              </CRow>
+              <CRow className="mb-3">
+                <CCol md={12}>
+                  <strong>Upload ID Document</strong>
+                  <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
+                  <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
+                </CCol>
+              </CRow>
+
+              <strong className="mb-3">Place of Work / School</strong>
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <CFormSelect
+                    name="occupationStatus"
+                    value={formValues.occupationStatus}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value="">Select Occupation Status</option>
+                    <option value="employee">Employee</option>
+                    <option value="employer">Employer</option>
+                    <option value="self-employed">Self-Employed</option>
+                    <option value="student">Student</option>
+                  </CFormSelect>
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    name="occupationPlace"
+                    placeholder="Company / School Name"
+                    value={formValues.occupationPlace}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </CCol>
+              </CRow>
+
+              <strong className="mb-3">Emergency Contact</strong>
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    name="emergencyContactName"
+                    placeholder="Emergency Contact Name"
+                    value={formValues.emergencyContactName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    name="emergencyContactNumber"
+                    placeholder="Emergency Contact Number"
+                    value={formValues.emergencyContactNumber}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </CCol>
+              </CRow>
+
+              {role === 'owner' && (
+                <>
+                  <strong className="mb-3">Bank Information</strong>
+                  <CRow className="mb-3">
+                    <CCol md={6}>
+                      <CFormSelect
+                        name="bankAssociated"
+                        value={formValues.bankAssociated}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="">Select Bank Associated</option>
+                        {bankAssociates.map((bank, idx) => (
+                          <option key={idx} value={bank}>
+                            {bank}
+                          </option>
+                        ))}
+                      </CFormSelect>
+                    </CCol>
+
+                    <CCol md={6}>
+                      <CFormInput
+                        type="text"
+                        name="bankAccountNumber"
+                        placeholder="Bank Account Number"
+                        value={formValues.bankAccountNumber}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </CCol>
+                  </CRow>
+                </>
+              )}
 
               <div className="d-grid mb-4">
                 <CButton
