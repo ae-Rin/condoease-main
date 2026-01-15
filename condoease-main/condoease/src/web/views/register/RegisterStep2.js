@@ -409,7 +409,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '16px 16px',
+                      padding: '10px 10px',
                     }}
                   />
                 </CCol>
@@ -425,7 +425,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '16px 16px',
+                      padding: '10px 10px',
                     }}
                   />
                 </CCol>
@@ -444,7 +444,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '16px 16px',
+                      padding: '10px 10px',
                     }}
                   />
                 </CCol>
@@ -461,7 +461,7 @@ const RegisterStep2 = () => {
                       borderColor: '#A3C49A',
                       borderRadius: 10,
                       fontSize: 16,
-                      padding: '16px 16px',
+                      padding: '10px 10px',
                     }}
                   />
                 </CCol>
@@ -478,15 +478,22 @@ const RegisterStep2 = () => {
                     borderColor: '#A3C49A',
                     borderRadius: 10,
                     fontSize: 16,
-                    padding: '16px 16px',
+                    padding: '10px 10px',
                   }}
-                />
-                <CInputGroupText
-                  style={{ background: 'transparent', cursor: 'pointer', borderColor: '#A3C49A' }}
+                >
+                  <CInputGroupText
+                    style={{ background: 'transparent', cursor: 'pointer' }}
+                    onClick={() => setShowPassword((v) => !v)}
+                  >
+                    <FaEye color="#A3C49A" />
+                  </CInputGroupText>
+                </CFormInput>
+                {/* <CInputGroupText
+                  style={{ background: 'transparent', cursor: 'pointer' }}
                   onClick={() => setShowPassword((v) => !v)}
                 >
                   <FaEye color="#A3C49A" />
-                </CInputGroupText>
+                </CInputGroupText> */}
               </CInputGroup>
               <div className="mb-2 fw-semibold text-start">Re-Enter Password</div>
               <CInputGroup className="mb-4">
@@ -500,7 +507,7 @@ const RegisterStep2 = () => {
                     borderColor: '#A3C49A',
                     borderRadius: 10,
                     fontSize: 16,
-                    padding: '16px 16px',
+                    padding: '10px 10px',
                   }}
                 />
                 <CInputGroupText
@@ -509,11 +516,11 @@ const RegisterStep2 = () => {
                 >
                   <FaEye color="#A3C49A" />
                 </CInputGroupText>
-                <small className="text-muted mt-3 text-center">
-                  Password must be at least 8 characters and include letters, numbers, and special
-                  characters (!$@%).
-                </small>
               </CInputGroup>
+              <small className="text-muted mt-3 text-center">
+                Password must be at least 8 characters and include letters, numbers, and special
+                characters (!$@%).
+              </small>
 
               <CRow className="mb-3">
                 <CCol>
@@ -529,6 +536,12 @@ const RegisterStep2 = () => {
                       if (suggestions.length > 0) setShowSuggestions(true)
                     }}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                   {showSuggestions && suggestions.length > 0 && (
                     <ul
@@ -580,6 +593,12 @@ const RegisterStep2 = () => {
                     value={formValues.address.street}
                     onChange={handleAddressChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                 </CCol>
                 <CCol md={6}>
@@ -591,6 +610,12 @@ const RegisterStep2 = () => {
                     value={formValues.address.barangay}
                     onChange={handleAddressChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                 </CCol>
               </CRow>
@@ -604,6 +629,12 @@ const RegisterStep2 = () => {
                     value={formValues.address.city}
                     onChange={handleAddressChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                 </CCol>
                 <CCol md={6}>
@@ -615,6 +646,12 @@ const RegisterStep2 = () => {
                     value={formValues.address.province}
                     onChange={handleAddressChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                 </CCol>
               </CRow>
@@ -626,6 +663,12 @@ const RegisterStep2 = () => {
                     value={formValues.idType}
                     onChange={handleInputChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   >
                     <option value="">Select ID Type</option>
                     {idTypes.map((type, idx) => (
@@ -643,68 +686,113 @@ const RegisterStep2 = () => {
                     value={formValues.idNumber}
                     onChange={handleInputChange}
                     required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
                   />
                 </CCol>
               </CRow>
               <CRow className="mb-3">
                 <CCol md={12}>
                   <strong>Upload ID Document</strong>
-                  <CFormInput type="file" name="idDocument" onChange={handleFileChange} required />
+                  <CFormInput
+                    type="file"
+                    name="idDocument"
+                    onChange={handleFileChange}
+                    required
+                    style={{
+                      borderColor: '#A3C49A',
+                      borderRadius: 10,
+                      fontSize: 16,
+                      padding: '10px 10px',
+                    }}
+                  />
                   <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
                 </CCol>
               </CRow>
 
-              <strong className="mb-3">Place of Work / School</strong>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormSelect
-                    name="occupationStatus"
-                    value={formValues.occupationStatus}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="">Select Occupation Status</option>
-                    <option value="employee">Employee</option>
-                    <option value="employer">Employer</option>
-                    <option value="self-employed">Self-Employed</option>
-                    <option value="student">Student</option>
-                  </CFormSelect>
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="occupationPlace"
-                    placeholder="Company / School Name"
-                    value={formValues.occupationPlace}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
+              {role === 'tenant' && (
+                <>
+                  <strong className="mb-3">Place of Work / School</strong>
+                  <CRow className="mb-3">
+                    <CCol md={6}>
+                      <CFormSelect
+                        name="occupationStatus"
+                        value={formValues.occupationStatus}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
+                      >
+                        <option value="">Select Occupation Status</option>
+                        <option value="employee">Employee</option>
+                        <option value="employer">Employer</option>
+                        <option value="self-employed">Self-Employed</option>
+                        <option value="student">Student</option>
+                      </CFormSelect>
+                    </CCol>
+                    <CCol md={6}>
+                      <CFormInput
+                        type="text"
+                        name="occupationPlace"
+                        placeholder="Company / School Name"
+                        value={formValues.occupationPlace}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
+                      />
+                    </CCol>
+                  </CRow>
 
-              <strong className="mb-3">Emergency Contact</strong>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="emergencyContactName"
-                    placeholder="Emergency Contact Name"
-                    value={formValues.emergencyContactName}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="emergencyContactNumber"
-                    placeholder="Emergency Contact Number"
-                    value={formValues.emergencyContactNumber}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
+                  <strong className="mb-3">Emergency Contact</strong>
+                  <CRow className="mb-3">
+                    <CCol md={6}>
+                      <CFormInput
+                        type="text"
+                        name="emergencyContactName"
+                        placeholder="Emergency Contact Name"
+                        value={formValues.emergencyContactName}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
+                      />
+                    </CCol>
+                    <CCol md={6}>
+                      <CFormInput
+                        type="text"
+                        name="emergencyContactNumber"
+                        placeholder="Emergency Contact Number"
+                        value={formValues.emergencyContactNumber}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
+                      />
+                    </CCol>
+                  </CRow>
+                </>
+              )}
 
               {role === 'owner' && (
                 <>
@@ -716,6 +804,12 @@ const RegisterStep2 = () => {
                         value={formValues.bankAssociated}
                         onChange={handleInputChange}
                         required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
                       >
                         <option value="">Select Bank Associated</option>
                         {bankAssociates.map((bank, idx) => (
@@ -734,6 +828,12 @@ const RegisterStep2 = () => {
                         value={formValues.bankAccountNumber}
                         onChange={handleInputChange}
                         required
+                        style={{
+                          borderColor: '#A3C49A',
+                          borderRadius: 10,
+                          fontSize: 16,
+                          padding: '10px 10px',
+                        }}
                       />
                     </CCol>
                   </CRow>
