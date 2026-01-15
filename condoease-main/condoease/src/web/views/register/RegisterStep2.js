@@ -352,7 +352,7 @@ const RegisterStep2 = () => {
       {/* Main content */}
       <CContainer className="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
         <CRow className="justify-content-center w-100">
-          <CCol xs={12} md={7} lg={5} xl={4}>
+          <CCol xs={12} md={7} lg={5} xl={12}>
             {/* Progress bar */}
             <div
               className="d-flex justify-content-center align-items-center mb-5 mt-3"
