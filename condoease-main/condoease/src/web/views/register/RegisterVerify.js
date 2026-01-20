@@ -23,7 +23,7 @@ const RegisterVerify = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/api/verifyemail`, {
+      const res = await fetch(`${API_URL}/api/verify-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, confirmationCode }),
