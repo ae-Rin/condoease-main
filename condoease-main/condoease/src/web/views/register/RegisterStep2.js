@@ -285,9 +285,7 @@ const RegisterStep2 = () => {
       if (!res.ok) {
         alert(data.detail || 'Registration failed')
       }
-      alert('Registration successful! Please verify your email.')
-      // navigate('/registerverify', { state: { email: email } })
-      navigate('/registerverify', { state: { email } })
+      navigate('/register', { state: { email } })
     } catch (err) {
       alert(err.message)
     } finally {
