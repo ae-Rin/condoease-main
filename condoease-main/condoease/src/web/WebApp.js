@@ -70,6 +70,7 @@ const WebApp = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/registerstep2" element={<RegisterStep2 />} />
+          <Route path="/registerverify" element={<RegisterVerify />} />
           <Route path="/500" element={<Page500 />} />
           <Route path="/404" element={<Page404 />} />
 
@@ -81,7 +82,6 @@ const WebApp = () => {
                 <Routes>
                   <Route path="/" element={<WebLayout />}>
                     <Route index element={<Navigate to="/cards" replace />} />
-                    <Route path="/registerverify" element={<RegisterVerify />} />
                     <Route path="cards" element={<Cards />} />
                     {/* <Route path="carousel" element={<Carousel />} /> */}
                     <Route path="navs" element={<Navs />} />

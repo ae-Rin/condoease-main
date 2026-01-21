@@ -46,7 +46,7 @@ const webRoutes = [
     path: '/registerverify',
     name: 'Register Verify',
     element: <RegisterVerify />,
-    isProtected: true,
+    isProtected: false,
   },
   { path: '/cards', name: 'Cards', element: <Cards />, isProtected: true },
   // { path: '/carousel', name: 'Carousel', element: <Carousel />, isProtected: true },
