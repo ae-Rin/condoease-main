@@ -31,7 +31,6 @@ const RegisterVerify = () => {
       const data = await res.json()
       if (data.success) {
         alert('Email verified successfully! Waiting for admin approval.')
-        // navigate('/registerstep3')
       } else {
         alert(data.error || 'Verification failed')
       }

@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 const Login = React.lazy(() => import('./views/login/Login'))
 const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
-const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
+const RegisterVerify = React.lazy(() => import('./views/registerverify/RegisterVerify'))
 const Cards = React.lazy(() => import('./views/Cards'))
 // const Carousel = React.lazy(() => import('./views/Carousels'))
 const Navs = React.lazy(() => import('./views/Navs'))
