@@ -11,7 +11,7 @@ import WebLayout from './layout/WebLayout'
 const Login = React.lazy(() => import('./views/login/Login'))
 const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
-const RegisterVerify = React.lazy(() => import('./views/registerverify/RegisterVerify'))
+const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
 const Cards = React.lazy(() => import('./views/Cards'))
 // const Carousel = React.lazy(() => import('./views/Announcements'))
 const Navs = React.lazy(() => import('./views/Navs'))
