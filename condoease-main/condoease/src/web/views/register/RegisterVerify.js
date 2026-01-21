@@ -9,10 +9,26 @@ const RegisterVerify = () => {
   const navigate = useNavigate()
   const email = location.state?.email
   const [confirmationCode, setConfirmationCode] = useState('')
+  const API_URL = import.meta.env.VITE_APP_API_URL
 
-  const handleResendCode = () => {
-    alert('Confirmation code resent to your email.')
+
+  const handleResendCode = async () => {
+  try {
+    const res = await fetch(`${API_URL}/api/resend-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    const data = await res.json()
+    if (res.ok) {
+      alert('Confirmation code resent to your email.')
+    } else {
+      alert(data.detail || 'Failed to resend code')
+    }
+  } catch {
+    alert('Server error')
   }
+}
 
   const handleVerifyEmail = async (e) => {
     e.preventDefault()
