@@ -282,8 +282,12 @@ const RegisterStep2 = () => {
         body: formData,
       })
       const data = await res.json()
-      if (res.ok || data?.success === true || data?.redirect === 'verify') {
-        alert('Registration successful! Please verify your email.')
+      if (
+        res.ok ||
+        data?.success === true ||
+        data?.redirect === 'verify' ||
+        data?.detail?.toLowerCase().includes('already exists')
+      ) {
         navigate('/registerverify', { state: { email } })
         return
       }
