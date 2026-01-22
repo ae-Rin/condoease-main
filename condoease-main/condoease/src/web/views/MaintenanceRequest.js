@@ -12,7 +12,6 @@ import {
 } from '@coreui/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-// import { sub } from 'date-fns'
 
 const MaintenanceRequest = () => {
   const { requestId } = useParams()

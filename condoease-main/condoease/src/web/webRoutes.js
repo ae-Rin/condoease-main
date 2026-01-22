@@ -15,6 +15,7 @@ const Tables = React.lazy(() => import('./views/Tables'))
 const Tenants = React.lazy(() => import('./views/Tenants'))
 const UpdateTenant = React.lazy(() => import('./views/UpdateTenant'))
 const TenantList = React.lazy(() => import('./views/TenantList'))
+const TenantDetails = React.lazy(() => import('./views/TenantDetails'))
 const PropertyOwners = React.lazy(() => import('./views/PropertyOwners'))
 const PropertyOwnerList = React.lazy(() => import('./views/PropertyOwnerList'))
 const Properties = React.lazy(() => import('./views/Properties'))
@@ -63,6 +64,12 @@ const webRoutes = [
     isProtected: true,
   },
   { path: '/tenantlist', name: 'Tenant List', element: <TenantList />, isProtected: true },
+  {
+    path: '/tenantdetails/:tenantId',
+    name: 'Tenant Details',
+    element: <TenantDetails />,
+    isProtected: true,
+  },
   {
     path: '/propertyowners',
     name: 'Property Owners',

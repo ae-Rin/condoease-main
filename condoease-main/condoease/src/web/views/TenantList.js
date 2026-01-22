@@ -47,11 +47,11 @@ const TenantList = () => {
   }, [API_URL])
 
   const handleView = (tenantId) => {
-    alert(`View details for tenant ID: ${tenantId}`)
+    navigate(`/tenantdetails/${tenantId}`)
   }
 
   const handleEdit = (tenantId) => {
-    alert(`Edit details for tenant ID: ${tenantId}`)
+    navigate(`/tenants/edit/${tenantId}`)
   }
 
   const handleDelete = (tenantId) => {
@@ -116,7 +116,7 @@ const TenantList = () => {
                           color="warning"
                           size="sm"
                           className="me-2"
-                          onClick={() => navigate(`/tenants/edit/${tenant.tenant_id}`)}
+                          onClick={() => handleEdit(tenant.tenant_id)}
                         >
                           <FaEdit />
                         </CButton>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import logoWhite from 'src/assets/images/logo_white.png'
-import { CButton, CContainer, CForm, CFormInput, CRow, CCol } from '@coreui/react'
+import { CButton, CContainer, CForm, CFormInput, CRow, CCol, CSpinner } from '@coreui/react'
 
 const RegisterVerify = () => {
   const location = useLocation()
@@ -10,7 +10,7 @@ const RegisterVerify = () => {
   const email = location.state?.email
   const [confirmationCode, setConfirmationCode] = useState('')
   const API_URL = import.meta.env.VITE_APP_API_URL
-
+  const [loading, setLoading] = useState(false)
 
   const handleResendCode = async () => {
     try {
@@ -32,9 +32,10 @@ const RegisterVerify = () => {
 
   const handleVerifyEmail = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
     if (!confirmationCode) {
       alert('Please enter the confirmation code.')
+      setLoading(false)
       return
     }
 
@@ -53,9 +54,12 @@ const RegisterVerify = () => {
         navigate('/login')
       } else {
         alert(data.error || 'Verification failed')
+        setLoading(false)
       }
     } catch (err) {
-      alert('Server error')
+      alert(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -73,11 +77,7 @@ const RegisterVerify = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src={logoWhite}
-            alt="CondoEase Logo"
-            style={{ height: 64, marginRight: 12 }}
-          />
+          <img src={logoWhite} alt="CondoEase Logo" style={{ height: 64, marginRight: 12 }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
           <span style={{ color: 'white', fontSize: 20 }}>Already have an account?</span>
@@ -167,8 +167,13 @@ const RegisterVerify = () => {
                     backgroundColor: '#F28D35',
                   }}
                   type="submit"
+                  disabled={loading}
                 >
-                  Verify Email
+                  {loading ? (
+                    <CSpinner style={{ width: '2rem', height: '2rem', color: '#FFFFFF' }} />
+                  ) : (
+                    'Verify Email'
+                  )}
                 </CButton>
               </div>
               <div className="text-center">
