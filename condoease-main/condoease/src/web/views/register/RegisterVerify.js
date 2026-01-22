@@ -16,8 +16,7 @@ const RegisterVerify = () => {
   try {
     const res = await fetch(`${API_URL}/api/resend-otp`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, otp: confirmationCode })
     })
     const data = await res.json()
     if (res.ok) {
