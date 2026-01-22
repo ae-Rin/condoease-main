@@ -13,21 +13,22 @@ const RegisterVerify = () => {
 
 
   const handleResendCode = async () => {
-  try {
-    const res = await fetch(`${API_URL}/api/resend-otp`, {
-      method: 'POST',
-      body: JSON.stringify({ email, otp: confirmationCode })
-    })
-    const data = await res.json()
-    if (res.ok) {
-      alert('Confirmation code resent to your email.')
-    } else {
-      alert(data.detail || 'Failed to resend code')
+    try {
+      const res = await fetch(`${API_URL}/api/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        alert('Confirmation code resent to your email.')
+      } else {
+        alert(data.detail || 'Failed to resend code')
+      }
+    } catch {
+      alert('Server error')
     }
-  } catch {
-    alert('Server error')
   }
-}
 
   const handleVerifyEmail = async (e) => {
     e.preventDefault()
@@ -48,7 +49,8 @@ const RegisterVerify = () => {
       })
       const data = await res.json()
       if (data.success) {
-        alert('Email verified successfully! Waiting for admin approval.')
+        alert('Email verified successfully! Waiting for Admin Approval.')
+        navigate('/login')
       } else {
         alert(data.error || 'Verification failed')
       }
