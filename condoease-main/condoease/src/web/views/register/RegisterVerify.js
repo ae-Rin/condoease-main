@@ -41,7 +41,10 @@ const RegisterVerify = () => {
       const res = await fetch(`${API_URL}/api/verify-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, confirmationCode }),
+        body: JSON.stringify({
+          email,
+          otp: confirmationCode,
+        }),
       })
       const data = await res.json()
       if (data.success) {
