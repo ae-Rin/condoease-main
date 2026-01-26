@@ -19,6 +19,8 @@ const TenantDetails = () => {
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
   const [actionLoading, setActionLoading] = useState(false)
+  const [approving, setApproving] = useState(false)
+  const [denying, setDenying] = useState(false)
   
 
   useEffect(() => {
@@ -46,7 +48,15 @@ const TenantDetails = () => {
   }, [API_URL, tenantId])
 
   const handleUpdateStatus = async (status) => {
-    setActionLoading(true)
+    if (status === 'denied' && !comment.trim()) {
+      alert('Please provide a reason for denial.')
+      return
+    }
+    if (status === 'approved') {
+      setApproving(true)
+    } else if (status === 'denied') {
+      setDenying(true)
+    }
     try {
       const res = await fetch(`${API_URL}/api/tenants/${tenantId}/status`, {
         method: 'PUT',
@@ -59,16 +69,15 @@ const TenantDetails = () => {
           comment,
         }),
       })
-
       const data = await res.json()
       if (!res.ok) throw new Error(data.detail)
-
       alert(`Tenant ${status} successfully`)
       navigate('/tenants')
     } catch (err) {
       alert(err.message)
     } finally {
-      setActionLoading(false)
+      setApproving(false)
+      setDenying(false)
     }
   }
 
@@ -166,7 +175,7 @@ const TenantDetails = () => {
             <div className="d-flex justify-content-between mt-4">
               <CButton
                 className="text-white fw-bold px-4"
-                disabled={actionLoading || tenantDetails.status !== 'pending'}
+                disabled={approving || tenantDetails.status !== 'pending'}
                 onClick={() => handleUpdateStatus('approved')}
                 style={{
                   fontSize: 20,
@@ -176,7 +185,7 @@ const TenantDetails = () => {
                   justifyContent: 'center',
                 }}
               >
-                {actionLoading ? (
+                {approving ? (
                   <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
                 ) : (
                   'Approve'
@@ -184,7 +193,7 @@ const TenantDetails = () => {
               </CButton>
               <CButton
                 className="text-white fw-bold px-4"
-                disabled={actionLoading || tenantDetails.status !== 'pending'}
+                disabled={denying || tenantDetails.status !== 'pending'}
                 onClick={() => handleUpdateStatus('denied')}
                 style={{
                   fontSize: 20,
@@ -194,7 +203,7 @@ const TenantDetails = () => {
                   justifyContent: 'center',
                 }}
               >
-                {actionLoading ? (
+                {denying ? (
                   <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
                 ) : (
                   'Denied'
