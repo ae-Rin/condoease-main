@@ -18,6 +18,7 @@ const TenantDetails = () => {
   const [tenantDetails, setTenantDetails] = useState(null)
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
+  const [actionLoading, setActionLoading] = useState(false)
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -44,7 +45,7 @@ const TenantDetails = () => {
   }, [API_URL, tenantId])
 
   const handleUpdateStatus = async (status) => {
-    setLoading(true)
+    setActionLoading(true)
     try {
       const res = await fetch(`${API_URL}/api/tenants/${tenantId}/status`, {
         method: 'PUT',
@@ -52,18 +53,21 @@ const TenantDetails = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({
+          status,
+          comment,
+        }),
       })
-      if (!res.ok) {
-        const errorData = await res.json()
-        throw new Error(errorData.error || 'Failed to update tenant status')
-      }
-      alert('Tenant status updated successfully')
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.detail)
+
+      alert(`Tenant ${status} successfully`)
       navigate('/tenants')
     } catch (err) {
-      alert(`Error updating tenant status: ${err.message}`)
+      alert(err.message)
     } finally {
-      setLoading(false)
+      setActionLoading(false)
     }
   }
 
@@ -87,7 +91,8 @@ const TenantDetails = () => {
               <strong>Contact Number:</strong> {tenantDetails.contact_number}
             </p>
             <p>
-              <strong>Full Address:</strong> {tenantDetails.address}
+              <strong>Full Address:</strong> {tenantDetails.street}, {tenantDetails.barangay},{' '}
+              {tenantDetails.city}, {tenantDetails.province}
             </p>
             <p>
               <strong>ID Type:</strong> {tenantDetails.id_type}
@@ -96,15 +101,24 @@ const TenantDetails = () => {
               <strong>ID Number:</strong> {tenantDetails.id_number}
             </p>
             <p>
-              <strong>ID Document:</strong>{' '}
-              {tenantDetails.id_document_url ? (
-                <a href={tenantDetails.id_document_url} target="_blank" rel="noopener noreferrer">
-                  Download to View
-                </a>
-              ) : (
-                'No document available'
-              )}
+              <strong>ID Document:</strong>
             </p>
+            {tenantDetails.id_documents?.length > 0 ? (
+              <ul>
+                {tenantDetails.id_documents.map((doc) => (
+                  <li key={doc.id_document_url}>
+                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer">
+                      View {doc.file_type.toUpperCase()}
+                    </a>{' '}
+                    <small className="text-muted">
+                      (Uploaded: {new Date(doc.uploaded_at).toLocaleDateString()})
+                    </small>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No ID Document uploaded</p>
+            )}
             <p>
               <strong>Occupation Status:</strong> {tenantDetails.occupation_status}
             </p>
@@ -135,8 +149,8 @@ const TenantDetails = () => {
             <div className="d-flex justify-content-between mt-4">
               <CButton
                 className="text-white fw-bold px-4"
-                onClick={handleUpdateStatus}
-                disabled={loading}
+                onClick={() => handleUpdateStatus('approved')}
+                disabled={actionLoading}
                 style={{
                   fontSize: 20,
                   backgroundColor: '#F28D35',
@@ -145,7 +159,7 @@ const TenantDetails = () => {
                   justifyContent: 'center',
                 }}
               >
-                {loading ? (
+                {actionLoading ? (
                   <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
                 ) : (
                   'Approve'
@@ -153,7 +167,7 @@ const TenantDetails = () => {
               </CButton>
               <CButton
                 className="text-white fw-bold px-4"
-                onClick={handleUpdateStatus}
+                onClick={() => handleUpdateStatus('denied')}
                 disabled={loading}
                 style={{
                   fontSize: 20,
