@@ -82,13 +82,13 @@ const TenantList = () => {
             <CTableBody>
               {loading ? (
                 <CTableRow key="loading">
-                  <CTableDataCell colSpan="9" className="text-center">
+                  <CTableDataCell colSpan="10" className="text-center">
                     Loading tenants...
                   </CTableDataCell>
                 </CTableRow>
               ) : tenants.length === 0 ? (
                 <CTableRow key="no-data">
-                  <CTableDataCell colSpan="9" className="text-center">
+                  <CTableDataCell colSpan="10" className="text-center">
                     No tenants found.
                   </CTableDataCell>
                 </CTableRow>

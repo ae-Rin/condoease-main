@@ -19,6 +19,7 @@ const TenantDetails = () => {
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
   const [actionLoading, setActionLoading] = useState(false)
+  
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -169,7 +170,7 @@ const TenantDetails = () => {
                 onClick={() => handleUpdateStatus('approved')}
                 style={{
                   fontSize: 20,
-                  backgroundColor: '#F28D35',
+                  backgroundColor: '#A3C49A',
                   minWidth: '205px',
                   display: 'inline-flex',
                   justifyContent: 'center',
@@ -187,7 +188,7 @@ const TenantDetails = () => {
                 onClick={() => handleUpdateStatus('denied')}
                 style={{
                   fontSize: 20,
-                  backgroundColor: '#F28D35',
+                  backgroundColor: 'rgb(242, 53, 59)',
                   minWidth: '205px',
                   display: 'inline-flex',
                   justifyContent: 'center',
