@@ -54,10 +54,10 @@ const TenantList = () => {
     navigate(`/tenants/edit/${tenantId}`)
   }
 
-  const handleDelete = (tenantId) => {
-    if (window.confirm('Are you sure you want to delete this tenant?')) {
-      // Delete tenant logic here
-      alert(`Tenant ID ${tenantId} deleted`)
+  const handleArchive = (tenantId) => {
+    if (window.confirm('Are you sure you want to archive this tenant?')) {
+      // Archive tenant logic here
+      alert(`Tenant ID ${tenantId} archived`)
     }
   }
 
@@ -123,7 +123,7 @@ const TenantList = () => {
                         <CButton
                           color="danger"
                           size="sm"
-                          onClick={() => handleDelete(tenant.tenant_id)}
+                          onClick={() => handleArchive(tenant.tenant_id)}
                         >
                           <FaTrash />
                         </CButton>

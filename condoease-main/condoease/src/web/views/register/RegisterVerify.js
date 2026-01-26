@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import logoWhite from 'src/assets/images/logo_white.png'
