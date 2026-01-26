@@ -22,7 +22,7 @@ const TenantDetails = () => {
   useEffect(() => {
     const fetchTenantDetails = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/tenants/${tenantId}`, {
+        const res = await fetch(`${API_URL}/api/tenantdetails/${tenantId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
