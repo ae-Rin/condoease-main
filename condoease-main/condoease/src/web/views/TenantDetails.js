@@ -85,6 +85,22 @@ const TenantDetails = () => {
           </CCardHeader>
           <CCardBody>
             <p>
+              <strong>Status:</strong>{' '}
+              <span
+                style={{
+                  color:
+                    tenantDetails.status === 'approved'
+                      ? 'green'
+                      : tenantDetails.status === 'denied'
+                        ? 'red'
+                        : '#F28D35',
+                  fontWeight: 'bold',
+                }}
+              >
+                {tenantDetails.status.toUpperCase()}
+              </span>
+            </p>
+            <p>
               <strong>Email:</strong> {tenantDetails.email}
             </p>
             <p>
@@ -149,8 +165,8 @@ const TenantDetails = () => {
             <div className="d-flex justify-content-between mt-4">
               <CButton
                 className="text-white fw-bold px-4"
+                disabled={actionLoading || tenantDetails.status !== 'pending'}
                 onClick={() => handleUpdateStatus('approved')}
-                disabled={actionLoading}
                 style={{
                   fontSize: 20,
                   backgroundColor: '#F28D35',
@@ -167,8 +183,8 @@ const TenantDetails = () => {
               </CButton>
               <CButton
                 className="text-white fw-bold px-4"
+                disabled={actionLoading || tenantDetails.status !== 'pending'}
                 onClick={() => handleUpdateStatus('denied')}
-                disabled={loading}
                 style={{
                   fontSize: 20,
                   backgroundColor: '#F28D35',
@@ -177,7 +193,7 @@ const TenantDetails = () => {
                   justifyContent: 'center',
                 }}
               >
-                {loading ? (
+                {actionLoading ? (
                   <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
                 ) : (
                   'Denied'

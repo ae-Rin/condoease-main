@@ -75,19 +75,20 @@ const TenantList = () => {
                 <CTableHeaderCell>Contact Number</CTableHeaderCell>
                 <CTableHeaderCell>Address</CTableHeaderCell>
                 <CTableHeaderCell>Number of Leases</CTableHeaderCell>
+                <CTableHeaderCell>Status</CTableHeaderCell>
                 <CTableHeaderCell>Action</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
               {loading ? (
                 <CTableRow key="loading">
-                  <CTableDataCell colSpan="8" className="text-center">
+                  <CTableDataCell colSpan="9" className="text-center">
                     Loading tenants...
                   </CTableDataCell>
                 </CTableRow>
               ) : tenants.length === 0 ? (
                 <CTableRow key="no-data">
-                  <CTableDataCell colSpan="8" className="text-center">
+                  <CTableDataCell colSpan="9" className="text-center">
                     No tenants found.
                   </CTableDataCell>
                 </CTableRow>
@@ -103,6 +104,7 @@ const TenantList = () => {
                         {`${tenant.street}, ${tenant.barangay}, ${tenant.city}, ${tenant.province}`}
                       </CTableDataCell>
                       <CTableDataCell>{tenant.number_of_leases || 0}</CTableDataCell>
+                      <CTableDataCell>{tenant.status}</CTableDataCell>
                       <CTableDataCell>
                         <CButton
                           color="info"
