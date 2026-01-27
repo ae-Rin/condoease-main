@@ -25,6 +25,7 @@ const TenantList = React.lazy(() => import('./views/TenantList'))
 const TenantDetails = React.lazy(() => import('./views/TenantDetails'))
 const PropertyOwners = React.lazy(() => import('./views/PropertyOwners'))
 const PropertyOwnerList = React.lazy(() => import('./views/PropertyOwnerList'))
+const OwnerDetails = React.lazy(() => import('./views/OwnerDetails'))
 const Properties = React.lazy(() => import('./views/Properties'))
 const PropertyList = React.lazy(() => import('./views/PropertyList'))
 const PropertyUnits = React.lazy(() => import('./views/PropertyUnits'))
@@ -96,6 +97,7 @@ const WebApp = () => {
                     <Route path="tenantdetails/:tenantId" element={<TenantDetails />} />
                     <Route path="propertyowners" element={<PropertyOwners />} />
                     <Route path="propertyownerlist" element={<PropertyOwnerList />} />
+                    <Route path="ownerdetails/:ownerId" element={<OwnerDetails />} />
                     <Route path="properties" element={<Properties />} />
                     <Route path="propertylist" element={<PropertyList />} />
                     <Route path="propertyunits" element={<PropertyUnits />} />
