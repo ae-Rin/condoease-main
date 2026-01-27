@@ -18,10 +18,11 @@ const TenantDetails = () => {
   const [tenantDetails, setTenantDetails] = useState(null)
   const [loading, setLoading] = useState(true)
   const [comment, setComment] = useState('')
-  const [actionLoading, setActionLoading] = useState(false)
   const [approving, setApproving] = useState(false)
   const [denying, setDenying] = useState(false)
-  
+  const isPending = tenantDetails?.status === 'pending'
+  const isApproved = tenantDetails?.status === 'approved'
+  const isDenied = tenantDetails?.status === 'denied'
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -97,13 +98,10 @@ const TenantDetails = () => {
             <p>
               <strong>Status:</strong>{' '}
               <span
+                className="px-3 py-1 rounded"
                 style={{
-                  color:
-                    tenantDetails.status === 'approved'
-                      ? 'green'
-                      : tenantDetails.status === 'denied'
-                        ? 'red'
-                        : '#F28D35',
+                  backgroundColor: isApproved ? '#A3C49A' : isDenied ? '#F2353B' : '#F28D35',
+                  color: '#fff',
                   fontWeight: 'bold',
                 }}
               >
@@ -155,61 +153,84 @@ const TenantDetails = () => {
               <strong>Emergency Contact:</strong> {tenantDetails.emergency_contact_name} (
               {tenantDetails.emergency_contact_number})
             </p>
-            <div className="mt-3">
-              <label>
-                <strong>If Denied - Provide Reason here...</strong>
-              </label>
-              <CFormTextarea
-                rows="3"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Add your remarks & reason here..."
-                style={{
-                  borderColor: '#A3C49A',
-                  borderRadius: '8px',
-                  padding: '10px',
-                  fontSize: '16px',
-                }}
-              />
-            </div>
-            <div className="d-flex justify-content-between mt-4">
-              <CButton
-                className="text-white fw-bold px-4"
-                disabled={approving || tenantDetails.status !== 'pending'}
-                onClick={() => handleUpdateStatus('approved')}
-                style={{
-                  fontSize: 20,
-                  backgroundColor: '#A3C49A',
-                  minWidth: '205px',
-                  display: 'inline-flex',
-                  justifyContent: 'center',
-                }}
-              >
-                {approving ? (
-                  <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
-                ) : (
-                  'Approve'
-                )}
-              </CButton>
-              <CButton
-                className="text-white fw-bold px-4"
-                disabled={denying || tenantDetails.status !== 'pending'}
-                onClick={() => handleUpdateStatus('denied')}
-                style={{
-                  fontSize: 20,
-                  backgroundColor: 'rgb(242, 53, 59)',
-                  minWidth: '205px',
-                  display: 'inline-flex',
-                  justifyContent: 'center',
-                }}
-              >
-                {denying ? (
-                  <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
-                ) : (
-                  'Denied'
-                )}
-              </CButton>
-            </div>
+            {isPending && (
+              <div className="mt-3">
+                <label>
+                  <strong>If Denied – Provide Reason here...</strong>
+                </label>
+                <CFormTextarea
+                  rows="3"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Add your remarks & reason here..."
+                  style={{
+                    borderColor: '#A3C49A',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    fontSize: '16px',
+                  }}
+                />
+              </div>
+            )}
+            {isDenied && tenantDetails.admin_comment && (
+              <div className="mt-3">
+                <label>
+                  <strong>Admin Reason for Denial:</strong>
+                </label>
+                <CFormTextarea
+                  rows="3"
+                  value={tenantDetails.admin_comment}
+                  disabled
+                  style={{
+                    borderColor: '#F28D35',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    fontSize: '16px',
+                    backgroundColor: '#f8f9fa',
+                  }}
+                />
+              </div>
+            )}
+            {isPending && (
+              <div className="d-flex justify-content-between mt-4">
+                <CButton
+                  className="text-white fw-bold px-4"
+                  disabled={approving}
+                  onClick={() => handleUpdateStatus('approved')}
+                  style={{
+                    fontSize: 20,
+                    backgroundColor: '#A3C49A',
+                    minWidth: '205px',
+                    display: 'inline-flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {approving ? (
+                    <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
+                  ) : (
+                    'Approve'
+                  )}
+                </CButton>
+                <CButton
+                  className="text-white fw-bold px-4"
+                  disabled={denying}
+                  onClick={() => handleUpdateStatus('denied')}
+                  style={{
+                    fontSize: 20,
+                    backgroundColor: 'rgb(242, 53, 59)',
+                    minWidth: '205px',
+                    display: 'inline-flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {denying ? (
+                    <CSpinner style={{ width: '1.8rem', height: '1.8rem', color: '#FFFFFF' }} />
+                  ) : (
+                    'Denied'
+                  )}
+                </CButton>
+              </div>
+            )}
           </CCardBody>
         </CCard>
       ) : (
