@@ -58,7 +58,6 @@ const Login = () => {
         navigate('/cards', { replace: true })
       } else {
         alert(data.error || 'Invalid email or password.')
-        alert('Your account is under review. Please wait for admin approval.')
       }
     } catch (error) {
       console.error('Login error:', error)
