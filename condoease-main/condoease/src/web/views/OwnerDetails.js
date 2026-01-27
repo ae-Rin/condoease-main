@@ -72,7 +72,7 @@ const OwnerDetails = () => {
       const data = await res.json()
       if (!res.ok) throw new Error(data.detail)
       alert(`Owner ${status} successfully`)
-      navigate('/ownerlist')
+      navigate('/propertyownerlist', { replace: true })
     } catch (err) {
       alert(err.message)
     } finally {
