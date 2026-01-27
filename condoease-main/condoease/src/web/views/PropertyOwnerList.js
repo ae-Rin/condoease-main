@@ -107,10 +107,8 @@ const PropertyOwnerList = () => {
                         <div>
                           <strong>Units:</strong> {owner.number_of_units || 0}
                         </div>
-                        <div>
-                          <strong>Admin Approval</strong>{owner.status}
-                        </div>
                       </CTableDataCell>
+                      <CTableDataCell>{owner.status}</CTableDataCell>
                       <CTableDataCell>
                         <CButton
                           color="info"
