@@ -75,7 +75,7 @@ const TenantList = () => {
                 <CTableHeaderCell>Contact Number</CTableHeaderCell>
                 <CTableHeaderCell>Address</CTableHeaderCell>
                 <CTableHeaderCell>Number of Leases</CTableHeaderCell>
-                <CTableHeaderCell>Status</CTableHeaderCell>
+                <CTableHeaderCell>Admin Approval</CTableHeaderCell>
                 <CTableHeaderCell>Action</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
