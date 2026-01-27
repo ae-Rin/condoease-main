@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CContainer,
   CRow,
@@ -18,6 +19,7 @@ const PropertyOwnerList = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL
   const [owners, setOwners] = useState([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchOwners = async () => {
@@ -40,12 +42,11 @@ const PropertyOwnerList = () => {
         setLoading(false)
       }
     }
-
     fetchOwners()
   }, [API_URL])
 
   const handleView = (ownerId) => {
-    alert(`View details for owner ID: ${ownerId}`)
+    navigate(`/ownerdetails/${ownerId}`)
   }
 
   const handleEdit = (ownerId) => {
@@ -73,6 +74,7 @@ const PropertyOwnerList = () => {
                 <CTableHeaderCell>Contact Number</CTableHeaderCell>
                 <CTableHeaderCell>Address</CTableHeaderCell>
                 <CTableHeaderCell>Statistics</CTableHeaderCell>
+                <CTableHeaderCell>Admin Approval</CTableHeaderCell>
                 <CTableHeaderCell>Action</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
@@ -104,6 +106,9 @@ const PropertyOwnerList = () => {
                         </div>
                         <div>
                           <strong>Units:</strong> {owner.number_of_units || 0}
+                        </div>
+                        <div>
+                          <strong>Admin Approval</strong>{owner.status}
                         </div>
                       </CTableDataCell>
                       <CTableDataCell>
