@@ -62,8 +62,8 @@ const TenantList = () => {
   }
 
   return (
-    <CContainer className="mt-5">
-      <h4 className="mb-4">Registered Tenants</h4>
+    <CContainer className="mt-6">
+      <h4 className="mb-5">Registered Tenants</h4>
       <CRow>
         <CCol>
           <CTable striped hover responsive>
@@ -82,13 +82,13 @@ const TenantList = () => {
             <CTableBody>
               {loading ? (
                 <CTableRow key="loading">
-                  <CTableDataCell colSpan="10" className="text-center">
+                  <CTableDataCell colSpan="12" className="text-center">
                     Loading tenants...
                   </CTableDataCell>
                 </CTableRow>
               ) : tenants.length === 0 ? (
                 <CTableRow key="no-data">
-                  <CTableDataCell colSpan="10" className="text-center">
+                  <CTableDataCell colSpan="12" className="text-center">
                     No tenants found.
                   </CTableDataCell>
                 </CTableRow>

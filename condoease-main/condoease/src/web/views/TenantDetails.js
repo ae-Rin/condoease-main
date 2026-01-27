@@ -72,7 +72,7 @@ const TenantDetails = () => {
       const data = await res.json()
       if (!res.ok) throw new Error(data.detail)
       alert(`Tenant ${status} successfully`)
-      navigate('/tenants')
+      navigate('/tenantlist')
     } catch (err) {
       alert(err.message)
     } finally {
