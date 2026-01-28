@@ -105,7 +105,7 @@ const Announcements = () => {
       if (fileInputRef.current) fileInputRef.current.value = ''
     } catch (err) {
       console.error(err)
-      alert('Error posting announcement.')
+      alert('Error posting announcements.')
     } finally {
       setPosting(false)
     }
