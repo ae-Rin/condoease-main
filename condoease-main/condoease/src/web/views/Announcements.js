@@ -82,7 +82,7 @@ const Announcements = () => {
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', description)
-    //formData.append('userId', user.id) // Ensure user ID is sent
+
     if (file) formData.append('file', file)
     setPosting(true)
     try {
@@ -93,8 +93,9 @@ const Announcements = () => {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
       })
-
       if (!res.ok) throw new Error('Failed to post announcement')
+      const data = await res.json()
+      setAnnouncements((prev) => [data, ...prev])
       alert('Announcement Posted!')
 
       setTitle('')
