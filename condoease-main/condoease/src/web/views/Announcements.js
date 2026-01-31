@@ -78,11 +78,9 @@ const Announcements = () => {
 
   const handlePostAnnouncement = async () => {
     if (!title || !description) return alert('Please fill in all fields.')
-
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', description)
-    //formData.append('userId', user.id) // Ensure user ID is sent
     if (file) formData.append('file', file)
     setPosting(true)
     try {
@@ -94,6 +92,8 @@ const Announcements = () => {
         },
       })
       if (!res.ok) throw new Error('Failed to post announcement')
+      const data = await res.json()
+      setAnnouncements((prev) => [data, ...prev])
       alert('Announcement Posted!')
       setTitle('')
       setDescription('')
@@ -102,46 +102,11 @@ const Announcements = () => {
       if (fileInputRef.current) fileInputRef.current.value = ''
     } catch (err) {
       console.error(err)
-      alert('Error posting announcement.')
+      alert('Error posting announcements.')
     } finally {
       setPosting(false)
     }
   }
-
-  // const handlePostAnnouncement = async () => {
-  //   if (!title || !description) return alert('Please fill in all fields.')
-
-  //   const formData = new FormData()
-  //   formData.append('title', title)
-  //   formData.append('description', description)
-
-  //   if (file) formData.append('file', file)
-  //   setPosting(true)
-  //   try {
-  //     const res = await fetch(`${API_URL}/api/announcements`, {
-  //       method: 'POST',
-  //       body: formData,
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-  //       },
-  //     })
-  //     if (!res.ok) throw new Error('Failed to post announcement')
-  //     const data = await res.json()
-  //     setAnnouncements((prev) => [data, ...prev])
-  //     alert('Announcement Posted!')
-
-  //     setTitle('')
-  //     setDescription('')
-  //     setFile(null)
-  //     setPreviewUrl(null)
-  //     if (fileInputRef.current) fileInputRef.current.value = ''
-  //   } catch (err) {
-  //     console.error(err)
-  //     alert('Error posting announcements.')
-  //   } finally {
-  //     setPosting(false)
-  //   }
-  // }
 
   const handleSaveEdit = async () => {
     if (!editForm.title || !editForm.description) return alert('Please fill in all fields.')
