@@ -13,11 +13,11 @@ const Register = React.lazy(() => import('./views/register/Register'))
 const RegisterStep2 = React.lazy(() => import('./views/register/RegisterStep2'))
 const RegisterVerify = React.lazy(() => import('./views/register/RegisterVerify'))
 const Cards = React.lazy(() => import('./views/Cards'))
-// const Carousel = React.lazy(() => import('./views/Announcements'))
 const Navs = React.lazy(() => import('./views/Navs'))
 const Collapses = React.lazy(() => import('./views/Collapses'))
 const ListGroups = React.lazy(() => import('./views/ListGroups'))
 const Announcements = React.lazy(() => import('./views/Announcements'))
+const InvoiceDetails = React.lazy(() => import('./views/InvoiceDetails'))
 const Tables = React.lazy(() => import('./views/Tables'))
 const Tenants = React.lazy(() => import('./views/Tenants'))
 const UpdateTenant = React.lazy(() => import('./views/UpdateTenant'))
@@ -85,10 +85,10 @@ const WebApp = () => {
                   <Route path="/" element={<WebLayout />}>
                     <Route index element={<Navigate to="/cards" replace />} />
                     <Route path="cards" element={<Cards />} />
-                    {/* <Route path="carousel" element={<Carousel />} /> */}
                     <Route path="navs" element={<Navs />} />
                     <Route path="collapses" element={<Collapses />} />
                     <Route path="listgroups" element={<ListGroups />} />
+                    <Route path="invoicedetails/:invoiceId" element={<InvoiceDetails />} />
                     <Route path="announcements" element={<Announcements />} />
                     <Route path="tables" element={<Tables />} />
                     <Route path="tenants" element={<Tenants />} />

@@ -14,6 +14,7 @@ import {
   CCardBody,
   CCardHeader,
   CFormLabel,
+  CAlert,
 } from '@coreui/react'
 
 const LeasesTenancy = () => {
@@ -41,9 +42,11 @@ const LeasesTenancy = () => {
   const [properties, setProperties] = useState([])
   const [units, setUnits] = useState([])
   const [tenants, setTenants] = useState([])
+  const [submitting, setSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    // Fetch registered properties, units, and tenants from the backend API
     const fetchData = async () => {
       try {
         const [propertyRes, unitRes, tenantRes] = await Promise.all([
@@ -133,6 +136,9 @@ const LeasesTenancy = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSuccessMessage(null)
+    setErrorMessage(null)
+    setSubmitting(true)
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
@@ -159,9 +165,31 @@ const LeasesTenancy = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
       })
 
-      if (!res.ok) throw new Error(await res.text())
+      const data = await res.json().catch(() => ({}))
+      let errorDetail = data.detail || data.error || (typeof data === 'string' ? data : null)
+      if (Array.isArray(errorDetail) && errorDetail.length > 0) {
+        errorDetail = errorDetail.map((d) => (d && d.msg) || String(d)).join('; ')
+      }
 
-      alert('Lease created successfully!')
+      if (!res.ok) {
+        const message = errorDetail || res.statusText || 'Failed to create lease. Please try again.'
+        setErrorMessage(typeof message === 'string' ? message : JSON.stringify(message))
+        setSubmitting(false)
+        return
+      }
+
+      // Success: show message; include invoice info when backend auto-generated one
+      if (data.invoice_created && data.invoice) {
+        const inv = data.invoice
+        const amount = inv.amount != null ? `₱${Number(inv.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 })}` : ''
+        const due = inv.due_date ? ` due ${inv.due_date}` : ''
+        setSuccessMessage(
+          `Lease created successfully. An invoice has been generated${amount ? ` (${amount}${due})` : ''}.`
+        )
+      } else {
+        setSuccessMessage('Lease created successfully!')
+      }
+
       setFormValues({
         property: '',
         leaseUnits: false,
@@ -182,14 +210,28 @@ const LeasesTenancy = () => {
         },
       })
     } catch (err) {
-      console.error(err)
-      alert('Error creating lease.')
+      console.error('Lease creation error:', err)
+      setErrorMessage(err.message || 'Network or server error. Please check your connection and try again.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
   return (
     <CContainer className="mt-5">
       <h4 className="mb-4">Create New Lease</h4>
+
+      {successMessage && (
+        <CAlert color="success" className="mb-3" dismissible onClose={() => setSuccessMessage(null)}>
+          {successMessage}
+        </CAlert>
+      )}
+      {errorMessage && (
+        <CAlert color="danger" className="mb-3" dismissible onClose={() => setErrorMessage(null)}>
+          {errorMessage}
+        </CAlert>
+      )}
+
       <CCard>
         <CCardHeader className="text-body-secondary">
           <strong>Lease Information</strong>
@@ -494,8 +536,9 @@ const LeasesTenancy = () => {
                 type="submit"
                 style={{ borderRadius: 20, fontSize: 20, backgroundColor: '#F28D35' }}
                 className="text-white fw-bold px-4"
+                disabled={submitting}
               >
-                Create Lease
+                {submitting ? 'Creating lease...' : 'Create Lease'}
               </CButton>
             </div>
           </CForm>
