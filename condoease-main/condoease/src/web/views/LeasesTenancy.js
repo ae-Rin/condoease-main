@@ -286,6 +286,7 @@ const LeasesTenancy = () => {
             {/* Property Selection */}
             <CRow className="mb-3">
               <CCol md={6}>
+                <strong>Property/Building</strong>
                 <CFormSelect
                   name="property"
                   value={formValues.property}
@@ -301,6 +302,7 @@ const LeasesTenancy = () => {
                 </CFormSelect>
               </CCol>
               <CCol md={6}>
+                <strong>Checkbox to Lease Units</strong>
                 <CFormCheck
                   type="checkbox"
                   name="leaseUnits"
@@ -317,7 +319,7 @@ const LeasesTenancy = () => {
                 <CRow className="mb-3">
                   {/* Unit Type */}
                   <CCol md={6}>
-                    <CFormLabel>Unit Type</CFormLabel>
+                    <strong>Unit Type</strong>
                     <CFormSelect
                       name="unitType"
                       value={formValues.unitType}
@@ -335,7 +337,7 @@ const LeasesTenancy = () => {
 
                   {/* Unit Number */}
                   <CCol md={6}>
-                    <CFormLabel>Vacant Unit Number</CFormLabel>
+                    <strong>Vacant Unit Number</strong>
                     <CFormSelect
                       name="unit"
                       value={formValues.unit}
