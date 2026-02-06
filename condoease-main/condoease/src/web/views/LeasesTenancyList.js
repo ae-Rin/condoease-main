@@ -60,6 +60,11 @@ const LeasesTenancyList = () => {
     }
   }
 
+  const formatDate = (date) => {
+    if (!date) return "-"
+    return date.toString().split("T")[0]
+  }
+
   const calculateTotalBills = (bills) => {
     return Object.values(bills).reduce((total, amount) => total + (parseFloat(amount) || 0), 0)
   }
@@ -72,6 +77,7 @@ const LeasesTenancyList = () => {
           <CTable striped hover responsive>
             <CTableHead>
               <CTableRow>
+                <CTableHeaderCell>Building/Property</CTableHeaderCell>
                 <CTableHeaderCell>Unit Type</CTableHeaderCell>
                 <CTableHeaderCell>Unit Number</CTableHeaderCell>
                 <CTableHeaderCell>Tenant</CTableHeaderCell>
@@ -85,24 +91,25 @@ const LeasesTenancyList = () => {
             <CTableBody>
               {loading ? (
                 <CTableRow key="loading">
-                  <CTableDataCell colSpan="8" className="text-center">
+                  <CTableDataCell colSpan="9" className="text-center">
                     Loading leases...
                   </CTableDataCell>
                 </CTableRow>
               ) : leases.length === 0 ? (
                 <CTableRow key="no-data">
-                  <CTableDataCell colSpan="8" className="text-center">
+                  <CTableDataCell colSpan="9" className="text-center">
                     No leases found.
                   </CTableDataCell>
                 </CTableRow>
               ) : (
                 leases.map((lease) => (
                   <CTableRow key={lease.lease_id}>
+                    <CTableDataCell>{lease.property_name}</CTableDataCell>
                     <CTableDataCell>{lease.unit_type}</CTableDataCell>
                     <CTableDataCell>{lease.unit_number}</CTableDataCell>
                     <CTableDataCell>{lease.tenant_email}</CTableDataCell>
-                    <CTableDataCell>{lease.start_date.split("T")[0]}</CTableDataCell>
-                    <CTableDataCell>{lease.end_date.split("T")[0]}</CTableDataCell>
+                    <CTableDataCell>{formatDate(lease.start_date)}</CTableDataCell>
+                    <CTableDataCell>{formatDate(lease.end_date)}</CTableDataCell>
                     <CTableDataCell>₱{lease.rent_price}</CTableDataCell>
                     <CTableDataCell>
                       ₱

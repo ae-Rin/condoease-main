@@ -31,6 +31,10 @@ const LeasesTenancy = () => {
     endDate: '',
     leaseDocuments: [],
     tenancyTerms: '',
+    property: '',
+    unitType: '',
+    leaseUnits: false,
+    unit: '',
     bills: {
       gas: false,
       electricity: false,
@@ -45,20 +49,22 @@ const LeasesTenancy = () => {
   const [submitting, setSubmitting] = useState(false)
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [unitTypes, setUnitTypes] = useState([])
+  const [filteredUnits, setFilteredUnits] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [propertyRes, unitRes, tenantRes] = await Promise.all([
           fetch(`${API_URL}/api/properties`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
           }),
           fetch(`${API_URL}/api/property-units/vacant`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
           }),
           fetch(`${API_URL}/api/tenants`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-          })
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+          }),
         ])
         const propertyData = await propertyRes.json()
         const unitData = await unitRes.json()
@@ -67,7 +73,7 @@ const LeasesTenancy = () => {
         setUnits(Array.isArray(unitData) ? unitData : [])
         setTenants(Array.isArray(tenantData) ? tenantData : [])
       } catch (err) {
-        console.error("Error fetching data:", err)
+        console.error('Error fetching data:', err)
         setProperties([])
         setUnits([])
         setTenants([])
@@ -77,12 +83,46 @@ const LeasesTenancy = () => {
     fetchData()
   }, [API_URL])
 
+  useEffect(() => {
+    if (!formValues.property) {
+      setUnitTypes([])
+      setFilteredUnits([])
+      return
+    }
+    const types = [
+      ...new Set(
+        units
+          .filter(
+            (u) =>
+              String(u.property_id) === String(formValues.property) &&
+              u.status.toLowerCase() === 'vacant',
+          )
+          .map((u) => u.unit_type),
+      ),
+    ]
+    setUnitTypes(types)
+  }, [formValues.property, units])
+
+  useEffect(() => {
+    if (!formValues.unitType) {
+      setFilteredUnits([])
+      return
+    }
+    const filtered = units.filter(
+      (u) =>
+        String(u.property_id) === String(formValues.property) &&
+        u.unit_type === formValues.unitType &&
+        u.status.toLowerCase() === 'vacant',
+    )
+    setFilteredUnits(filtered)
+  }, [formValues.unitType, formValues.property, units])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "property" && { unit: "" }) // reset unit if property changes
+      ...(name === 'property' && { unit: '' }), // reset unit if property changes
     }))
   }
 
@@ -124,13 +164,11 @@ const LeasesTenancy = () => {
 
   const handleTenantChange = (e) => {
     const tenantId = e.target.value
-    const selectedTenant = tenants.find(
-      (t) => String(t.tenant_id) === String(tenantId)
-    )
+    const selectedTenant = tenants.find((t) => String(t.tenant_id) === String(tenantId))
     setFormValues((prev) => ({
       ...prev,
       tenant: tenantId,
-      tenantEmail: selectedTenant ? selectedTenant.email : ""
+      tenantEmail: selectedTenant ? selectedTenant.email : '',
     }))
   }
 
@@ -142,18 +180,16 @@ const LeasesTenancy = () => {
 
     const formData = new FormData()
     Object.keys(formValues).forEach((key) => {
-      if (key === "bills") {
+      if (key === 'bills') {
         Object.keys(formValues.bills).forEach((billKey) => {
           formData.append(`bills[${billKey}]`, formValues.bills[billKey])
         })
-      } else if (key === "leaseDocuments") {
-        formValues.leaseDocuments.forEach((file) =>
-          formData.append("leaseDocuments", file)
-        )
+      } else if (key === 'leaseDocuments') {
+        formValues.leaseDocuments.forEach((file) => formData.append('leaseDocuments', file))
       } else {
-        if (key === "property") formData.append("property_id", formValues[key])
-        else if (key === "unit") formData.append("property_unit_id", formValues[key])
-        else if (key === "tenant") formData.append("tenant_id", formValues[key])
+        if (key === 'property') formData.append('property_id', formValues[key])
+        else if (key === 'unit') formData.append('property_unit_id', formValues[key])
+        else if (key === 'tenant') formData.append('tenant_id', formValues[key])
         else formData.append(key, formValues[key])
       }
     })
@@ -181,10 +217,13 @@ const LeasesTenancy = () => {
       // Success: show message; include invoice info when backend auto-generated one
       if (data.invoice_created && data.invoice) {
         const inv = data.invoice
-        const amount = inv.amount != null ? `₱${Number(inv.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 })}` : ''
+        const amount =
+          inv.amount != null
+            ? `₱${Number(inv.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`
+            : ''
         const due = inv.due_date ? ` due ${inv.due_date}` : ''
         setSuccessMessage(
-          `Lease created successfully. An invoice has been generated${amount ? ` (${amount}${due})` : ''}.`
+          `Lease created successfully. An invoice has been generated${amount ? ` (${amount}${due})` : ''}.`,
         )
       } else {
         setSuccessMessage('Lease created successfully!')
@@ -211,7 +250,9 @@ const LeasesTenancy = () => {
       })
     } catch (err) {
       console.error('Lease creation error:', err)
-      setErrorMessage(err.message || 'Network or server error. Please check your connection and try again.')
+      setErrorMessage(
+        err.message || 'Network or server error. Please check your connection and try again.',
+      )
     } finally {
       setSubmitting(false)
     }
@@ -222,7 +263,12 @@ const LeasesTenancy = () => {
       <h4 className="mb-4">Create New Lease</h4>
 
       {successMessage && (
-        <CAlert color="success" className="mb-3" dismissible onClose={() => setSuccessMessage(null)}>
+        <CAlert
+          color="success"
+          className="mb-3"
+          dismissible
+          onClose={() => setSuccessMessage(null)}
+        >
           {successMessage}
         </CAlert>
       )}
@@ -268,6 +314,47 @@ const LeasesTenancy = () => {
 
             {/* Unit Selection */}
             {formValues.leaseUnits && (
+              <>
+                <CRow className="mb-3">
+                  {/* Unit Type */}
+                  <CCol md={6}>
+                    <CFormLabel>Unit Type</CFormLabel>
+                    <CFormSelect
+                      name="unitType"
+                      value={formValues.unitType}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select Unit Type</option>
+                      {unitTypes.map((type, index) => (
+                        <option key={index} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </CFormSelect>
+                  </CCol>
+
+                  {/* Unit Number */}
+                  <CCol md={6}>
+                    <CFormLabel>Vacant Unit Number</CFormLabel>
+                    <CFormSelect
+                      name="unit"
+                      value={formValues.unit}
+                      onChange={handleUnitChange}
+                      required
+                    >
+                      <option value="">Select Unit Number</option>
+                      {filteredUnits.map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          Unit {unit.unit_number}
+                        </option>
+                      ))}
+                    </CFormSelect>
+                  </CCol>
+                </CRow>
+              </>
+            )}
+            {/* {formValues.leaseUnits && (
               <CRow className="mb-3">
                 <CCol md={12}>
                   <CFormSelect
@@ -276,7 +363,7 @@ const LeasesTenancy = () => {
                     onChange={handleUnitChange}
                     required
                   >
-                    <option value="">Select Unit</option>
+                    <option value="">Select Unit Type</option>
                     {units
                       .filter(
                         (unit) =>
@@ -291,7 +378,7 @@ const LeasesTenancy = () => {
                   </CFormSelect>
                 </CCol>
               </CRow>
-            )}
+            )} */}
 
             {/* Rent and Deposit */}
             <CRow className="mb-3">
@@ -324,11 +411,7 @@ const LeasesTenancy = () => {
             {/* Tenant Selection */}
             <CRow className="mb-3">
               <CCol md={6}>
-                <CFormSelect
-                  name="tenant"
-                  value={formValues.tenant}
-                  onChange={handleTenantChange}
-                >
+                <CFormSelect name="tenant" value={formValues.tenant} onChange={handleTenantChange}>
                   <option value="">Select tenant</option>
                   {tenants.map((t) => (
                     <option key={t.tenant_id} value={t.tenant_id}>
@@ -386,9 +469,7 @@ const LeasesTenancy = () => {
                   accept=".jpg,.png,.pdf"
                   required
                 />
-                <small className="text-muted">
-                  Accepted formats: jpg, png, pdf.
-                </small>
+                <small className="text-muted">Accepted formats: jpg, png, pdf.</small>
               </CCol>
             </CRow>
 
