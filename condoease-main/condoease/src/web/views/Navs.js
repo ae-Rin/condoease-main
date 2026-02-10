@@ -158,13 +158,7 @@ const Navs = () => {
   const navigate = useNavigate()
   const { user, setUser } = useUser()
   const API_URL = import.meta.env.VITE_APP_API_URL
-
-  // const avatar = user?.avatar?.startsWith('/uploads/')
-  //   ? `http://localhost:5000${user.avatar}`
-  //   : defaultAvatar
-
-  const avatar = user?.avatar?.startsWith('/uploads/') ? `${API_URL}${user.avatar}` : defaultAvatar
-
+  const avatar = user?.avatar_url || defaultAvatar
   const [userData, setUserData] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
   const [profilePicture, setProfilePicture] = useState(avatar)
@@ -212,10 +206,12 @@ const Navs = () => {
         body: formData,
       })
       const data = await res.json()
-      if (res.ok && data.avatar) {
-        setUser({ ...user, avatar: data.avatar })
+      if (res.ok && data.avatar_url) {
+        setUser({ ...user, avatar_url: data.avatar_url })
         alert('Profile Updated!')
-      } else alert('Failed to update avatar.')
+      } else {
+        alert('Failed to update avatar.')
+      }
     } catch (err) {
       console.error('Avatar upload error:', err)
       alert('Failed to update avatar.')
