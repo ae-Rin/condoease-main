@@ -20,7 +20,6 @@ import defaultAvatar from '../../../src/assets/images/avatars/8.jpg'
 
 const EditModal = ({ visible, field, tempData, setTempData, onClose, onSave }) => {
   const fieldLabel = field.charAt(0).toUpperCase() + field.slice(1)
-  const API_URL = import.meta.env.VITE_APP_API_URL
   const [showCurrent, setShowCurrent] = useState(false)
   const [showNew, setShowNew] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -135,20 +134,20 @@ const EditModal = ({ visible, field, tempData, setTempData, onClose, onSave }) =
   )
 }
 
-const DeleteModal = ({ visible, onClose, onConfirm }) => (
+const ArchiveModal = ({ visible, onClose, onConfirm }) => (
   <CModal visible={visible} onClose={onClose}>
     <CModalHeader>
-      <CModalTitle>Confirm Account Deletion</CModalTitle>
+      <CModalTitle>Confirm Account Archival</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      Are you sure you want to delete your account? This action cannot be undone.
+      Are you sure you want to archive your account? This action cannot be undone.
     </CModalBody>
     <CModalFooter>
       <CButton style={{ fontWeight: 'bold' }} color="secondary" onClick={onClose}>
         Cancel
       </CButton>
       <CButton style={{ fontWeight: 'bold', color: 'white' }} color="danger" onClick={onConfirm}>
-        Delete Account
+        Archive Account
       </CButton>
     </CModalFooter>
   </CModal>
@@ -158,6 +157,7 @@ const Navs = () => {
   const fileInputRef = useRef(null)
   const navigate = useNavigate()
   const { user, setUser } = useUser()
+  const API_URL = import.meta.env.VITE_APP_API_URL
 
   // const avatar = user?.avatar?.startsWith('/uploads/')
   //   ? `http://localhost:5000${user.avatar}`
@@ -168,7 +168,7 @@ const Navs = () => {
   const [userData, setUserData] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
   const [profilePicture, setProfilePicture] = useState(avatar)
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+  const [archiveModalVisible, setArchiveModalVisible] = useState(false)
   const [currentField, setCurrentField] = useState('')
   const [tempData, setTempData] = useState({})
 
@@ -196,7 +196,7 @@ const Navs = () => {
       }
     }
     fetchUser()
-  }, [setUser])
+  }, [API_URL, setUser])
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
@@ -274,16 +274,16 @@ const Navs = () => {
     }
   }
 
-  const handleDeleteAccount = async () => {
+  const handleArchiveAccount = async () => {
     try {
       const response = await fetch(`/api/users/${user.id}`, { method: 'DELETE' })
       const resData = await response.json()
       if (response.ok) {
         localStorage.removeItem('authToken')
         navigate('/login')
-      } else alert('Error deleting account: ' + resData.error)
+      } else alert('Error archiving account: ' + resData.error)
     } catch (err) {
-      console.error('Error deleting account:', err)
+      console.error('Error archiving account:', err)
     }
   }
 
@@ -378,9 +378,9 @@ const Navs = () => {
           <CButton
             style={{ fontWeight: 'bold', color: 'white' }}
             color="danger"
-            onClick={() => setDeleteModalVisible(true)}
+            onClick={() => setArchiveModalVisible(true)}
           >
-            Delete Account
+            Archive Account
           </CButton>
         </CCol>
       </CRow>
@@ -396,13 +396,13 @@ const Navs = () => {
         }}
         onSave={saveChanges}
       />
-      <DeleteModal
-        visible={deleteModalVisible}
+      <ArchiveModal
+        visible={archiveModalVisible}
         onClose={() => {
           document.activeElement?.blur()
-          setDeleteModalVisible(false)
+          setArchiveModalVisible(false)
         }}
-        onConfirm={handleDeleteAccount}
+        onConfirm={handleArchiveAccount}
       />
     </div>
   )
