@@ -159,9 +159,11 @@ const Navs = () => {
   const navigate = useNavigate()
   const { user, setUser } = useUser()
 
-  const avatar = user?.avatar?.startsWith('/uploads/')
-    ? `http://localhost:5000${user.avatar}`
-    : defaultAvatar
+  // const avatar = user?.avatar?.startsWith('/uploads/')
+  //   ? `http://localhost:5000${user.avatar}`
+  //   : defaultAvatar
+
+  const avatar = user?.avatar?.startsWith('/uploads/') ? `${API_URL}${user.avatar}` : defaultAvatar
 
   const [userData, setUserData] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
@@ -174,6 +176,28 @@ const Navs = () => {
     if (user) setUserData(user)
   }, [user])
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/users/me`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        })
+        const data = await res.json()
+        if (res.ok) {
+          setUser(data)
+          setUserData(data)
+        } else {
+          console.error('Failed to fetch user:', data)
+        }
+      } catch (err) {
+        console.error('Fetch user error:', err)
+      }
+    }
+    fetchUser()
+  }, [setUser])
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
     if (!file) return
@@ -182,7 +206,7 @@ const Navs = () => {
     formData.append('avatar', file)
 
     try {
-      const res = await fetch('http://localhost:5000/api/users/avatar', {
+      const res = await fetch(`${API_URL}/api/users/avatar`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
         body: formData,
@@ -229,7 +253,7 @@ const Navs = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const response = await fetch(`${API_URL}/api/users/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
