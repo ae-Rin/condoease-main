@@ -10,10 +10,11 @@ import {
   CHeader,
   CHeaderNav,
   CHeaderToggler,
+  CBadge,
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilMenu, cilMoon, cilContrast, cilSun, cilBell, CBadge } from '@coreui/icons'
+import { cilMenu, cilMoon, cilContrast, cilSun, cilBell } from '@coreui/icons'
 import { WebAppHeaderDropdown } from './webHeader/index'
 import webLogo from '../../assets/images/logo_white.png'
 
