@@ -56,6 +56,37 @@ const WebAppHeader = () => {
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
+
+          {/* Notification Bell */}
+          <CDropdown variant="nav-item" placement="bottom-end">
+            <CDropdownToggle caret={false} className="position-relative">
+              <CIcon icon={cilBell} size="lg" style={{ color: 'white' }} />
+              <CBadge
+                color="danger"
+                position="top-end"
+                shape="rounded-pill"
+                className="position-absolute top-0 start-100 translate-middle"
+              >
+                3
+              </CBadge>
+            </CDropdownToggle>
+
+            <CDropdownMenu style={{ width: '300px' }}>
+              <CDropdownItem>
+                <strong>New Maintenance Request</strong>
+                <div className="small text-medium-emphasis">Unit 101 submitted a request</div>
+              </CDropdownItem>
+              <CDropdownItem>
+                <strong>Invoice Generated</strong>
+                <div className="small text-medium-emphasis">Invoice for Unit 203 created</div>
+              </CDropdownItem>
+              <CDropdownItem>
+                <strong>Announcement Posted</strong>
+                <div className="small text-medium-emphasis">New building announcement</div>
+              </CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+
           <CDropdown variant="nav-item" placement="bottom-end">
             <CDropdownToggle caret={false}>
               {colorMode === 'dark' ? (
@@ -99,37 +130,6 @@ const WebAppHeader = () => {
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-
-          {/* Notification Bell */}
-          <CDropdown variant="nav-item" placement="bottom-end">
-            <CDropdownToggle caret={false} className="position-relative">
-              <CIcon icon={cilBell} size="lg" style={{ color: 'white' }} />
-              <CBadge
-                color="danger"
-                position="top-end"
-                shape="rounded-pill"
-                className="position-absolute top-0 start-100 translate-middle"
-              >
-                3
-              </CBadge>
-            </CDropdownToggle>
-
-            <CDropdownMenu style={{ width: '300px' }}>
-              <CDropdownItem>
-                <strong>New Maintenance Request</strong>
-                <div className="small text-medium-emphasis">Unit 101 submitted a request</div>
-              </CDropdownItem>
-              <CDropdownItem>
-                <strong>Invoice Generated</strong>
-                <div className="small text-medium-emphasis">Invoice for Unit 203 created</div>
-              </CDropdownItem>
-              <CDropdownItem>
-                <strong>Announcement Posted</strong>
-                <div className="small text-medium-emphasis">New building announcement</div>
-              </CDropdownItem>
-            </CDropdownMenu>
-          </CDropdown>
-
           <WebAppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
