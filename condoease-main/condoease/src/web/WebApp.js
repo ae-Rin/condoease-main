@@ -38,7 +38,6 @@ const MaintenanceOngoing = React.lazy(() => import('./views/MaintenanceOngoing')
 const MaintenanceCompleted = React.lazy(() => import('./views/MaintenanceCompleted'))
 const ManageAllUsers = React.lazy(() => import('./views/ManageAllUsers'))
 const ApplicationLogs = React.lazy(() => import('./views/ApplicationLogs'))
-const InvoiceDetails = React.lazy(() => import('./views/InvoiceDetails'))
 
 const Page404 = React.lazy(() => import('./views/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/page500/Page500'))
