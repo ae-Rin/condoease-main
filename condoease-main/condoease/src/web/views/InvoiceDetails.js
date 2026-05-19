@@ -1,4 +1,5 @@
-/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */ 
+//confirming changes committed
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { CContainer, CCard, CCardBody, CCardHeader, CButton, CSpinner, CBadge } from '@coreui/react'
